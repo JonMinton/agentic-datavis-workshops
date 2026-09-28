@@ -14,7 +14,8 @@ date: <session date>
 ## Session N · YYYY-MM-DD · facilitated by [facilitator(s)]
 With [named consenting participants — only names present in
 `sessions/YYYY-MM-DD/consent.md`]. Design decisions were made live by the group; the
-writeup was drafted by [agent and model, e.g. Claude Opus 5.5 or Codex] from the session recording and approved before publishing.
+writeup was drafted by [actual agent and model] from [specs and decision notes;
+recording/transcript only if used] and approved before publishing.
 [How these sessions work](index.qmd).
 :::
 

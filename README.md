@@ -5,6 +5,28 @@ data and every graphic design decision; the agent fetches, describes, codes, ren
 and inspects the result. See [the workshop site](https://jonminton.github.io/agentic-datavis-workshops/)
 and [AGENTS.md](AGENTS.md) for the working conventions.
 
+## Start from a clone
+
+The facilitator needs the working environment; participants can contribute through
+the shared screen and conversation without installing anything. An IDE is optional.
+You do not need Jon's accounts or two agents running side by side.
+
+With Git installed:
+
+```sh
+git clone https://github.com/JonMinton/agentic-datavis-workshops.git
+cd agentic-datavis-workshops
+```
+
+Open this repository folder in your chosen editor/agent, rather than its parent.
+If you intend to contribute changes without upstream write access, fork the repo
+first and clone your fork instead. Use a branch for your session work.
+
+Complete the setup below, then follow [Leading a session](sessions/facilitator-guide.md).
+That guide covers preparation, consent, the live workflow, and contributing a writeup.
+The dated demonstration notes are an example, not a schedule or requirement for
+future facilitators.
+
 ## Setup
 
 Use an agent with shell access, file editing, and image reading. Automatic skill
@@ -72,3 +94,17 @@ Before facilitating with a new agent or machine, run the
 [cross-agent acceptance exercise](sessions/agent-acceptance.md). Equivalent data,
 mapping, statistical and interaction behaviour matters; identical generated source
 formatting does not.
+
+## Reuse and contributions
+
+Session contributions are reviewed before publication. Include source, specs,
+approved session notes, and rendered outputs; see the facilitator guide for the
+handoff checklist. Cloning or opening a pull request does not publish to the main
+workshop site.
+
+Original code is licensed under MIT; original workshop text, slides, and figures
+are licensed under CC BY 4.0. See [LICENSE.md](LICENSE.md) for scope, attribution,
+and exclusions. Dataset sources and bundled third-party assets retain their own
+licences; the dataset-scout workflow checks permission to cache and redistribute
+each proposed dataset. Contributions should use the applicable licence and preserve
+source attribution.

@@ -32,23 +32,24 @@ session; say in one sentence how it stresses today's layer. Cached at `data/<slu
 
 Facilitators drive the shared screen; **participants make every design decision aloud**,
 in grammar terms, and the decisions are recorded as gg-spec YAML files that the agent
-(Claude Code or Codex) compiles and renders. Nobody needs a local setup. Disagreements fork the spec into
-numbered variants rather than being resolved by the loudest voice. Prefer typing? The
-**Zoom chat is a prompt channel**: post a spec edit or instruction there and it will be
-pasted to the agent verbatim.
+compiles and renders. Participants need no local setup. Disagreements fork the spec into
+numbered variants rather than being resolved by the loudest voice. Prefer typing?
+**The agreed chat channel is a prompt channel**: post a spec edit or instruction there
+and it will be pasted to the agent verbatim.
 
 **Chatham House Rule by default:** the writeup never attributes a view, suggestion, or
 mistake to an individual — prose says "the group" or "a participant". Being *named* on
 the page (author list / badge) is separate, opt-in credit via the session's
 `consent.md`. Say what you actually think; it won't follow you by name.
 
-Recording consent is announced at the start (note it in `notes.md`). Transcripts (Zoom
-primary, Pocket backup) are accuracy sources for drafting only; they are never committed
-to the repo or published.
+If recording, announce consent at the start and note it in `notes.md`. State the
+recording/transcription arrangement, or explicitly say there is no recording. Raw
+recordings, transcripts, and chat exports are accuracy sources only; they are never
+committed or published. Without a recording, draft from the specs and decision notes.
 
 ## Output (standing)
 
-One published writeup — the record of tonight's decisions — drafted by the agent from the
-session artefacts, approved by the session's facilitator(s), and live on the site
-**within a week of the session**. The spec trail and figures exist in service of that
-page.
+A proposed writeup records the session's decisions, drafted by the agent from the
+artefacts and reviewed by the facilitator(s) before publication. Agree a review date
+and intended publication route; do not promise a publication date before approval.
+The spec trail and figures are the durable record even if no page is published.

@@ -51,6 +51,9 @@ The conventions here are agent-neutral; a few mechanics are not:
 - Run `sh scripts/workshop preflight` before a session. Use the same wrapper for R
   and Quarto so both select the same installation. See `README.md` for setup and
   `sessions/agent-acceptance.md` for the manual cross-agent rehearsal.
+- New facilitators should follow `sessions/facilitator-guide.md`. Licence scope is
+  in `LICENSE.md`: MIT code, CC BY 4.0 original materials, source licences for data
+  and third-party assets.
 
 ## The series arc
 
@@ -90,7 +93,7 @@ date, facilitators, and **consenting named participants**:
 ::: {.callout-tip icon=false}
 ## Session N · YYYY-MM-DD · facilitated by <facilitator(s)>
 With [named participants]. Design decisions were made live by the group; the writeup was
-drafted by [agent/model name] from the session recording and approved before publishing.
+drafted by [agent/model name] from [the actual session artefacts used] and approved before publishing.
 [How these sessions work](index.qmd).
 :::
 ```
@@ -106,13 +109,16 @@ Name the actual drafting model in the badge — provenance is part of the genre.
   used sparingly.
 - A participant may only be **named** on a page if a per-session consent record exists in
   that session's folder (`sessions/YYYY-MM-DD/consent.md`). No record, no name — refer to
-  "a participant" instead.
-- Recordings (Zoom + Pocket backup) require announced consent at the start of each session;
-  note the announcement in the session's `notes.md`.
+  "a participant" instead. The committed consent record is itself public: list
+  only people who agreed to public naming; keep declined names and private evidence
+  outside the repo.
+- Any recording requires announced consent at the start of the session; note the
+  announcement and tools used in `notes.md`. Recording is optional; specs and decision
+  notes can supply the writeup. Pocket is Jon's optional backup, not a guest prerequisite.
 - **Raw transcripts and chat exports are never committed** — they carry speaker labels,
   and the repo may go public when Pages is enabled. `.gitignore` covers
   `sessions/**/transcript*.txt`, `chat*.txt`, and `*.vtt`; never force-add them. They
-  live locally and in Pocket as accuracy sources for drafting only.
+  live in the agreed private storage as accuracy sources for drafting only.
 
 ## Session folder pipeline
 
