@@ -8,7 +8,10 @@
       "Bash(mkdir -p sessions/:*)",
       "Bash(cp sessions/:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(sh scripts/workshop preflight:*)",
+      "Bash(sh scripts/workshop r:*)",
+      "Bash(sh scripts/workshop quarto render:*)"
     ]
   }
 }

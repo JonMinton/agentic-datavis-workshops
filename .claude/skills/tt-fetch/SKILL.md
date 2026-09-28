@@ -11,9 +11,9 @@ deterministic goes through a helper script, so two different agents given the sa
 print the same thing. The agent's own job is resolving the choice, reading the output, and
 saying it briefly and in grammar terms.
 
-Run R with the framework install:
-`/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/bin/Rscript` (written
-`Rscript` below). Run every command from the repo root.
+Run every command from the repo root, using `sh scripts/workshop r` so R and
+Quarto use the same installation. Run `sh scripts/workshop preflight` before a session;
+see `README.md` for runtime overrides.
 
 ## Workflow
 
@@ -34,7 +34,7 @@ Fetching."*
 ### 2. Fetch and cache
 
 ```bash
-Rscript scripts/tt_fetch.R YYYY-MM-DD            # add --refresh to re-download
+sh scripts/workshop r scripts/tt_fetch.R YYYY-MM-DD            # add --refresh to re-download
 ```
 
 It lists the week's folder via the GitHub contents API, downloads every `.csv` to
@@ -47,7 +47,7 @@ files already cached, and prints each cached file with size and rows × cols.
   `ls data/tt-*`).
 - **Rate limit:** the unauthenticated GitHub API allows 60 calls/hour per IP — shared
   venue wifi can exhaust it. If listing fails with the network otherwise up, retry with a
-  token: `GITHUB_TOKEN=$(gh auth token) Rscript scripts/tt_fetch.R YYYY-MM-DD`.
+  token: `GITHUB_TOKEN=$(gh auth token) sh scripts/workshop r scripts/tt_fetch.R YYYY-MM-DD`.
 - **Size:** the script flags any file over 20 MB. Say so; don't silently commit it.
 
 ### 3. Describe (pedagogic, projector-sized)
@@ -57,7 +57,7 @@ from. Then, for each CSV (main table first; skip lookup tables of < ~50 rows unl
 asked):
 
 ```bash
-Rscript scripts/describe_data.R data/tt-<date>-<name>.csv
+sh scripts/workshop r scripts/describe_data.R data/tt-<date>-<name>.csv
 ```
 
 Show the script output **verbatim** (it is already sized for a projected screen), then

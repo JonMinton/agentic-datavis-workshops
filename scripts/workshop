@@ -1,0 +1,50 @@
+#!/bin/sh
+# Run from the repository root. Requires a POSIX shell (WSL on Windows).
+set -eu
+
+if [ ! -f scripts/preflight.R ] || [ ! -f _quarto.yml ]; then
+  echo 'Run scripts/workshop from the repository root.' >&2
+  exit 1
+fi
+
+if [ -n "${WORKSHOP_RSCRIPT:-}" ]; then
+  workshop_r=$WORKSHOP_RSCRIPT
+elif [ -n "${QUARTO_R:-}" ]; then
+  if [ -d "$QUARTO_R" ]; then
+    workshop_r=$QUARTO_R/Rscript
+  elif [ -f "$QUARTO_R" ]; then
+    workshop_r=$(dirname -- "$QUARTO_R")/Rscript
+  else
+    echo 'QUARTO_R does not exist. Set it to an R binary or its directory.' >&2
+    exit 1
+  fi
+elif [ -x /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/bin/Rscript ]; then
+  workshop_r=/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/bin/Rscript
+else
+  workshop_r=$(command -v Rscript || true)
+fi
+if [ -z "$workshop_r" ] || [ ! -x "$workshop_r" ]; then
+  echo 'Rscript not found. Set WORKSHOP_RSCRIPT to its absolute executable path.' >&2
+  exit 1
+fi
+# Normalize the directory so Quarto and Rscript use the same installation.
+QUARTO_R=$(CDPATH= cd -- "$(dirname -- "$workshop_r")" && pwd)
+export QUARTO_R
+
+workshop_action=${1:-preflight}
+if [ "$#" -gt 0 ]; then shift; fi
+case "$workshop_action" in
+  r) exec "$workshop_r" --vanilla "$@" ;;
+  quarto) exec quarto "$@" ;;
+  preflight)
+    if ! command -v quarto >/dev/null 2>&1; then
+      echo 'Quarto is missing from PATH.' >&2
+      exit 1
+    fi
+    printf 'Quarto: '
+    quarto --version
+    printf 'Rscript: %s\n' "$workshop_r"
+    exec "$workshop_r" --vanilla scripts/preflight.R "$@"
+    ;;
+  *) echo 'Usage: sh scripts/workshop {preflight|r <Rscript arguments>|quarto <arguments>}' >&2; exit 1 ;;
+esac

@@ -22,8 +22,8 @@ quoted in the session writeup.
 3. **Compile to idiomatic ggplot2** — code a reader could have written by hand: one
    `ggplot()` call, layers in spec order, `labs()` from the `labs:` block, no dead
    arguments. Preserve spec order in the code so spec and code can be read side by side.
-4. **Render and look.** Run the code with framework R
-   (`/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/bin/Rscript`), save a
+4. **Render and look.** Run the code from the repo root with
+   `sh scripts/workshop r <compiled-script.R>`, save a
    PNG at the site's geometry (9×6 in, dpi 150), and **read the PNG** before presenting
    it. Check: title fits (~60 chars max at base_size 13), legend not colliding, overplotting,
    unlabelled axes.
@@ -79,7 +79,7 @@ layers:                   # one entry per layer, in drawing order
   - geom: point
     alpha: 0.6            # fixed (non-mapped) params sit beside the geom
   - geom: smooth
-    stat: lm              # stat/position where they matter
+    method: lm            # smoothing method; stat is a separate ggplot2 concept
     se: true
 scales:                   # optional; keyed by aesthetic
   colour: okabe-ito       # named shorthand (below) or a scale_* call verbatim
@@ -94,20 +94,47 @@ labs:
 theme: minimal            # default minimal, base_size 13
 ```
 
-Named scale shorthands: `okabe-ito` → `scale_colour_manual(values = palette.colors(palette = "Okabe-Ito"))`;
-`viridis` → `scale_colour_viridis_d()` / `_c()` as the variable type dictates;
+Named scale shorthands: `okabe-ito` → `scale_<aes>_manual(values = unname(palette.colors(n, palette = "Okabe-Ito")))`,
+where `n` is the number of observed non-missing categories after filtering (maximum eight;
+ask the group for another scale above eight); use the mapped aesthetic, e.g. colour or fill.
+Leave category ordering to ggplot2 unless the spec explicitly supplies an order.
+`viridis` → `scale_<aes>_viridis_d()` / `_c()` as the variable type dictates (colour or fill);
 `log10` → `scale_<aes>_log10()`; `percent` → `scale_<aes>_continuous(labels = scales::percent)`.
 Anything else the group wants: accept a verbatim `scale_*()` call as the value.
 
-Unknown keys are an error, not a guess — surface them. Missing optional blocks mean
-ggplot2 defaults, and it is worth saying so out loud ("no scales block, so ggplot's
-default hue scale — do we want that?"): defaults are decisions too.
+### Compilation contract
+
+- Top-level keys are exactly those shown in the schema. Layer keys include `geom`,
+  `stat`, `position`, and valid parameters for the selected geom/stat (such as `method`,
+  `alpha`, and `se`). Unknown keys or unsupported values are errors; do not guess.
+- `geom: smooth` with `method: lm` becomes `geom_smooth(method = "lm")`.
+  Legacy specs using `stat: lm` mean the same thing **only for smooth layers**;
+  report the normalization without rewriting the historical spec. Conflicting
+  `stat: lm` and `method` values are errors. Other `stat` values pass to ggplot2's
+  `stat` argument; never generally treat `stat` as an alias for `method`.
+- Read `data/<data>.csv` with `readr::read_csv()`, then apply `filter` if supplied.
+  Preserve layer order and inherit plot-level mappings. Do not add sampling,
+  aggregation, jitter, labels, or other transformations that the spec did not request.
+- Omitted `theme` means `theme_minimal(base_size = 13)`. Explicit named themes also
+  use base size 13. This is the one deliberate override of ggplot2 defaults.
+  Omitted scales, facets, coords, and layer parameters retain ggplot2 defaults;
+  omitted labs add no custom labels. Announce defaults during interactive design.
+- `facets.by` means `facet_wrap(vars(...))`; `rows`/`cols` mean `facet_grid()`.
+  `by` cannot be combined with `rows`/`cols`. Multiple variables use YAML lists.
+  `coords: null` leaves coordinates unchanged; `flip`, `polar`, and `fixed` select
+  the corresponding `coord_*()` with default arguments.
+- `filter` expressions and verbatim scale calls are R-specific escape hatches.
+  For another target, explain any semantic difference and ask about an unsupported
+  operation rather than silently approximating it.
+
+The worked penguins specs intentionally retain `stat: lm` to exercise legacy support.
+Expected compilations and a cross-agent rehearsal are in `sessions/agent-acceptance.md`.
 
 ## Other targets — the grammar is substrate-invariant
 
 **ggplot2 in R is the preferred and default target**: it is the reference implementation
-of the layered grammar and the only one this repo renders live (framework R is the only
-runtime guaranteed here). But it is one implementation of the grammar, not the grammar
+of the layered grammar and the only one this repo renders live (R is the only
+runtime checked by the preflight). But it is one implementation of the grammar, not the grammar
 itself. On request, compile the **same spec** to another implementation and present the
 code alongside the ggplot2 version — showing the same instruction layers specified in
 much the same way across packages and languages is the pedagogic point: the grammar is

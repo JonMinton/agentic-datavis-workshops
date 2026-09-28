@@ -38,8 +38,8 @@ and should mention the University's own ELM gateway.
 The conventions here are agent-neutral; a few mechanics are not:
 
 - **Skills live in `.claude/skills/`, and `.agents/skills/` holds symlinks to them.**
-  Codex discovers skills in `.agents/skills/` (checked 2026-09-28: Codex lists `gg-spec`
-  and `dataset-scout`), and Claude Code finds them in `.claude/skills/`, so both agents
+  Codex discovers skills in `.agents/skills/` (checked 2026-09-28: Codex lists `gg-spec`,
+  `tt-fetch`, and `dataset-scout`), and Claude Code finds them in `.claude/skills/`, so both agents
   load the same files. **Edit the real files under `.claude/skills/`, never copies.**
   A new skill needs a matching symlink:
   `ln -s ../../.claude/skills/<name> .agents/skills/<name>`. Agents that load neither
@@ -48,8 +48,9 @@ The conventions here are agent-neutral; a few mechanics are not:
   reading** — "render, then look" steps are load-bearing and need vision.
 - The Pocket MCP transcription backup is tied to Jon's account; guest-led sessions need
   their own backup arrangement (or note Zoom-only in `notes.md`).
-- The Toolchain section below describes Jon's machine; on another machine, match the R
-  version and package list and set `QUARTO_R` accordingly in `_environment`.
+- Run `sh scripts/workshop preflight` before a session. Use the same wrapper for R
+  and Quarto so both select the same installation. See `README.md` for setup and
+  `sessions/agent-acceptance.md` for the manual cross-agent rehearsal.
 
 ## The series arc
 
@@ -159,7 +160,8 @@ reachable via the Pocket MCP tools as a backup source.)
   `~/.codex/config.toml` as the `codex` CLI. The repo's `.codex/config.toml` turns on
   network access in Codex's workspace sandbox, which blocks it by default and would
   break tt-fetch (confirmed 2026-09-28). `.claude/settings.json` pre-approves the R and
-  render commands, so neither agent stops for permission in front of the room.
+  render commands. These are separate permission systems: network configuration does
+  not grant command approval. Rehearse the actual commands in each agent before the room arrives.
 - **Live layout:** the spec YAML and `figures/latest.png` sit side by side in the editor
   area. One agent panel goes in the secondary side bar, and the other agent, if both are
   in use, goes in the panel or as an editor tab. The terminal stays minimised. Positron's
@@ -167,8 +169,11 @@ reachable via the Pocket MCP tools as a backup source.)
 - **R:** framework R 4.5.2 at
   `/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/bin` — the only install
   with the full tidyverse. The default `Rscript` on `PATH` is a stale anaconda R 4.1.1;
-  homebrew R (which Quarto would pick by default) has no tidyverse. `_environment` sets
-  `QUARTO_R` for renders; ad-hoc R needs the full path.
+  homebrew R (which Quarto would pick by default) has no tidyverse.
+  `sh scripts/workshop` prefers the framework installation when present, unless
+  `WORKSHOP_RSCRIPT` or `QUARTO_R` is explicitly set. Use
+  `sh scripts/workshop r scripts/describe_data.R data/penguins.csv` for R and
+  `sh scripts/workshop quarto render <page>.qmd` for rendering.
 - **Available packages:** tidyverse, `ggridges`, `ggdist`, `patchwork`, leaflet, `yaml`.
 - **Render gotcha:** rendering several files in one `quarto render a.qmd b.qmd` command can
   leak the wrong `<title>` into a page. **Render each changed page individually**, then

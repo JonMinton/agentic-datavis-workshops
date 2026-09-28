@@ -26,6 +26,8 @@ live, so no other layer can be assumed).
       `example-gg-spec` as a walkthrough.
 - [ ] `git pull`, then open the repo folder in Positron (not a parent folder, or the
       skills won't load).
+- [ ] Run `sh scripts/workshop preflight`; use the wrapper for R and Quarto.
+      Rehearse `sessions/agent-acceptance.md` in each intended agent.
 - [ ] Both agent extensions signed in: Claude Code panel, Codex panel. In each, ask
       "which skills do you have?" and expect tt-fetch, gg-spec and dataset-scout.
 - [ ] Codex trusts the folder (first-run prompt in the panel) and its approval mode lets
