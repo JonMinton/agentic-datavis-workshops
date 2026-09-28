@@ -1,0 +1,22 @@
+# Worked example, round 2 — one mapping line added: colour: species
+data: penguins
+filter: "!is.na(bill_depth_mm)"
+mapping:
+  x: bill_length_mm
+  y: bill_depth_mm
+  colour: species
+layers:
+  - geom: point
+    alpha: 0.6
+  - geom: smooth
+    stat: lm
+    se: true
+scales:
+  colour: okabe-ito
+labs:
+  title: "Within every species, the slope reverses"
+  subtitle: "The same 342 penguins, now mapped by species"
+  x: "Bill length (mm)"
+  y: "Bill depth (mm)"
+  colour: "Species"
+theme: minimal

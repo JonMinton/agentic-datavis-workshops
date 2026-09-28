@@ -1,0 +1,21 @@
+# docs/ and _freeze/ are COMMITTED (GitHub Pages serves from docs/ on main) — do not ignore them.
+
+# Raw transcripts and chat exports carry speaker labels — attribution data the
+# Chatham-by-default rule suppresses. They stay local (plus Pocket); the writeup is the
+# durable record. Never force-add these, even while the repo is private: it may go
+# public later and history is forever.
+sessions/**/transcript*.txt
+sessions/**/chat*.txt
+sessions/**/*.vtt
+
+.quarto/
+.Rproj.user
+.Rhistory
+.RData
+.DS_Store
+
+/.quarto/
+**/*.quarto_ipynb
+
+# Personal notes that must not be published
+.claude/skills/**/note.md

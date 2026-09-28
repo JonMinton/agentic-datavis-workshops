@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/bin/Rscript:*)",
+      "Bash(Rscript scripts/tt_fetch.R:*)",
+      "Bash(Rscript scripts/describe_data.R:*)",
+      "Bash(quarto render:*)",
+      "Bash(mkdir -p sessions/:*)",
+      "Bash(cp sessions/:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}

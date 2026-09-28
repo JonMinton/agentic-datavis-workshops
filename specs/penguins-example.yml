@@ -1,0 +1,18 @@
+# Worked example, round 1 — compiled in example-gg-spec.qmd
+data: penguins
+filter: "!is.na(bill_depth_mm)"
+mapping:
+  x: bill_length_mm
+  y: bill_depth_mm
+layers:
+  - geom: point
+    alpha: 0.6
+  - geom: smooth
+    stat: lm
+    se: true
+labs:
+  title: "Do longer bills mean deeper bills?"
+  subtitle: "342 penguins, Palmer Archipelago 2007-09"
+  x: "Bill length (mm)"
+  y: "Bill depth (mm)"
+theme: minimal

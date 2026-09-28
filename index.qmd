@@ -1,0 +1,50 @@
+---
+title: "Agentic data-vis workshops"
+---
+
+Occasional, hands-on workshops on data visualisation with an **agentic AI assistant**,
+grounded in Wilkinson's **grammar of graphics**. The work is mainly in R with ggplot2,
+with excursions into Vega-Lite and plotnine to show the grammar moving between languages.
+Each session takes one [TidyTuesday](https://github.com/rfordatascience/tidytuesday) (or
+equivalent) dataset and builds a visualisation live. **Every design decision is made by
+the people in the room.** The agent fetches and describes the data, writes the code,
+renders the result, and reports what it sees.
+
+There's no fixed schedule. Sessions happen when someone offers to run one, and the repo
+is public so that anyone can: clone it, open it in an IDE with Claude Code, Codex, or
+another coding agent, and the same skills and instructions apply. Started by
+[Jon Minton](https://jonminton.net/).
+
+## How the sessions work
+
+Plots are specified before they are coded. The group dictates **mapping rules**: which
+variable goes to which aesthetic, which geoms, which scales. These are recorded in a
+short YAML spec that the group argues over on the shared screen, then compiled to code
+and rendered. The spec trail *is* the record of the design decisions.
+**[See a worked example of the round trip](example-gg-spec.qmd).**
+
+The repo gives the agent three skills, each a plain-markdown procedure that any agent
+can follow:
+
+- **tt-fetch** fetches a TidyTuesday week and describes it in grammar terms. It
+  *proposes* mappings and never chooses one.
+- **gg-spec** compiles a YAML spec to ggplot2, renders it, and looks at the result. It
+  walks the grammar one slot at a time, so the room makes each decision.
+- **dataset-scout** finds datasets that stress a particular grammar layer, for planning
+  a session.
+
+After a session, a page may be drafted from the spec trail and notes, recording the
+design decisions *as decisions*, the pain points, and the lessons learned. The session's
+facilitator reviews and approves it before it is published.
+
+## Consent and authorship
+
+The Chatham House Rule applies by default: write-ups never attribute a view or a mistake
+to an individual. Participants who consent may be **named** as contributors, which needs a
+per-session consent record: no record, no name. Recordings and transcripts, if any, are
+never published.
+
+## Sessions
+
+- **2026-09-29, a demonstration at a university data-vis lab.**
+  [Slides](slides/2026-09-29-vishub.qmd). The dataset was chosen by the room.

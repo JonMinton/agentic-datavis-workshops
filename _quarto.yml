@@ -1,0 +1,32 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Agentic data-vis workshops"
+  description: "Occasional workshops on data visualisation with an agentic AI assistant: the grammar of graphics, one TidyTuesday dataset at a time"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: example-gg-spec.qmd
+        text: How a spec works
+    right:
+      - icon: github
+        href: https://github.com/JonMinton/agentic-datavis-workshops
+
+format:
+  html:
+    theme: flatly
+    toc: true
+    code-fold: true
+    code-tools: true
+    fig-width: 9
+    fig-height: 6
+    fig-dpi: 150
+    df-print: kable
+
+execute:
+  warning: false
+  message: false
+  freeze: auto

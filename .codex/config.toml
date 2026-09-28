@@ -1,0 +1,4 @@
+# Project-scoped Codex settings (loaded when this folder is trusted).
+# tt-fetch pulls TidyTuesday data from GitHub, so the workspace sandbox needs network.
+[sandbox_workspace_write]
+network_access = true

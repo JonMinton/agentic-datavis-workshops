@@ -1,0 +1,76 @@
+---
+title: "Sentence-case title naming the visual lesson, not just the dataset"
+subtitle: "Session N · TidyTuesday YYYY-MM-DD · Grammar layer: <layer>"
+date: <session date>
+---
+
+<!--
+  TEMPLATE — copy to a new .qmd, do not render this file (leading underscore keeps
+  Quarto from rendering it). Every section below is part of the genre: a record of
+  decisions, not an essay. Delete these comments as you fill it in.
+-->
+
+::: {.callout-tip icon=false}
+## Session N · YYYY-MM-DD · facilitated by [facilitator(s)]
+With [named consenting participants — only names present in
+`sessions/YYYY-MM-DD/consent.md`]. Design decisions were made live by the group; the
+writeup was drafted by [agent and model, e.g. Claude Opus 5.5 or Codex] from the session recording and approved before publishing.
+[How these sessions work](index.qmd).
+:::
+
+One or two opening paragraphs: what the dataset is, and the question the group settled on.
+
+::: {.callout-tip collapse="true"}
+## Reproducing this page
+Everything runs from CSVs committed in this repository. To refresh from source:
+
+```r
+# download.file(...) lines for the raw pull
+```
+
+Packages: `tidyverse`. Source: [name](link), via TidyTuesday
+[YYYY-MM-DD](https://github.com/rfordatascience/tidytuesday/tree/main/data/YYYY/YYYY-MM-DD).
+:::
+
+```{r setup}
+library(tidyverse)
+theme_set(theme_minimal(base_size = 13))
+# read from data/<slug>.csv
+```
+
+## The grammar layer
+
+A short passage connecting this session to its layer of the grammar of graphics: what the
+layer does, and why this dataset stresses it.
+
+## Design decisions
+
+The heart of the post. For each major decision, record it **as a decision**: what was
+considered, what was chosen, and why. Quote the gg-spec YAML as it stood at each step —
+the spec is the record.
+
+```yaml
+# spec as it stood after the first round of discussion
+```
+
+```{r fig-first}
+# the figure that spec compiles to
+```
+
+Then the revision: what the group saw in the rendered figure that changed the spec, and
+the next spec/figure pair. Two or three such rounds is typical.
+
+## Pain points
+
+What fought back: the reshaping that took three tries, the legend that wouldn't behave,
+the scale that misled. Include what *looking at the render* caught that the code review
+didn't.
+
+## Lessons learned
+
+Three to five short, portable statements a reader could apply to their own next chart.
+
+## What the data can't say
+
+The limits passage: the confounder, the censoring, the too-short record. Every page earns
+one.

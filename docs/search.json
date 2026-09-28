@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Agentic data-vis workshops",
+    "section": "",
+    "text": "Occasional, hands-on workshops on data visualisation with an agentic AI assistant, grounded in Wilkinson’s grammar of graphics. The work is mainly in R with ggplot2, with excursions into Vega-Lite and plotnine to show the grammar moving between languages. Each session takes one TidyTuesday (or equivalent) dataset and builds a visualisation live. Every design decision is made by the people in the room. The agent fetches and describes the data, writes the code, renders the result, and reports what it sees.\nThere’s no fixed schedule. Sessions happen when someone offers to run one, and the repo is public so that anyone can: clone it, open it in an IDE with Claude Code, Codex, or another coding agent, and the same skills and instructions apply. Started by Jon Minton."
+  },
+  {
+    "objectID": "index.html#how-the-sessions-work",
+    "href": "index.html#how-the-sessions-work",
+    "title": "Agentic data-vis workshops",
+    "section": "How the sessions work",
+    "text": "How the sessions work\nPlots are specified before they are coded. The group dictates mapping rules: which variable goes to which aesthetic, which geoms, which scales. These are recorded in a short YAML spec that the group argues over on the shared screen, then compiled to code and rendered. The spec trail is the record of the design decisions. See a worked example of the round trip.\nThe repo gives the agent three skills, each a plain-markdown procedure that any agent can follow:\n\ntt-fetch fetches a TidyTuesday week and describes it in grammar terms. It proposes mappings and never chooses one.\ngg-spec compiles a YAML spec to ggplot2, renders it, and looks at the result. It walks the grammar one slot at a time, so the room makes each decision.\ndataset-scout finds datasets that stress a particular grammar layer, for planning a session.\n\nAfter a session, a page may be drafted from the spec trail and notes, recording the design decisions as decisions, the pain points, and the lessons learned. The session’s facilitator reviews and approves it before it is published."
+  },
+  {
+    "objectID": "index.html#consent-and-authorship",
+    "href": "index.html#consent-and-authorship",
+    "title": "Agentic data-vis workshops",
+    "section": "Consent and authorship",
+    "text": "Consent and authorship\nThe Chatham House Rule applies by default: write-ups never attribute a view or a mistake to an individual. Participants who consent may be named as contributors, which needs a per-session consent record: no record, no name. Recordings and transcripts, if any, are never published."
+  },
+  {
+    "objectID": "index.html#sessions",
+    "href": "index.html#sessions",
+    "title": "Agentic data-vis workshops",
+    "section": "Sessions",
+    "text": "Sessions\n\n2026-09-29, a demonstration at a university data-vis lab. Slides. The dataset was chosen by the room."
+  },
+  {
+    "objectID": "example-gg-spec.html",
+    "href": "example-gg-spec.html",
+    "title": "One mapping line, two opposite conclusions",
+    "section": "",
+    "text": "TipNot a session page — a demonstration\n\n\n\nThis page shows the working method the sessions use: a plot is specified as a short YAML document of grammar-of-graphics mapping rules, the spec is compiled to ggplot2 code, the figure is rendered and looked at, and what looking reveals drives the next revision of the spec. How these sessions work.\nIn a live session, nobody types ggplot2 code to begin with. The group dictates mapping rules — which variable goes to which aesthetic, which geoms draw them, which scales transform them — and those rules are written down as a spec. The spec is short enough to argue about on a shared screen, and it is the record of the design decisions that ends up quoted in the writeup.\nHere is one full round trip on the Palmer penguins data.\nCode\nlibrary(tidyverse)\ntheme_set(theme_minimal(base_size = 13))\n\npenguins &lt;- read_csv(\"data/penguins.csv\", show_col_types = FALSE) |&gt;\n  filter(!is.na(bill_depth_mm))\n\nslope_pooled &lt;- coef(lm(bill_depth_mm ~ bill_length_mm, data = penguins))[2]\nslopes_species &lt;- penguins |&gt;\n  group_by(species) |&gt;\n  group_modify(~ tibble(slope = coef(lm(bill_depth_mm ~ bill_length_mm, data = .x))[2])) |&gt;\n  ungroup()"
+  },
+  {
+    "objectID": "example-gg-spec.html#round-1-the-spec-as-first-dictated",
+    "href": "example-gg-spec.html#round-1-the-spec-as-first-dictated",
+    "title": "One mapping line, two opposite conclusions",
+    "section": "Round 1: the spec as first dictated",
+    "text": "Round 1: the spec as first dictated\nThe group asks a simple question — do penguins with longer bills also have deeper bills? — and dictates the minimal spec: two positional mappings, points, and a linear trend.\n# Worked example, round 1 — compiled in example-gg-spec.qmd\ndata: penguins\nfilter: \"!is.na(bill_depth_mm)\"\nmapping:\n  x: bill_length_mm\n  y: bill_depth_mm\nlayers:\n  - geom: point\n    alpha: 0.6\n  - geom: smooth\n    stat: lm\n    se: true\nlabs:\n  title: \"Do longer bills mean deeper bills?\"\n  subtitle: \"342 penguins, Palmer Archipelago 2007-09\"\n  x: \"Bill length (mm)\"\n  y: \"Bill depth (mm)\"\ntheme: minimal\nThe spec compiles to code a reader could have written by hand — layers in spec order, nothing the spec didn’t ask for:\n\n\nCode\nggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm)) +\n  geom_point(alpha = 0.6) +\n  geom_smooth(method = \"lm\", se = TRUE) +\n  labs(\n    title    = \"Do longer bills mean deeper bills?\",\n    subtitle = sprintf(\"%d penguins, Palmer Archipelago 2007-09\", nrow(penguins)),\n    x = \"Bill length (mm)\", y = \"Bill depth (mm)\"\n  )\n\n\n\n\n\n\n\n\nFigure 1: Round 1: bill depth against bill length, all penguins pooled. The fitted line slopes down."
+  },
+  {
+    "objectID": "example-gg-spec.html#looking-at-the-render",
+    "href": "example-gg-spec.html#looking-at-the-render",
+    "title": "One mapping line, two opposite conclusions",
+    "section": "Looking at the render",
+    "text": "Looking at the render\nThe fitted line says no: pooled across all 342 birds, each extra millimetre of bill length goes with 0.085 mm less depth. That contradicts any intuition about bigger birds having bigger bills — and looking at the point cloud shows why the line is suspect: the points sit in distinct clumps the spec has done nothing to distinguish.\nThe group’s diagnosis, in grammar terms: a variable that structures the data has been left out of the mapping. The fix is one line."
+  },
+  {
+    "objectID": "example-gg-spec.html#round-2-one-mapping-line-added",
+    "href": "example-gg-spec.html#round-2-one-mapping-line-added",
+    "title": "One mapping line, two opposite conclusions",
+    "section": "Round 2: one mapping line added",
+    "text": "Round 2: one mapping line added\n# Worked example, round 2 — one mapping line added: colour: species\ndata: penguins\nfilter: \"!is.na(bill_depth_mm)\"\nmapping:\n  x: bill_length_mm\n  y: bill_depth_mm\n  colour: species\nlayers:\n  - geom: point\n    alpha: 0.6\n  - geom: smooth\n    stat: lm\n    se: true\nscales:\n  colour: okabe-ito\nlabs:\n  title: \"Within every species, the slope reverses\"\n  subtitle: \"The same 342 penguins, now mapped by species\"\n  x: \"Bill length (mm)\"\n  y: \"Bill depth (mm)\"\n  colour: \"Species\"\ntheme: minimal\nOnly colour: species (and a colour-blind-safe scale for it) has been added. But because geom_smooth inherits the plot-level mapping, colour doesn’t just tint the points — it groups the stat, and one regression becomes three.\n\n\nCode\nggplot(penguins, aes(x = bill_length_mm, y = bill_depth_mm, colour = species)) +\n  geom_point(alpha = 0.6) +\n  geom_smooth(method = \"lm\", se = TRUE) +\n  scale_colour_manual(values = unname(palette.colors(3, palette = \"Okabe-Ito\"))) +\n  labs(\n    title    = \"Within every species, the slope reverses\",\n    subtitle = sprintf(\"The same %d penguins, now mapped by species\", nrow(penguins)),\n    x = \"Bill length (mm)\", y = \"Bill depth (mm)\", colour = \"Species\"\n  )\n\n\n\n\n\n\n\n\nFigure 2: Round 2: the same data with species mapped to colour. Within every species the slope is positive.\n\n\n\n\n\nWithin each species the relationship runs the way intuition says it should — slopes of 0.18, 0.22, 0.20 mm per mm for Adelie, Chinstrap, Gentoo respectively, every one positive. The pooled negative slope was Simpson’s paradox: Gentoos are long-billed but shallow-billed, and pooling let the between-species contrast masquerade as a within-penguin trend."
+  },
+  {
+    "objectID": "example-gg-spec.html#what-the-round-trip-teaches",
+    "href": "example-gg-spec.html#what-the-round-trip-teaches",
+    "title": "One mapping line, two opposite conclusions",
+    "section": "What the round trip teaches",
+    "text": "What the round trip teaches\n\nMappings are decisions. The difference between the two figures — and two opposite conclusions — is a single line in the spec. Leaving a variable out of the mapping is as much a choice as putting it in.\nAesthetics reach further than appearance. Mapping colour regrouped the statistical layer, not just the ink. In the grammar, mappings feed stats, not only geoms.\nThe render is part of the method. The clumpy point cloud was visible in Round 1’s figure but nowhere in its spec or code. You find it by looking."
+  },
+  {
+    "objectID": "example-gg-spec.html#what-the-data-cant-say",
+    "href": "example-gg-spec.html#what-the-data-cant-say",
+    "title": "One mapping line, two opposite conclusions",
+    "section": "What the data can’t say",
+    "text": "What the data can’t say\nThree species from three islands over three seasons cannot separate species from island effects (Chinstraps and Gentoos were each sampled on effectively one island), and a within-species slope across individuals is still not a growth trajectory — no penguin was measured twice. The paradox here is a lesson about mappings, not a finding about penguins."
+  }
+]
