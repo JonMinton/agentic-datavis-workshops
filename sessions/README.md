@@ -30,5 +30,5 @@ Rules (also in `AGENTS.md`):
 This folder is not rendered by Quarto (it contains no `.qmd`), but it **is** committed:
 the spec trail and notes are part of the project record. Transcripts and chat exports are
 **never** committed (they carry speaker labels); if `notes.md` or a spec comment records
-anything a participant asks to withhold, redact it before committing, because the repo may
-is public.
+anything a participant asks to withhold, redact it before committing, because the repo is
+public.

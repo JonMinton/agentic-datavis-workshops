@@ -116,7 +116,7 @@ Name the actual drafting model in the badge — provenance is part of the genre.
   announcement and tools used in `notes.md`. Recording is optional; specs and decision
   notes can supply the writeup. Pocket is Jon's optional backup, not a guest prerequisite.
 - **Raw transcripts and chat exports are never committed** — they carry speaker labels,
-  and the repo may go public when Pages is enabled. `.gitignore` covers
+  and the repo is public. `.gitignore` covers
   `sessions/**/transcript*.txt`, `chat*.txt`, and `*.vtt`; never force-add them. They
   live in the agreed private storage as accuracy sources for drafting only.
 
