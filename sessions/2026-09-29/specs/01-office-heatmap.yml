@@ -1,0 +1,7 @@
+data: tt-2020-03-17-office_ratings
+mapping:
+  x: episode
+  y: season
+  fill: imdb_rating
+layers:
+  - geom: tile

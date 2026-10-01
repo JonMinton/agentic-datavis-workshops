@@ -19,3 +19,7 @@ sessions/**/*.vtt
 
 # Personal notes that must not be published
 .claude/skills/**/note.md
+
+# Full show transcripts (schrute package data): the dialogue itself, so not redistributed
+# from this public repo. Rebuild locally with the code in sessions/2026-09-29/office-data.qmd.
+data/schrute-theoffice.csv

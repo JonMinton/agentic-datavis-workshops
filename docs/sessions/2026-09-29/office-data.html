@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-09-29">
+
+<title>The Office: what’s in the data – Agentic data-vis workshops</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-6033a600180109c3731f6a886c29932c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Agentic data-vis workshops</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../example-gg-spec.html"> 
+<span class="menu-text">How a spec works</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/JonMinton/agentic-datavis-workshops"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#at-a-glance" id="toc-at-a-glance" class="nav-link active" data-scroll-target="#at-a-glance">At a glance</a></li>
+  <li><a href="#office_ratings-one-row-per-episode" id="toc-office_ratings-one-row-per-episode" class="nav-link" data-scroll-target="#office_ratings-one-row-per-episode"><code>office_ratings</code>: one row per episode</a></li>
+  <li><a href="#theoffice-one-row-per-spoken-line" id="toc-theoffice-one-row-per-spoken-line" class="nav-link" data-scroll-target="#theoffice-one-row-per-spoken-line"><code>theoffice</code>: one row per spoken line</a></li>
+  <li><a href="#a-first-figure-ratings-by-season-and-episode" id="toc-a-first-figure-ratings-by-season-and-episode" class="nav-link" data-scroll-target="#a-first-figure-ratings-by-season-and-episode">A first figure: ratings by season and episode</a></li>
+  <li><a href="#a-second-figure-ratings-over-air-date" id="toc-a-second-figure-ratings-over-air-date" class="nav-link" data-scroll-target="#a-second-figure-ratings-over-air-date">A second figure: ratings over air date</a></li>
+  <li><a href="#what-the-data-cant-say" id="toc-what-the-data-cant-say" class="nav-link" data-scroll-target="#what-the-data-cant-say">What the data can’t say</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">The Office: what’s in the data</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<p class="subtitle lead">Dataset overview · TidyTuesday 2020-03-17</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 29, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Not a session page: a dataset overview
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This page describes the data at a high level before any design decisions are made. It makes no choices about mappings, geoms or scales. Those belong to the group. <a href="../../index.html">How these sessions work</a>.</p>
+</div>
+</div>
+<p>TidyTuesday for 2020-03-17 covers the US version of <em>The Office</em> (NBC, 2005–2013). The week itself ships one table, IMDb ratings per episode, and points to the <a href="https://bradlindblad.github.io/schrute/"><code>schrute</code></a> R package for the full dialogue. Both are described here.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reproducing this page
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Runs from two CSVs cached in <code>data/</code>. The ratings CSV is committed in this repository. The transcripts CSV holds the show’s full dialogue, so it is not committed; the second block below rebuilds it locally. To refresh from source:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IMDb ratings: the TidyTuesday week</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-03-17/office_ratings.csv"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/tt-2020-03-17-office_ratings.csv"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Transcripts: the schrute package's data, read without installing the package</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".rda"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/bradlindblad/schrute/master/data/theoffice.rda"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  tmp, <span class="at">mode =</span> <span class="st">"wb"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(tmp)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_csv</span>(theoffice, <span class="st">"data/schrute-theoffice.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Packages: <code>tidyverse</code>. Sources: IMDb ratings via <a href="https://data.world/anujjain7/the-office-imdb-ratings-dataset">data.world</a>; transcripts via Brad Lindblad’s <a href="https://github.com/bradlindblad/schrute"><code>schrute</code></a> package (MIT), from fan transcriptions; both through TidyTuesday <a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2020/2020-03-17">2020-03-17</a>.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ratings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/tt-2020-03-17-office_ratings.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>lines   <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/schrute-theoffice.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>n_ep_lines   <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(lines<span class="sc">$</span>season, lines<span class="sc">$</span>episode)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>n_characters <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(lines<span class="sc">$</span>character)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>top_speakers <span class="ot">&lt;-</span> lines <span class="sc">|&gt;</span> <span class="fu">count</span>(character, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="at-a-glance" class="level2">
+<h2 class="anchored" data-anchor-id="at-a-glance">At a glance</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Table</th>
+<th>Grain</th>
+<th>Rows × columns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>office_ratings</code></td>
+<td>one row per episode</td>
+<td>188 × 6</td>
+</tr>
+<tr class="even">
+<td><code>theoffice</code> (schrute)</td>
+<td>one row per spoken line</td>
+<td>55,130 × 12</td>
+</tr>
+</tbody>
+</table>
+<p>The two tables share <code>season</code> and <code>episode</code>, which is the join key. The transcript table already carries the IMDb rating, vote count and air date on every line, so it is effectively a line-level table with episode-level columns repeated on each row.</p>
+</section>
+<section id="office_ratings-one-row-per-episode" class="level2">
+<h2 class="anchored" data-anchor-id="office_ratings-one-row-per-episode"><code>office_ratings</code>: one row per episode</h2>
+<p>188 episodes across 9 seasons, aired between March 2005 and May 2013. IMDb ratings run from 6.7 to 9.7, and vote counts from 1,393 to 7,934. There are no missing values.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ratings)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">season</th>
+<th style="text-align: right;">episode</th>
+<th style="text-align: left;">title</th>
+<th style="text-align: right;">imdb_rating</th>
+<th style="text-align: right;">total_votes</th>
+<th style="text-align: left;">air_date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Pilot</td>
+<td style="text-align: right;">7.6</td>
+<td style="text-align: right;">3706</td>
+<td style="text-align: left;">2005-03-24</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Diversity Day</td>
+<td style="text-align: right;">8.3</td>
+<td style="text-align: right;">3566</td>
+<td style="text-align: left;">2005-03-29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Health Care</td>
+<td style="text-align: right;">7.9</td>
+<td style="text-align: right;">2983</td>
+<td style="text-align: left;">2005-04-05</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">The Alliance</td>
+<td style="text-align: right;">8.1</td>
+<td style="text-align: right;">2886</td>
+<td style="text-align: left;">2005-04-12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">Basketball</td>
+<td style="text-align: right;">8.4</td>
+<td style="text-align: right;">3179</td>
+<td style="text-align: left;">2005-04-19</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">Hot Girl</td>
+<td style="text-align: right;">7.8</td>
+<td style="text-align: right;">2852</td>
+<td style="text-align: left;">2005-04-26</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Type (grammar terms)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>season</code></td>
+<td>discrete* (9 levels)</td>
+<td>whole numbers, so whether it is discrete or continuous is a decision</td>
+</tr>
+<tr class="even">
+<td><code>episode</code></td>
+<td>continuous, or ordinal within season</td>
+<td>numbering restarts each season</td>
+</tr>
+<tr class="odd">
+<td><code>title</code></td>
+<td>identifier</td>
+<td>a label, not an aesthetic</td>
+</tr>
+<tr class="even">
+<td><code>imdb_rating</code></td>
+<td>continuous</td>
+<td>10 is best</td>
+</tr>
+<tr class="odd">
+<td><code>total_votes</code></td>
+<td>continuous</td>
+<td>IMDb users who rated the episode</td>
+</tr>
+<tr class="even">
+<td><code>air_date</code></td>
+<td>temporal</td>
+<td>original US air date</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="theoffice-one-row-per-spoken-line" class="level2">
+<h2 class="anchored" data-anchor-id="theoffice-one-row-per-spoken-line"><code>theoffice</code>: one row per spoken line</h2>
+<p>55,130 lines of dialogue from 186 episodes, spoken by 769 distinct character labels. The most frequent speakers are Michael (10,924), Dwight (6,849), Jim (6,305), Pam (5,032), Andy (3,754).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lines <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(text, text_w_direction, writer), \(x) <span class="fu">str_trunc</span>(x, <span class="dv">40</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="kable-table">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 19%">
+<col style="width: 4%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">index</th>
+<th style="text-align: right;">season</th>
+<th style="text-align: right;">episode</th>
+<th style="text-align: left;">episode_name</th>
+<th style="text-align: left;">director</th>
+<th style="text-align: left;">writer</th>
+<th style="text-align: left;">character</th>
+<th style="text-align: left;">text</th>
+<th style="text-align: left;">text_w_direction</th>
+<th style="text-align: right;">imdb_rating</th>
+<th style="text-align: right;">total_votes</th>
+<th style="text-align: left;">air_date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Pilot</td>
+<td style="text-align: left;">Ken Kwapis</td>
+<td style="text-align: left;">Ricky Gervais;Stephen Merchant;Greg D…</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">All right Jim. Your quarterlies look …</td>
+<td style="text-align: left;">All right Jim. Your quarterlies look …</td>
+<td style="text-align: right;">7.6</td>
+<td style="text-align: right;">3706</td>
+<td style="text-align: left;">2005-03-24</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Pilot</td>
+<td style="text-align: left;">Ken Kwapis</td>
+<td style="text-align: left;">Ricky Gervais;Stephen Merchant;Greg D…</td>
+<td style="text-align: left;">Jim</td>
+<td style="text-align: left;">Oh, I told you. I couldn’t close it. …</td>
+<td style="text-align: left;">Oh, I told you. I couldn’t close it. …</td>
+<td style="text-align: right;">7.6</td>
+<td style="text-align: right;">3706</td>
+<td style="text-align: left;">2005-03-24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Pilot</td>
+<td style="text-align: left;">Ken Kwapis</td>
+<td style="text-align: left;">Ricky Gervais;Stephen Merchant;Greg D…</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">So you’ve come to the master for guid…</td>
+<td style="text-align: left;">So you’ve come to the master for guid…</td>
+<td style="text-align: right;">7.6</td>
+<td style="text-align: right;">3706</td>
+<td style="text-align: left;">2005-03-24</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Pilot</td>
+<td style="text-align: left;">Ken Kwapis</td>
+<td style="text-align: left;">Ricky Gervais;Stephen Merchant;Greg D…</td>
+<td style="text-align: left;">Jim</td>
+<td style="text-align: left;">Actually, you called me in here, but …</td>
+<td style="text-align: left;">Actually, you called me in here, but …</td>
+<td style="text-align: right;">7.6</td>
+<td style="text-align: right;">3706</td>
+<td style="text-align: left;">2005-03-24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Pilot</td>
+<td style="text-align: left;">Ken Kwapis</td>
+<td style="text-align: left;">Ricky Gervais;Stephen Merchant;Greg D…</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">All right. Well, let me show you how …</td>
+<td style="text-align: left;">All right. Well, let me show you how …</td>
+<td style="text-align: right;">7.6</td>
+<td style="text-align: right;">3706</td>
+<td style="text-align: left;">2005-03-24</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Pilot</td>
+<td style="text-align: left;">Ken Kwapis</td>
+<td style="text-align: left;">Ricky Gervais;Stephen Merchant;Greg D…</td>
+<td style="text-align: left;">Michael</td>
+<td style="text-align: left;">Yes, I’d like to speak to your office…</td>
+<td style="text-align: left;">[on the phone] Yes, I’d like to speak…</td>
+<td style="text-align: right;">7.6</td>
+<td style="text-align: right;">3706</td>
+<td style="text-align: left;">2005-03-24</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Type (grammar terms)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>index</code></td>
+<td>identifier / order</td>
+<td>running line number across the whole series</td>
+</tr>
+<tr class="even">
+<td><code>season</code>, <code>episode</code>, <code>episode_name</code></td>
+<td>discrete</td>
+<td>the join key back to <code>office_ratings</code></td>
+</tr>
+<tr class="odd">
+<td><code>director</code>, <code>writer</code></td>
+<td>discrete (many levels)</td>
+<td><code>writer</code> can hold several names separated by <code>;</code></td>
+</tr>
+<tr class="even">
+<td><code>character</code></td>
+<td>discrete (769 levels)</td>
+<td>far too many for colour. Filter or lump first</td>
+</tr>
+<tr class="odd">
+<td><code>text</code>, <code>text_w_direction</code></td>
+<td>free text</td>
+<td>the second keeps stage directions in brackets</td>
+</tr>
+<tr class="even">
+<td><code>imdb_rating</code>, <code>total_votes</code>, <code>air_date</code></td>
+<td>as above</td>
+<td>repeated on every line of an episode</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="a-first-figure-ratings-by-season-and-episode" class="level2">
+<h2 class="anchored" data-anchor-id="a-first-figure-ratings-by-season-and-episode">A first figure: ratings by season and episode</h2>
+<p>The first spec asked for a heatmap: season as rows, episode number as columns, and IMDb rating as fill. Everything else is left at ggplot2’s defaults.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sessions/2026-09-29/specs/01-office-heatmap.yml</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> tt-2020-03-17-office_ratings</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mapping</span><span class="kw">:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">x</span><span class="kw">:</span><span class="at"> episode</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">y</span><span class="kw">:</span><span class="at"> season</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">fill</span><span class="kw">:</span><span class="at"> imdb_rating</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">layers</span><span class="kw">:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> tile</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ratings, <span class="fu">aes</span>(<span class="at">x =</span> episode, <span class="at">y =</span> season, <span class="at">fill =</span> imdb_rating)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-heatmap" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Heatmap of IMDb rating for each episode of The Office, seasons as rows and episode number as columns." width="1350">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="office-data_files/figure-html/fig-heatmap-1.png" id="fig-heatmap" class="img-fluid figure-img" alt="Heatmap of IMDb rating for each episode of The Office, seasons as rows and episode number as columns." width="1350">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at the render shows three defaults that nobody decided on:</p>
+<ul>
+<li><code>season</code> is stored as a number, so ggplot2 treats it as continuous. The axis shows breaks at 2.5, 5.0 and 7.5, which are seasons that don’t exist.</li>
+<li>The default continuous y scale puts season 1 at the bottom and season 9 at the top.</li>
+<li>The default fill gradient runs from dark to light blue, which leaves little contrast across the 6.7–9.7 range.</li>
+</ul>
+<p>The ragged right edge shows how many episodes each season had. Season 1 is the shortest, with 6 episodes.</p>
+</section>
+<section id="a-second-figure-ratings-over-air-date" class="level2">
+<h2 class="anchored" data-anchor-id="a-second-figure-ratings-over-air-date">A second figure: ratings over air date</h2>
+<p>The second spec puts each episode at its air date, colours it by season, and adds a smoother. Two decisions were made before compiling:</p>
+<ul>
+<li><strong>Season as a category.</strong> <code>season</code> is stored as a number, so the spec maps <code>factor(season)</code> to colour, which gives one hue per season instead of a gradient. Shape was dropped: ggplot2’s default shape palette has only six shapes, so seasons 7–9 would have gone missing.</li>
+<li><strong>One smoother per season.</strong> Colour is mapped for the whole plot, so the smooth layer inherits it and fits a separate curve to each season.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sessions/2026-09-29/specs/02-office-airdate.yml</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> tt-2020-03-17-office_ratings</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mapping</span><span class="kw">:</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">x</span><span class="kw">:</span><span class="at"> air_date</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">y</span><span class="kw">:</span><span class="at"> imdb_rating</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">colour</span><span class="kw">:</span><span class="at"> factor(season)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">layers</span><span class="kw">:</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> point</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> smooth</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ratings, <span class="fu">aes</span>(<span class="at">x =</span> air_date, <span class="at">y =</span> imdb_rating, <span class="at">colour =</span> <span class="fu">factor</span>(season))) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-airdate" class="quarto-float quarto-figure quarto-figure-center anchored" alt="IMDb rating of each episode of The Office against air date, coloured by season, with a separate smoother for each season." width="1350">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-airdate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="office-data_files/figure-html/fig-airdate-1.png" id="fig-airdate" class="img-fluid figure-img" alt="IMDb rating of each episode of The Office against air date, coloured by season, with a separate smoother for each season." width="1350">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-airdate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Looking at the render:</p>
+<ul>
+<li>The smoother defaults to loess, which is very wiggly when seasons are this short (a median of 23 episodes). Season 1’s 6 episodes give a spike with no confidence ribbon, and R prints a warning while fitting it.</li>
+<li>Season 4’s ribbon balloons across a gap in its air dates. Loess is drawing a curve through months with no episodes.</li>
+<li>Several seasons end on a rise, most sharply the finale at 9.7. A flexible smoother bends towards the last point or two, so these end-of-season spikes need checking against the raw points before reading anything into them.</li>
+<li>The legend title is the code <code>factor(season)</code>, and the axis titles are raw variable names, because the spec has no <code>labs</code> block yet.</li>
+</ul>
+</section>
+<section id="what-the-data-cant-say" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-data-cant-say">What the data can’t say</h2>
+<p>IMDb ratings come from self-selected raters voting years after broadcast, so they measure how the show is remembered by people who chose to rate it. They don’t measure how it was received at the time. The episode counts also differ between tables (188 rated episodes against 186 in the transcripts). The sources likely split two-part episodes differently. Check any join for dropped rows. The transcripts are fan-made, so character labels are inconsistent: the same person can appear under several spellings, which inflates the character count.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "The Office: what's in the data"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Dataset overview · TidyTuesday 2020-03-17"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 2026-09-29</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon="false"}</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Not a session page: a dataset overview</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>This page describes the data at a high level before any design decisions are made. It makes no choices about mappings, geoms or scales. Those belong to the group. <span class="co">[</span><span class="ot">How these sessions work</span><span class="co">](../../index.qmd)</span>.</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>TidyTuesday for 2020-03-17 covers the US version of *The Office* (NBC, 2005–2013). The week itself ships one table, IMDb ratings per episode, and points to the <span class="co">[</span><span class="ot">`schrute`</span><span class="co">](https://bradlindblad.github.io/schrute/)</span> R package for the full dialogue. Both are described here.</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reproducing this page</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>Runs from two CSVs cached in <span class="in">`data/`</span>. The ratings CSV is committed in this repository. The transcripts CSV holds the show's full dialogue, so it is not committed; the second block below rebuilds it locally. To refresh from source:</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># IMDb ratings: the TidyTuesday week</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-03-17/office_ratings.csv"</span>,</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/tt-2020-03-17-office_ratings.csv"</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Transcripts: the schrute package's data, read without installing the package</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".rda"</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/bradlindblad/schrute/master/data/theoffice.rda"</span>,</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  tmp, <span class="at">mode =</span> <span class="st">"wb"</span>)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(tmp)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_csv</span>(theoffice, <span class="st">"data/schrute-theoffice.csv"</span>)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>Packages: <span class="in">`tidyverse`</span>. Sources: IMDb ratings via <span class="co">[</span><span class="ot">data.world</span><span class="co">](https://data.world/anujjain7/the-office-imdb-ratings-dataset)</span>; transcripts via Brad Lindblad's <span class="co">[</span><span class="ot">`schrute`</span><span class="co">](https://github.com/bradlindblad/schrute)</span> package (MIT), from fan transcriptions; both through TidyTuesday <span class="co">[</span><span class="ot">2020-03-17</span><span class="co">](https://github.com/rfordatascience/tidytuesday/tree/main/data/2020/2020-03-17)</span>.</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup}</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>ratings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/tt-2020-03-17-office_ratings.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>lines   <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/schrute-theoffice.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>n_ep_lines   <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(lines<span class="sc">$</span>season, lines<span class="sc">$</span>episode)</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>n_characters <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(lines<span class="sc">$</span>character)</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>top_speakers <span class="ot">&lt;-</span> lines <span class="sc">|&gt;</span> <span class="fu">count</span>(character, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## At a glance</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Table <span class="pp">|</span> Grain <span class="pp">|</span> Rows × columns <span class="pp">|</span></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`office_ratings`</span> <span class="pp">|</span> one row per episode <span class="pp">|</span> <span class="in">`r nrow(ratings)`</span> × <span class="in">`r ncol(ratings)`</span> <span class="pp">|</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`theoffice`</span> (schrute) <span class="pp">|</span> one row per spoken line <span class="pp">|</span> <span class="in">`r format(nrow(lines), big.mark = ",")`</span> × <span class="in">`r ncol(lines)`</span> <span class="pp">|</span></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>The two tables share <span class="in">`season`</span> and <span class="in">`episode`</span>, which is the join key. The transcript table already carries the IMDb rating, vote count and air date on every line, so it is effectively a line-level table with episode-level columns repeated on each row.</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## `office_ratings`: one row per episode</span></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="in">`r nrow(ratings)`</span> episodes across <span class="in">`r n_distinct(ratings$season)`</span> seasons, aired between <span class="in">`r format(min(ratings$air_date), "%B %Y")`</span> and <span class="in">`r format(max(ratings$air_date), "%B %Y")`</span>. IMDb ratings run from <span class="in">`r min(ratings$imdb_rating)`</span> to <span class="in">`r max(ratings$imdb_rating)`</span>, and vote counts from <span class="in">`r format(min(ratings$total_votes), big.mark = ",")`</span> to <span class="in">`r format(max(ratings$total_votes), big.mark = ",")`</span>. There are no missing values.</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r ratings-head}</span></span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ratings)</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Type (grammar terms) <span class="pp">|</span> Notes <span class="pp">|</span></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`season`</span> <span class="pp">|</span> discrete<span class="sc">\*</span> (<span class="in">`r n_distinct(ratings$season)`</span> levels) <span class="pp">|</span> whole numbers, so whether it is discrete or continuous is a decision <span class="pp">|</span></span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`episode`</span> <span class="pp">|</span> continuous, or ordinal within season <span class="pp">|</span> numbering restarts each season <span class="pp">|</span></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`title`</span> <span class="pp">|</span> identifier <span class="pp">|</span> a label, not an aesthetic <span class="pp">|</span></span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`imdb_rating`</span> <span class="pp">|</span> continuous <span class="pp">|</span> 10 is best <span class="pp">|</span></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`total_votes`</span> <span class="pp">|</span> continuous <span class="pp">|</span> IMDb users who rated the episode <span class="pp">|</span></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`air_date`</span> <span class="pp">|</span> temporal <span class="pp">|</span> original US air date <span class="pp">|</span></span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## `theoffice`: one row per spoken line</span></span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a><span class="in">`r format(nrow(lines), big.mark = ",")`</span> lines of dialogue from <span class="in">`r n_ep_lines`</span> episodes, spoken by <span class="in">`r n_characters`</span> distinct character labels. The most frequent speakers are <span class="in">`r paste0(top_speakers$character, " (", format(top_speakers$n, big.mark = ",", trim = TRUE), ")", collapse = ", ")`</span>.</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lines-head}</span></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>lines <span class="sc">|&gt;</span></span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(text, text_w_direction, writer), \(x) <span class="fu">str_trunc</span>(x, <span class="dv">40</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Type (grammar terms) <span class="pp">|</span> Notes <span class="pp">|</span></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`index`</span> <span class="pp">|</span> identifier / order <span class="pp">|</span> running line number across the whole series <span class="pp">|</span></span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`season`</span>, <span class="in">`episode`</span>, <span class="in">`episode_name`</span> <span class="pp">|</span> discrete <span class="pp">|</span> the join key back to <span class="in">`office_ratings`</span> <span class="pp">|</span></span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`director`</span>, <span class="in">`writer`</span> <span class="pp">|</span> discrete (many levels) <span class="pp">|</span> <span class="in">`writer`</span> can hold several names separated by <span class="in">`;`</span> <span class="pp">|</span></span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`character`</span> <span class="pp">|</span> discrete (<span class="in">`r n_characters`</span> levels) <span class="pp">|</span> far too many for colour. Filter or lump first <span class="pp">|</span></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`text`</span>, <span class="in">`text_w_direction`</span> <span class="pp">|</span> free text <span class="pp">|</span> the second keeps stage directions in brackets <span class="pp">|</span></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`imdb_rating`</span>, <span class="in">`total_votes`</span>, <span class="in">`air_date`</span> <span class="pp">|</span> as above <span class="pp">|</span> repeated on every line of an episode <span class="pp">|</span></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a><span class="fu">## A first figure: ratings by season and episode</span></span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>The first spec asked for a heatmap: season as rows, episode number as columns, and IMDb</span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a>rating as fill. Everything else is left at ggplot2's defaults.</span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="co"># sessions/2026-09-29/specs/01-office-heatmap.yml</span></span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> tt-2020-03-17-office_ratings</span></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="fu">mapping</span><span class="kw">:</span></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">x</span><span class="kw">:</span><span class="at"> episode</span></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">y</span><span class="kw">:</span><span class="at"> season</span></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">fill</span><span class="kw">:</span><span class="at"> imdb_rating</span></span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="fu">layers</span><span class="kw">:</span></span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> tile</span></span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig-heatmap}</span></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Heatmap of IMDb rating for each episode of The Office, seasons as rows and episode number as columns."</span></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ratings, <span class="fu">aes</span>(<span class="at">x =</span> episode, <span class="at">y =</span> season, <span class="at">fill =</span> imdb_rating)) <span class="sc">+</span></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a>Looking at the render shows three defaults that nobody decided on:</span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`season`</span> is stored as a number, so ggplot2 treats it as continuous. The axis shows</span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>  breaks at 2.5, 5.0 and 7.5, which are seasons that don't exist.</span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The default continuous y scale puts season 1 at the bottom and season 9 at the top.</span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The default fill gradient runs from dark to light blue, which leaves little contrast</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>  across the <span class="in">`r min(ratings$imdb_rating)`</span>–<span class="in">`r max(ratings$imdb_rating)`</span> range.</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>The ragged right edge shows how many episodes each season had. Season</span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a><span class="in">`r ratings |&gt; count(season) |&gt; slice_min(n, n = 1, with_ties = FALSE) |&gt; pull(season)`</span></span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>is the shortest, with</span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="in">`r ratings |&gt; count(season) |&gt; pull(n) |&gt; min()`</span> episodes.</span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="fu">## A second figure: ratings over air date</span></span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a>The second spec puts each episode at its air date, colours it by season, and adds a</span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a>smoother. Two decisions were made before compiling:</span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Season as a category.** <span class="in">`season`</span> is stored as a number, so the spec maps</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a>  <span class="in">`factor(season)`</span> to colour, which gives one hue per season instead of a gradient. Shape</span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a>  was dropped: ggplot2's default shape palette has only six shapes, so seasons 7–9 would</span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a>  have gone missing.</span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**One smoother per season.** Colour is mapped for the whole plot, so the smooth layer</span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a>  inherits it and fits a separate curve to each season.</span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="co"># sessions/2026-09-29/specs/02-office-airdate.yml</span></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> tt-2020-03-17-office_ratings</span></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a><span class="fu">mapping</span><span class="kw">:</span></span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">x</span><span class="kw">:</span><span class="at"> air_date</span></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">y</span><span class="kw">:</span><span class="at"> imdb_rating</span></span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">colour</span><span class="kw">:</span><span class="at"> factor(season)</span></span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a><span class="fu">layers</span><span class="kw">:</span></span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> point</span></span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> smooth</span></span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig-airdate}</span></span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "IMDb rating of each episode of The Office against air date, coloured by season, with a separate smoother for each season."</span></span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ratings, <span class="fu">aes</span>(<span class="at">x =</span> air_date, <span class="at">y =</span> imdb_rating, <span class="at">colour =</span> <span class="fu">factor</span>(season))) <span class="sc">+</span></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a>Looking at the render:</span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The smoother defaults to loess, which is very wiggly when seasons are this short (a median of</span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a>  <span class="in">`r ratings |&gt; count(season) |&gt; pull(n) |&gt; median()`</span> episodes). Season 1's <span class="in">`r sum(ratings$season == 1)`</span> episodes give a spike with no</span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>  confidence ribbon, and R prints a warning while fitting it.</span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Season 4's ribbon balloons across a gap in its air dates. Loess is drawing a curve</span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a>  through months with no episodes.</span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Several seasons end on a rise, most sharply the finale at</span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a>  <span class="in">`r max(ratings$imdb_rating)`</span>. A flexible smoother bends towards the last point or two,</span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a>  so these end-of-season spikes need checking against the raw points before reading</span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a>  anything into them.</span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The legend title is the code <span class="in">`factor(season)`</span>, and the axis titles are raw variable</span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>  names, because the spec has no <span class="in">`labs`</span> block yet.</span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## What the data can't say</span></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a>IMDb ratings come from self-selected raters voting years after broadcast, so they measure how the show is remembered by people who chose to rate it. They don't measure how it was received at the time. The episode counts also differ between tables (<span class="in">`r nrow(ratings)`</span> rated episodes against <span class="in">`r n_ep_lines`</span> in the transcripts). The sources likely split two-part episodes differently. Check any join for dropped rows. The transcripts are fan-made, so character labels are inconsistent: the same person can appear under several spellings, which inflates the character count.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
