@@ -262,9 +262,11 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<!-- Vega, Vega-Lite and Vega-Embed (BSD-3-Clause, vega.github.io) are served from this site,
+     pinned, so the page doesn't depend on a CDN that a browser or network may block. -->
+<script src="assets/vendor/vega.min.js"></script>
+<script src="assets/vendor/vega-lite.min.js"></script>
+<script src="assets/vendor/vega-embed.min.js"></script>
 <script>
 (() => {
   const TT = d => `https://github.com/rfordatascience/tidytuesday/tree/main/data/${d.slice(0, 4)}/${d}`;
@@ -323,11 +325,32 @@ ul.task-list li input[type="checkbox"] {
   // ---------- data loading and profiling ----------
   const NUM = /^-?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i;
   const DATE = /^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2}(:\d{2})?(\.\d+)?Z?)?$/;
+  // RFC 4180 CSV: quoted fields may contain commas, newlines and doubled quotes
+  function parseCSV(text) {
+    const out = []; let row = [], field = "", i = 0, q = false;
+    while (i < text.length) {
+      const c = text[i];
+      if (q) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; }
+        else field += c;
+      } else if (c === '"') q = true;
+      else if (c === ",") { row.push(field); field = ""; }
+      else if (c === "\n" || c === "\r") {
+        if (c === "\r" && text[i + 1] === "\n") i++;
+        row.push(field); out.push(row); row = []; field = "";
+      } else field += c;
+      i++;
+    }
+    if (field !== "" || row.length) { row.push(field); out.push(row); }
+    return out;
+  }
   async function loadTable(t) {
     if (cache[t.file]) return cache[t.file];
-    const text = await (await fetch(t.file)).text();
-    const rows = vega.read(text, { type: "csv" });
-    const names = text.slice(0, text.indexOf("\n")).replace(/\r$/, "").split(",").map(n => n.replace(/^"|"$/g, ""));
+    const resp = await fetch(t.file);
+    if (!resp.ok) throw new Error(`couldn't load ${t.file} (HTTP ${resp.status})`);
+    const text = await resp.text();
+    const [names, ...records] = parseCSV(text);
+    const rows = records.filter(r => r.length > 1 || r[0] !== "").map(r => Object.fromEntries(names.map((n, i) => [n, r[i] ?? null])));
     const cols = names.map(name => {
       let nn = 0, num = true, date = true, int = true;
       const set = new Set();
@@ -668,6 +691,7 @@ ul.task-list li input[type="checkbox"] {
   }
   async function render() {
     const seq = ++renderSeq;
+    if (typeof vegaEmbed !== "function") { drawTabs(compile()); return; }
     const res = compile();
     const status = q("#mb-status");
     status.className = "mb-status" + (res.block ? " block" : res.notes.length ? " note" : "");
@@ -706,10 +730,20 @@ ul.task-list li input[type="checkbox"] {
     const d = DATASETS.find(x => x.id === state.ds);
     if (!d.tables[state.t]) state.t = 0;
     cur = null; drawSummary();
-    cur = await loadTable(d.tables[state.t]);
+    try { cur = await loadTable(d.tables[state.t]); }
+    catch (err) { showError(`The data for this dataset didn't load: ${err.message}. Try reloading the page.`); return; }
     if (pendingEdges) for (const [a, e] of Object.entries(pendingEdges)) if (col(e.field)) state.edges[a] = { ...e, asCat: e.asCat && isNumeric(e.field) };
     selectedVar = null;
     drawSummary(); changed();
+  }
+  function showError(msg) {
+    for (const id of ["#mb-summary", "#mb-status"]) {
+      const el = q(id); if (!el) continue;
+      el.className = id === "#mb-status" ? "mb-status block" : ""; el.textContent = msg;
+    }
+  }
+  if (typeof vegaEmbed !== "function") {
+    showError("The charting library (Vega-Lite) didn't load, so figures can't be drawn. The mapping canvas still works; try reloading the page.");
   }
   activate(readHash());
 })();
