@@ -198,6 +198,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-the-sessions-work" class="level2">
 <h2 class="anchored" data-anchor-id="how-the-sessions-work">How the sessions work</h2>
 <p>Plots are specified before they are coded. The group dictates <strong>mapping rules</strong>: which variable goes to which aesthetic, which geoms, which scales. These are recorded in a short YAML spec that the group argues over on the shared screen, then compiled to code and rendered. The spec trail <em>is</em> the record of the design decisions. <strong><a href="./example-gg-spec.html">See a worked example of the round trip</a>.</strong></p>
+<p>For anyone who would rather point and click than write YAML, the <strong><a href="./mapping-builder.html">mapping builder</a></strong> lets you draw the same mapping rules as arrows from variables to aesthetics. It shows the figure, the spec and the ggplot2 code updating together.</p>
+<p>The opposite of “the analyst decides” is an agent that decides everything: the dataset, the question and every figure. That is the <a href="https://jonminton.github.io/claude-fable-vision-ds-test/">claude-fable-vision-ds-test experiment</a> (<a href="https://github.com/JonMinton/claude-fable-vision-ds-test">repository</a>), which these workshops use as a point of contrast. Its <a href="https://jonminton.github.io/claude-fable-vision-ds-test/probability-phrases.html">probability-phrases page</a> covers one of the datasets offered in Session 1.</p>
 <p>The repo gives the agent three skills, each a plain-markdown procedure that any agent can follow:</p>
 <ul>
 <li><strong>tt-fetch</strong> fetches a TidyTuesday week and describes it in grammar terms. It <em>proposes</em> mappings and never chooses one.</li>
@@ -213,7 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sessions" class="level2">
 <h2 class="anchored" data-anchor-id="sessions">Sessions</h2>
 <ul>
-<li><strong>2026-09-29, a demonstration at a university data-vis lab.</strong> <a href="./slides/2026-09-29-vishub.html">Slides</a>. The room chose <em>The Office</em>: IMDb ratings for every episode, built into a season-by-episode heatmap and then ratings over air date. <a href="./sessions/2026-09-29/office-data.html">The session workbook</a>.</li>
+<li><strong>2026-09-29, a demonstration at a university data-vis lab.</strong> <a href="./slides/2026-09-29-vishub.html">Slides</a>. The room chose <em>The Office</em>: IMDb ratings for every episode, built into a season-by-episode heatmap and then ratings over air date. <a href="./sessions/2026-09-29/office-data.html">The session workbook</a>, and <a href="./sessions/2026-09-29/office-data-v2.html">version 2</a>, which continues it after the session. Version 2 adds revised specs, a 3D view with explicit linear models, and an autonomously produced section on the transcripts.</li>
 </ul>
 
 
@@ -698,33 +700,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>and rendered. The spec trail *is* the record of the design decisions.</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>**[See a worked example of the round trip](example-gg-spec.qmd).**</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>The repo gives the agent three skills, each a plain-markdown procedure that any agent</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>can follow:</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**tt-fetch** fetches a TidyTuesday week and describes it in grammar terms. It</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  *proposes* mappings and never chooses one.</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**gg-spec** compiles a YAML spec to ggplot2, renders it, and looks at the result. It</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  walks the grammar one slot at a time, so the room makes each decision.</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**dataset-scout** finds datasets that stress a particular grammar layer, for planning</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  a session.</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>After a session, a page may be drafted from the spec trail and notes, recording the</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>design decisions *as decisions*, the pain points, and the lessons learned. The session's</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>facilitator reviews and approves it before it is published.</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consent and authorship</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>For anyone who would rather point and click than write YAML, the</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>**[mapping builder](mapping-builder.qmd)** lets you draw the same mapping rules as arrows</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>from variables to aesthetics. It shows the figure, the spec and the ggplot2 code updating</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>together.</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>The opposite of "the analyst decides" is an agent that decides everything: the dataset,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>the question and every figure. That is the</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">claude-fable-vision-ds-test experiment</span><span class="co">](https://jonminton.github.io/claude-fable-vision-ds-test/)</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>(<span class="co">[</span><span class="ot">repository</span><span class="co">](https://github.com/JonMinton/claude-fable-vision-ds-test)</span>), which these</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>workshops use as a point of contrast. Its</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">probability-phrases page</span><span class="co">](https://jonminton.github.io/claude-fable-vision-ds-test/probability-phrases.html)</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>covers one of the datasets offered in Session 1.</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>The repo gives the agent three skills, each a plain-markdown procedure that any agent</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>can follow:</span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>The Chatham House Rule applies by default: write-ups never attribute a view or a mistake</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>to an individual. Participants who consent may be **named** as contributors, which needs a</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>per-session consent record: no record, no name. Recordings and transcripts, if any, are</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>never published.</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sessions</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**tt-fetch** fetches a TidyTuesday week and describes it in grammar terms. It</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  *proposes* mappings and never chooses one.</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**gg-spec** compiles a YAML spec to ggplot2, renders it, and looks at the result. It</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  walks the grammar one slot at a time, so the room makes each decision.</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**dataset-scout** finds datasets that stress a particular grammar layer, for planning</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  a session.</span>
 <span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**2026-09-29, a demonstration at a university data-vis lab.**</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="co">[</span><span class="ot">Slides</span><span class="co">](slides/2026-09-29-vishub.qmd)</span>. The room chose *The Office*: IMDb ratings for</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  every episode, built into a season-by-episode heatmap and then ratings over air date.</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  <span class="co">[</span><span class="ot">The session workbook</span><span class="co">](sessions/2026-09-29/office-data.qmd)</span>.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>After a session, a page may be drafted from the spec trail and notes, recording the</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>design decisions *as decisions*, the pain points, and the lessons learned. The session's</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>facilitator reviews and approves it before it is published.</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consent and authorship</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>The Chatham House Rule applies by default: write-ups never attribute a view or a mistake</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>to an individual. Participants who consent may be **named** as contributors, which needs a</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>per-session consent record: no record, no name. Recordings and transcripts, if any, are</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>never published.</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sessions</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**2026-09-29, a demonstration at a university data-vis lab.**</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>  <span class="co">[</span><span class="ot">Slides</span><span class="co">](slides/2026-09-29-vishub.qmd)</span>. The room chose *The Office*: IMDb ratings for</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  every episode, built into a season-by-episode heatmap and then ratings over air date.</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>  <span class="co">[</span><span class="ot">The session workbook</span><span class="co">](sessions/2026-09-29/office-data.qmd)</span>, and</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>  <span class="co">[</span><span class="ot">version 2</span><span class="co">](sessions/2026-09-29/office-data-v2.qmd)</span>, which continues it after the session.</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>  Version 2 adds revised specs, a 3D view with explicit linear models, and an</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>  autonomously produced section on the transcripts.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

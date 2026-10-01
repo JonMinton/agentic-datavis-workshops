@@ -23,6 +23,19 @@ short YAML spec that the group argues over on the shared screen, then compiled t
 and rendered. The spec trail *is* the record of the design decisions.
 **[See a worked example of the round trip](example-gg-spec.qmd).**
 
+For anyone who would rather point and click than write YAML, the
+**[mapping builder](mapping-builder.qmd)** lets you draw the same mapping rules as arrows
+from variables to aesthetics. It shows the figure, the spec and the ggplot2 code updating
+together.
+
+The opposite of "the analyst decides" is an agent that decides everything: the dataset,
+the question and every figure. That is the
+[claude-fable-vision-ds-test experiment](https://jonminton.github.io/claude-fable-vision-ds-test/)
+([repository](https://github.com/JonMinton/claude-fable-vision-ds-test)), which these
+workshops use as a point of contrast. Its
+[probability-phrases page](https://jonminton.github.io/claude-fable-vision-ds-test/probability-phrases.html)
+covers one of the datasets offered in Session 1.
+
 The repo gives the agent three skills, each a plain-markdown procedure that any agent
 can follow:
 
@@ -49,4 +62,7 @@ never published.
 - **2026-09-29, a demonstration at a university data-vis lab.**
   [Slides](slides/2026-09-29-vishub.qmd). The room chose *The Office*: IMDb ratings for
   every episode, built into a season-by-episode heatmap and then ratings over air date.
-  [The session workbook](sessions/2026-09-29/office-data.qmd).
+  [The session workbook](sessions/2026-09-29/office-data.qmd), and
+  [version 2](sessions/2026-09-29/office-data-v2.qmd), which continues it after the session.
+  Version 2 adds revised specs, a 3D view with explicit linear models, and an
+  autonomously produced section on the transcripts.

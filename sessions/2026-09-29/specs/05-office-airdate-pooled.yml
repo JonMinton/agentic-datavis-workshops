@@ -1,0 +1,14 @@
+data: tt-2020-03-17-office_ratings
+mapping:
+  x: air_date
+  y: imdb_rating
+layers:
+  - geom: point
+    mapping:
+      colour: factor(season)
+  - geom: smooth
+labs:
+  title: "Ratings over the run, with one smoother for the whole series"
+  x: "Original air date"
+  y: "IMDb rating"
+  colour: "Season"

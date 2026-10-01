@@ -1,0 +1,15 @@
+data: tt-2020-03-17-office_ratings
+mapping:
+  x: episode
+  y: factor(season)
+  fill: imdb_rating
+layers:
+  - geom: tile
+scales:
+  y: scale_y_discrete(limits = rev)
+  fill: viridis
+labs:
+  title: "IMDb rating of every episode of The Office"
+  x: "Episode within season"
+  y: "Season"
+  fill: "IMDb rating"

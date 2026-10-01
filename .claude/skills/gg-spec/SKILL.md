@@ -80,6 +80,10 @@ layers:                   # one entry per layer, in drawing order
     alpha: 0.6            # fixed (non-mapped) params sit beside the geom
   - geom: smooth
     method: lm            # smoothing method; stat is a separate ggplot2 concept
+  # a layer may carry its own mapping, which applies to that layer only:
+  # - geom: point
+  #   mapping:
+  #     colour: species     # points coloured; a later smooth layer stays pooled
     se: true
 scales:                   # optional; keyed by aesthetic
   colour: okabe-ito       # named shorthand (below) or a scale_* call verbatim
@@ -107,6 +111,10 @@ Anything else the group wants: accept a verbatim `scale_*()` call as the value.
 - Top-level keys are exactly those shown in the schema. Layer keys include `geom`,
   `stat`, `position`, and valid parameters for the selected geom/stat (such as `method`,
   `alpha`, and `se`). Unknown keys or unsupported values are errors; do not guess.
+- A layer's optional `mapping:` block becomes `aes()` inside that layer's geom
+  (`geom_point(aes(colour = species))`). It applies to that layer only, so it is how a
+  spec colours points while keeping one pooled smoother. A plot-level mapping that every
+  layer inherits gives one smoother per group instead.
 - `geom: smooth` with `method: lm` becomes `geom_smooth(method = "lm")`.
   Legacy specs using `stat: lm` mean the same thing **only for smooth layers**;
   report the normalization without rewriting the historical spec. Conflicting

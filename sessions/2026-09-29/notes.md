@@ -58,3 +58,9 @@ live, so no other layer can be assumed).
 - Spec 02: shape by season was dropped (6 default shapes, 9 seasons). Season mapped as
   `factor(season)` to colour, with one smoother per season.
 - Facilitator reflections and next steps are at the end of `office-data.qmd`.
+- After the session (2026-10-01): version 2 of the workbook, `office-data-v2.qmd`.
+  Specs 03–05 follow the facilitator's decisions: season as a category, season 1 at the
+  top, viridis fill, `lm` per season, and one pooled smoother. Spec 05 needed a new
+  gg-spec feature, layer-level mappings. The facilitator specified a 3D plotly view with
+  explicit `lm()` models and a linked coefficient table. The transcripts section is
+  autonomous (Claude Opus 5.5) and labelled as such.

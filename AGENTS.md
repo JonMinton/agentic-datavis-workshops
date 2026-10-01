@@ -180,7 +180,8 @@ reachable via the Pocket MCP tools as a backup source.)
   `WORKSHOP_RSCRIPT` or `QUARTO_R` is explicitly set. Use
   `sh scripts/workshop r scripts/describe_data.R data/penguins.csv` for R and
   `sh scripts/workshop quarto render <page>.qmd` for rendering.
-- **Available packages:** tidyverse, `ggridges`, `ggdist`, `patchwork`, leaflet, `yaml`.
+- **Available packages:** tidyverse, `ggridges`, `ggdist`, `patchwork`, leaflet, `yaml`,
+  `plotly`, `broom`.
 - **Render gotcha:** rendering several files in one `quarto render a.qmd b.qmd` command can
   leak the wrong `<title>` into a page. **Render each changed page individually**, then
   verify with `grep '<title>' docs/<page>.html`.
@@ -237,4 +238,4 @@ facilitators choose. The standing grammar-of-graphics reading list is `sessions/
 
 | Session | Date | Grammar layer | Dataset | Page |
 |---|---|---|---|---|
-| 1 | 2026-09-29 | Data & aesthetic mappings | TidyTuesday 2020-03-17, The Office | `sessions/2026-09-29/office-data.qmd` |
+| 1 | 2026-09-29 | Data & aesthetic mappings | TidyTuesday 2020-03-17, The Office | `sessions/2026-09-29/office-data.qmd` (v2: `office-data-v2.qmd`) |
