@@ -1,0 +1,128 @@
+{
+  "about": "Coherence rules for grammar-of-graphics mapping rules. The single source for what the gg-spec skill refuses or warns about before compiling, and for what the mapping builder page (mapping-builder.qmd) refuses or warns about before drawing. Edit rules here, never in either consumer. Checked by scripts/check_spec.R.",
+  "version": 1,
+  "types": {
+    "continuous": "numbers treated as quantities (a discrete* column counts as continuous unless wrapped in factor())",
+    "discrete": "categories: text, logical, or any column wrapped in factor()",
+    "temporal": "dates and date-times",
+    "identifier": "row labels: a name matching *_id, id_*, *_number, or every value unique in a non-numeric column of more than 12 rows (same test as scripts/describe_data.R)"
+  },
+  "severities": {
+    "error": "refuse: say what is wrong in grammar terms and suggest the nearest coherent spec; do not compile or draw",
+    "warning": "compile and draw, but report the message alongside the figure"
+  },
+  "rules": [
+    {
+      "id": "field-exists",
+      "severity": "error",
+      "check": { "kind": "field-exists" },
+      "message": "{field} isn't a column in {data}.",
+      "ggplot2": "Error: object '{field}' not found."
+    },
+    {
+      "id": "needs-x",
+      "severity": "error",
+      "check": { "kind": "requires-aes", "aes": "x", "geoms": ["point", "line", "bar", "col", "histogram", "boxplot", "tile", "smooth"] },
+      "message": "Every figure here needs an x position. Map a variable to x.",
+      "ggplot2": "Error: geom_{geom}() requires the following missing aesthetics: x."
+    },
+    {
+      "id": "needs-y",
+      "severity": "error",
+      "check": { "kind": "requires-aes", "aes": "y", "geoms": ["point", "line", "col", "tile", "boxplot", "smooth"] },
+      "message": "geom_{geom}() needs both x and y. Map a variable to y.",
+      "ggplot2": "Error: geom_{geom}() requires the following missing aesthetics: y."
+    },
+    {
+      "id": "histogram-computes-y",
+      "severity": "error",
+      "check": { "kind": "forbids-aes", "aes": "y", "geoms": ["histogram"] },
+      "message": "geom_histogram() computes y itself (a count), so y must stay empty. Remove the y mapping or choose another geom.",
+      "ggplot2": "Error: stat_bin() must only have an x or y aesthetic."
+    },
+    {
+      "id": "histogram-continuous-x",
+      "severity": "error",
+      "check": { "kind": "geom-aes-type", "geoms": ["histogram"], "aes": "x", "allowed": ["continuous", "temporal"] },
+      "message": "geom_histogram() bins a continuous x, but {field} is {type}. For a discrete x, use bar.",
+      "ggplot2": "Error: stat_bin() requires a continuous x aesthetic."
+    },
+    {
+      "id": "boxplot-one-discrete",
+      "severity": "error",
+      "check": { "kind": "one-discrete-position", "geoms": ["boxplot"] },
+      "message": "geom_boxplot() needs one discrete and one continuous position. Wrap one of them in factor(), or map a discrete variable.",
+      "ggplot2": "Draws one box for the whole data, with a warning about missing groups, so the comparison is lost."
+    },
+    {
+      "id": "shape-needs-discrete",
+      "severity": "error",
+      "check": { "kind": "aes-type", "aes": "shape", "allowed": ["discrete"] },
+      "message": "A continuous variable can't be mapped to shape: shapes have no order. Wrap {field} in factor(), or use colour or size.",
+      "ggplot2": "Error: A continuous variable cannot be mapped to the shape aesthetic."
+    },
+    {
+      "id": "facet-needs-discrete",
+      "severity": "error",
+      "check": { "kind": "aes-type", "aes": "facet", "allowed": ["discrete"] },
+      "message": "Facets split the data by a discrete variable, but {field} is {type}. Wrap it in factor() if it has few values, or bin it first.",
+      "ggplot2": "Draws one panel per distinct value, which for a continuous variable means hundreds of panels."
+    },
+    {
+      "id": "facet-too-many-panels",
+      "severity": "error",
+      "check": { "kind": "max-levels", "aes": "facet", "max": 30 },
+      "message": "{field} has {levels} levels: too many panels to read. Facet by something with fewer levels, or filter first.",
+      "ggplot2": "Draws them all, unreadably small."
+    },
+    {
+      "id": "shape-palette-size",
+      "severity": "warning",
+      "check": { "kind": "max-levels", "aes": "shape", "max": 6 },
+      "message": "ggplot2's default shape palette has 6 shapes, so {field}'s other {excess} levels would be dropped. Use colour, or set the shapes by hand.",
+      "ggplot2": "Warning: The shape palette can deal with a maximum of 6 discrete values. Removed rows containing missing values."
+    },
+    {
+      "id": "colour-too-many-levels",
+      "severity": "warning",
+      "check": { "kind": "max-levels", "aes": ["colour", "fill"], "max": 12, "types": ["discrete"] },
+      "message": "{field} has {levels} levels: too many colours to tell apart. Filter, lump the small levels, or facet instead.",
+      "ggplot2": "Draws them, with hues too close to distinguish."
+    },
+    {
+      "id": "size-discrete",
+      "severity": "warning",
+      "check": { "kind": "aes-type", "aes": "size", "allowed": ["continuous", "temporal"] },
+      "message": "Size implies an order and a magnitude, which {field} ({type}) doesn't have.",
+      "ggplot2": "Warning: Using size for a discrete variable is not advised."
+    },
+    {
+      "id": "alpha-discrete",
+      "severity": "warning",
+      "check": { "kind": "aes-type", "aes": "alpha", "allowed": ["continuous", "temporal"] },
+      "message": "Transparency implies an order, which {field} ({type}) doesn't have.",
+      "ggplot2": "Warning: Using alpha for a discrete variable is not advised."
+    },
+    {
+      "id": "identifier-mapped",
+      "severity": "warning",
+      "check": { "kind": "aes-type", "aes": ["x", "y", "colour", "fill", "facet"], "forbidden": ["identifier"] },
+      "message": "{field} is an identifier (a row label). It labels rows; it isn't a quantity or a grouping to map.",
+      "ggplot2": "Draws it, usually as one category per row."
+    },
+    {
+      "id": "smooth-continuous-x",
+      "severity": "warning",
+      "check": { "kind": "layer-aes-type", "geoms": ["smooth"], "aes": "x", "allowed": ["continuous", "temporal"] },
+      "message": "A smoother fits a curve along a continuous x, but {field} is {type}. The smooth layer will draw nothing useful.",
+      "ggplot2": "Warning: Computation failed in stat_smooth(), or one point per group."
+    },
+    {
+      "id": "smooth-continuous-y",
+      "severity": "warning",
+      "check": { "kind": "layer-aes-type", "geoms": ["smooth"], "aes": "y", "allowed": ["continuous"] },
+      "message": "A smoother (including method: lm) models a continuous y, but {field} is {type}.",
+      "ggplot2": "Warning: Computation failed in stat_smooth()."
+    }
+  ]
+}

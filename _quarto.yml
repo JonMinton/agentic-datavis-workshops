@@ -17,12 +17,19 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - text: Sessions
+        menu:
+          - text: "Session 1 · 2026-09-29 · The Office"
+          - href: sessions/2026-09-29/office-data.qmd
+            text: "Workbook, end of session"
+          - href: sessions/2026-09-29/office-data-v2.qmd
+            text: "Workbook, version 2"
+          - href: slides/2026-09-29-vishub.qmd
+            text: "Slides"
       - href: example-gg-spec.qmd
         text: How a spec works
       - href: mapping-builder.qmd
         text: Mapping builder
-      - href: slides/2026-09-29-vishub.qmd
-        text: Slides
     right:
       - icon: github
         href: https://github.com/JonMinton/agentic-datavis-workshops

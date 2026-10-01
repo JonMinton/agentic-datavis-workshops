@@ -25,19 +25,9 @@ options(width = 140)
 df <- read_csv(path, show_col_types = FALSE, progress = FALSE, guess_max = 10000)
 n <- nrow(df)
 
-is_id_name <- function(name) grepl("(^|_)id$|_number$|^id_", name, ignore.case = TRUE)
-
-grammar_type <- function(x, n_distinct_x, name) {
-  if (is_id_name(name) || (n_distinct_x == n && !is.double(x) && n > 12)) return("id")
-  if (inherits(x, c("Date", "POSIXct", "hms", "difftime"))) return("temporal")
-  if (is.logical(x)) return("discrete")
-  if (is.numeric(x)) {
-    # Integer-valued numerics with few levels read as discrete (e.g. a 1-5 rating).
-    if (n_distinct_x <= 12 && all(x == round(x), na.rm = TRUE)) return("discrete*")
-    return("continuous")
-  }
-  "discrete"
-}
+# grammar_type() and is_id_name() are shared with check_spec.R and the mapping builder.
+script_dir <- dirname(sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value = TRUE)[1]))
+source(file.path(script_dir, "grammar_types.R"))
 
 aes_hint <- function(type, k, name) {
   looks_temporal <- grepl("year|month|date|time|week|day", name, ignore.case = TRUE)

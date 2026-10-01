@@ -16,6 +16,7 @@ resources:
   - assets/vendor/vega.min.js
   - assets/vendor/vega-lite.min.js
   - assets/vendor/vega-embed.min.js
+  - assets/gg-rules.json
 ---
 
 ::: {.callout-note icon="false" collapse="true"}
@@ -30,7 +31,9 @@ it responds instantly. Below the figure are the same rules as a
 [gg-spec](example-gg-spec.qmd) YAML file and as the ggplot2 code the agent would compile
 from it. Use the YAML to hand a design to the agent, and the code to run it in R. The two
 renderers have different defaults, so the figures won't match pixel for pixel. Where
-ggplot2 would refuse something or behave differently, the page says so.
+ggplot2 would refuse something or behave differently, the page says so. Its refusals and warnings come from the same rules file the agent checks specs against
+([`assets/gg-rules.json`](https://github.com/JonMinton/agentic-datavis-workshops/blob/main/assets/gg-rules.json)),
+so the page and the agent object to the same things in the same words.
 
 The URL records the current rules, so a link reproduces the design. This is a proof of
 concept: it supports six geoms, one smoother, and three coordinate systems.
@@ -95,6 +98,7 @@ concept: it supports six geoms, one smoother, and three coordinate systems.
 #mb .mb-status.block { background:var(--block-bg); color:var(--block); }
 #mb .mb-status.note { background:var(--warn-bg); color:var(--warn); }
 #mb .mb-status:empty { display:none; }
+#mb .mb-status .gg { font-size:0.78rem; opacity:0.8; margin:2px 0 6px; font-family:var(--bs-font-monospace, monospace); }
 #mb #mb-fig { min-height:200px; width:100%; }
 #mb .tabs { display:flex; gap:4px; margin-top:12px; border-bottom:1px solid var(--line); }
 #mb .tabs button { border:none; background:none; padding:5px 10px; cursor:pointer; color:var(--muted); border-bottom:2px solid transparent; font-size:0.86rem; }
@@ -193,6 +197,7 @@ concept: it supports six geoms, one smoother, and three coordinate systems.
   }
 
   // ---------- data loading and profiling ----------
+  const isIdName = n => /(^|_)id$|_number$|^id_/i.test(n);
   const NUM = /^-?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i;
   const DATE = /^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2}(:\d{2})?(\.\d+)?Z?)?$/;
   // RFC 4180 CSV: quoted fields may contain commas, newlines and doubled quotes
@@ -235,9 +240,11 @@ concept: it supports six geoms, one smoother, and three coordinate systems.
       if (num) for (const r of rows) if (r[name] != null) { r[name] = +r[name]; if (int && !Number.isInteger(r[name])) int = false; }
       if (!num && date) for (const r of rows) if (r[name] != null) r[name] = new Date(r[name]);
       const levels = set.size;
-      const kind = num ? (int && levels <= 12 ? "discrete*" : "continuous")
+      // same test as scripts/grammar_types.R, so the agent and this page agree on types
+      const kind = isIdName(name) || (!num && !date && levels === rows.length && rows.length > 12) ? "identifier"
                  : date ? "temporal"
-                 : (levels === nn && nn > 50 ? "identifier" : "discrete");
+                 : num ? (int && levels <= 12 ? "discrete*" : "continuous")
+                 : "discrete";
       return { name, kind, levels, pctNA: rows.length ? 100 * (rows.length - nn) / rows.length : 0 };
     });
     return (cache[t.file] = { rows, cols, file: t.file, name: t.name, grain: t.grain });
@@ -406,34 +413,68 @@ concept: it supports six geoms, one smoother, and three coordinate systems.
     }
   }
 
+  // ---------- shared coherence rules (assets/gg-rules.json) ----------
+  // The same file the gg-spec skill and scripts/check_spec.R use, so this page refuses
+  // and warns about exactly what the agent does, with the same messages.
+  let RULES = null;
+  const rulesReady = fetch("assets/gg-rules.json").then(r => r.ok ? r.json() : null)
+    .then(j => { RULES = j && j.rules; }).catch(() => {});
+  function ruleType(a) {
+    const e = state.edges[a], k = col(e.field).kind;
+    if (e.asCat) return "discrete";
+    return { identifier: "identifier", continuous: "continuous", "discrete*": "continuous", temporal: "temporal" }[k] || "discrete";
+  }
+  function checkRules() {
+    if (!RULES) return [];
+    const fillGeom = FILL_GEOMS.includes(state.geom);
+    const amap = {};   // rule vocabulary -> builder aesthetic
+    for (const a of Object.keys(state.edges)) amap[a === "colour" && fillGeom ? "fill" : a] = a;
+    const targets = list => [].concat(list).filter(k => amap[k]).map(k => amap[k]);
+    const fill = (tpl, v) => tpl.replace(/\{(\w+)\}/g, (m, k) => v[k] ?? m);
+    const out = [], seen = new Set();
+    const add = (r, v) => {
+      const key = r.id + "|" + (v.field ?? v.geom);
+      if (seen.has(key)) return; seen.add(key);
+      out.push({ id: r.id, severity: r.severity, message: fill(r.message, v), ggplot2: fill(r.ggplot2, v) });
+    };
+    const layers = [geomName()]; if (state.smooth) layers.push("smooth");
+    for (const geom of layers) for (const r of RULES) {
+      const ck = r.check, inG = !ck.geoms || ck.geoms.includes(geom), base = { geom, data: stem() };
+      if (ck.kind === "requires-aes" && inG && !amap[ck.aes]) add(r, base);
+      else if (ck.kind === "forbids-aes" && inG && amap[ck.aes]) add(r, base);
+      else if (["aes-type", "geom-aes-type", "layer-aes-type"].includes(ck.kind) && inG) {
+        for (const a of targets(ck.aes)) {
+          const ty = ruleType(a);
+          if ((ck.allowed && !ck.allowed.includes(ty)) || (ck.forbidden && ck.forbidden.includes(ty)))
+            add(r, { ...base, field: label(a), type: ty });
+        }
+      } else if (ck.kind === "max-levels") {
+        for (const a of targets(ck.aes)) {
+          const ty = ruleType(a), lv = col(state.edges[a].field).levels;
+          if ((!ck.types || ck.types.includes(ty)) && ty !== "continuous" && lv > ck.max)
+            add(r, { ...base, field: label(a), levels: lv, excess: lv - ck.max });
+        }
+      } else if (ck.kind === "one-discrete-position" && inG) {
+        if (["x", "y"].filter(k => amap[k] && ruleType(amap[k]) === "discrete").length !== 1) add(r, base);
+      }
+      // field-exists never fires here: the canvas only offers real columns
+    }
+    return out;
+  }
+
   // ---------- compile rules to Vega-Lite ----------
   function compile() {
     const E = state.edges, has = a => !!E[a], g = state.geom;
     const polar = state.coord === "polar", flip = state.coord === "flip";
     const notes = [];
     if (!has("x")) return { block: "Draw a rule to x position to start a figure." };
-    if (["point", "line", "tile", "boxplot"].includes(g) && !has("y"))
-      return { block: `geom_${g}() needs both x and y. Draw a rule to y position.` };
-    if (g === "histogram") {
-      if (has("y")) return { block: "geom_histogram() computes y itself (a count), so y must stay empty. Remove the y rule or pick another geom." };
-      if (vtype("x") !== "quantitative") return { block: "geom_histogram() bins a continuous x. For a discrete x, use bar." };
-    }
-    if (g === "boxplot" && (vtype("x") === "nominal") === (vtype("y") === "nominal"))
-      return { block: "geom_boxplot() needs one discrete and one continuous position. Tick “as category” on one of them, or map a discrete variable." };
-    if (has("shape") && vtype("shape") !== "nominal")
-      return { block: "A continuous variable can't be mapped to shape. Tick “as category”, or use another aesthetic." };
-    if (has("facet") && vtype("facet") !== "nominal")
-      return { block: "Facets split the data by a discrete variable. Tick “as category” on the facet rule." };
-    if (has("facet") && col(E.facet.field).levels > 30)
-      return { block: `${E.facet.field} has ${col(E.facet.field).levels} levels: too many panels to draw. Facet by something with fewer levels.` };
+    const broken = checkRules();
+    const errors = broken.filter(b => b.severity === "error");
+    if (errors.length) return { block: errors, notes: [] };
+    notes.push(...broken);
+    // limits of this page, not of the grammar
     if (polar && !["point", "line"].includes(g))
       return { block: "In this proof of concept, polar coordinates work with point and line only." };
-    if (has("shape") && col(E.shape.field).levels > 6)
-      notes.push(`ggplot2's default shape palette has 6 shapes, so it would drop ${E.shape.field}'s other ${col(E.shape.field).levels - 6} levels. Vega-Lite reuses shapes instead.`);
-    if (has("colour") && vtype("colour") === "nominal" && col(E.colour.field).levels > 12)
-      notes.push(`${E.colour.field} has ${col(E.colour.field).levels} levels: too many colours to tell apart.`);
-    for (const a of ["x", "y", "colour", "facet"]) if (has(a) && col(E[a].field).kind === "identifier")
-      notes.push(`${E[a].field} is an identifier (every value unique). It labels rows; it isn't a quantity to map.`);
 
     // ggplot2 never forces zero into a continuous position scale; Vega-Lite does unless told not to
     const enc = a => ({ field: E[a].field, type: vtype(a), title: label(a),
@@ -565,7 +606,9 @@ concept: it supports six geoms, one smoother, and three coordinate systems.
     const res = compile();
     const status = q("#mb-status");
     status.className = "mb-status" + (res.block ? " block" : res.notes.length ? " note" : "");
-    status.replaceChildren(...(res.block ? [res.block] : res.notes.map(n => h("div", {}, n))));
+    const line = n => typeof n === "string" ? h("div", {}, n)
+      : h("div", {}, n.message, h("div", { class: "gg" }, "ggplot2: " + n.ggplot2));
+    status.replaceChildren(...[].concat(res.block || res.notes).map(line));
     drawTabs(res);
     if (view) { view.finalize(); view = null; }
     const fig = q("#mb-fig");
@@ -615,7 +658,7 @@ concept: it supports six geoms, one smoother, and three coordinate systems.
   if (typeof vegaEmbed !== "function") {
     showError("The charting library (Vega-Lite) didn't load, so figures can't be drawn. The mapping canvas still works; try reloading the page.");
   }
-  activate(readHash());
+  rulesReady.then(() => activate(readHash()));
 })();
 </script>
 ```

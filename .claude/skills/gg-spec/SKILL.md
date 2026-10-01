@@ -15,10 +15,20 @@ quoted in the session writeup.
 1. **Read the spec** — a YAML file (usually `specs/<name>.yml`, or during a session
    `sessions/YYYY-MM-DD/specs/<name>.yml`), or a YAML block pasted in chat. If pasted,
    save it to the session's `specs/` folder first: the file trail is the record.
-2. **Validate before compiling.** If the spec asks for something incoherent (a colour
-   mapping to a variable that doesn't exist, a `stat: lm` on a discrete y), say what is
-   wrong *in grammar terms* and suggest the nearest coherent spec. Do not silently fix it —
-   the misunderstanding is teaching material.
+2. **Validate before compiling.** Run
+   `sh scripts/workshop r scripts/check_spec.R <spec.yml>`. It checks the spec against
+   the shared coherence rules in `assets/gg-rules.json`, the same file the
+   [mapping builder](../../../mapping-builder.qmd) uses, so the agent and the page refuse
+   the same things with the same words. Examples are a variable that doesn't exist, a
+   continuous variable on shape, y on a histogram, or a smoother on a discrete y.
+   - **ERROR:** don't compile. Relay the message, which says what is wrong *in grammar
+     terms*, and the nearest coherent spec. Don't silently fix it: the misunderstanding
+     is teaching material.
+   - **WARNING:** compile, and report the warning with the figure.
+   - **Changing a rule:** edit `assets/gg-rules.json`, never the checker or the page. The
+     file says what each rule checks and what ggplot2 itself would do.
+   - **Incoherence the rules miss:** still say so. If it will recur, propose a new rule
+     to the facilitator.
 3. **Compile to idiomatic ggplot2** — code a reader could have written by hand: one
    `ggplot()` call, layers in spec order, `labs()` from the `labs:` block, no dead
    arguments. Preserve spec order in the code so spec and code can be read side by side.

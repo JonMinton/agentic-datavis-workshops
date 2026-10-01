@@ -231,6 +231,13 @@ then the agent waits), and keeps `sessions/<date>/figures/latest.png` current so
 watches the spec and the figure, not the terminal. See the
 skill file for the spec schema and `example-gg-spec.qmd` for a worked example.
 
+Before compiling, the skill runs `scripts/check_spec.R`. It checks a spec against
+`assets/gg-rules.json`, the **single source** of coherence rules: what to refuse, what to
+warn about, and the message for each. The mapping builder page loads the same file, and
+both use the same column-type test (`scripts/grammar_types.R`, mirrored in the page). So
+the agent and the page refuse the same things in the same words. Change a rule in the
+JSON file only.
+
 ## The dataset-scout skill
 
 `.claude/skills/dataset-scout/` — searches dataset catalogues (TidyTuesday, Rdatasets,
