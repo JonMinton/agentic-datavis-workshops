@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Mapping builder – Agentic data-vis workshops</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-6033a600180109c3731f6a886c29932c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Agentic data-vis workshops</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./example-gg-spec.html"> 
+<span class="menu-text">How a spec works</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./mapping-builder.html" aria-current="page"> 
+<span class="menu-text">Mapping builder</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./slides/2026-09-29-vishub.html"> 
+<span class="menu-text">Slides</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/JonMinton/agentic-datavis-workshops"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content page-columns page-full column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Mapping builder</h1>
+<p class="subtitle lead">Proof of concept: draw mapping rules from variables to aesthetics, and watch the figure follow</p>
+</div>
+
+
+
+<div class="quarto-title-meta column-body">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What this is, and how to use it
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A point-and-click way to write the same mapping rules the sessions dictate to the agent. <strong>Drag from a variable (rectangle) to an aesthetic (ellipse)</strong> to add a rule, or click a variable and then an aesthetic. Click an arrow to remove it. The figure redraws as soon as the rules are complete enough to draw something.</p>
+<p>The drawing runs in your browser with <a href="https://vega.github.io/vega-lite/">Vega-Lite</a>, so it responds instantly. Below the figure are the same rules as a <a href="./example-gg-spec.html">gg-spec</a> YAML file and as the ggplot2 code the agent would compile from it. Use the YAML to hand a design to the agent, and the code to run it in R. The two renderers have different defaults, so the figures won’t match pixel for pixel. Where ggplot2 would refuse something or behave differently, the page says so.</p>
+<p>The URL records the current rules, so a link reproduces the design. This is a proof of concept: it supports six geoms, one smoother, and three coordinate systems.</p>
+</div>
+</div>
+</div>
+<div class="column-screen-inset">
+<style>
+#mb { --ink:#2c3e50; --muted:#6c7a89; --line:#d5dbe0; --panel:#f7f9fa; --accent:#18bc9c;
+      --accent-ink:#0e7c66; --warn:#b35c00; --warn-bg:#fff4e5; --block-bg:#fdecea; --block:#a12a1d;
+      display:grid; grid-template-columns: minmax(260px, 290px) minmax(440px, 500px) minmax(420px, 1fr);
+      gap:16px; align-items:start; color:var(--ink); font-size:0.92rem; }
+@media (max-width: 1200px) { #mb { grid-template-columns: minmax(250px, 300px) 1fr; }
+  #mb .mb-out { grid-column: 1 / -1; } }
+@media (max-width: 760px) { #mb { grid-template-columns: 1fr; } }
+#mb .mb-panel { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px 14px; min-width:0; }
+#mb h3 { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); margin:0 0 8px; }
+#mb .mb-ds { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+#mb .mb-ds button, #mb .mb-pill { text-align:left; border:1px solid var(--line); background:#fff; border-radius:6px;
+      padding:6px 9px; cursor:pointer; color:var(--ink); font-size:0.88rem; }
+#mb .mb-ds button[aria-pressed="true"], #mb .mb-pill[aria-pressed="true"] { border-color:var(--accent); box-shadow:inset 3px 0 0 var(--accent); font-weight:600; }
+#mb .mb-ds small { display:block; color:var(--muted); font-weight:400; }
+#mb .mb-pills { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+#mb .mb-pill { padding:3px 9px; font-size:0.82rem; }
+#mb table.mb-vars { width:100%; border-collapse:collapse; font-size:0.78rem; table-layout:fixed; }
+#mb table.mb-vars td:first-child { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#mb table.mb-vars col.c1 { width:38%; } #mb table.mb-vars col.c2 { width:30%; }
+#mb table.mb-vars th, #mb table.mb-vars td { padding:2px 4px; border-bottom:1px solid var(--line); text-align:left; }
+#mb table.mb-vars td.n { text-align:right; font-variant-numeric:tabular-nums; }
+#mb .mb-desc { margin:0 0 6px; }
+#mb .mb-meta { color:var(--muted); margin:0 0 6px; }
+#mb svg.mb-canvas { width:100%; height:auto; display:block; user-select:none; touch-action:none; }
+#mb .var rect { fill:#fff; stroke:var(--line); }
+#mb .var:hover rect, #mb .var:focus rect { stroke:var(--accent); }
+#mb .var.sel rect { stroke:var(--accent); stroke-width:2.5; fill:#e8f8f4; }
+#mb .var.used rect { fill:#f0fbf8; }
+#mb .var text, #mb .aes text { font-size:14px; fill:var(--ink); pointer-events:none; }
+#mb .var text.tag { font-size:11.5px; fill:var(--muted); }
+#mb .aes ellipse { fill:#fff; stroke:var(--ink); stroke-width:1.2; }
+#mb .aes.on ellipse { fill:#e8f8f4; stroke:var(--accent-ink); stroke-width:2; }
+#mb .aes:hover ellipse, #mb .aes.target ellipse, #mb .aes:focus ellipse { stroke:var(--accent); stroke-width:2.5; }
+#mb .aes text { text-anchor:middle; dominant-baseline:central; font-weight:600; }
+#mb .var, #mb .aes, #mb .edge { cursor:pointer; outline:none; }
+#mb .edge path.vis { fill:none; stroke:var(--accent-ink); stroke-width:2; }
+#mb .edge path.hit { fill:none; stroke:transparent; stroke-width:14; }
+#mb .edge:hover path.vis { stroke:var(--block); stroke-width:3; stroke-dasharray:5 3; }
+#mb .drag { fill:none; stroke:var(--accent); stroke-width:2; stroke-dasharray:6 4; pointer-events:none; }
+#mb .mb-opts { display:grid; grid-template-columns:auto 1fr; gap:6px 10px; align-items:center; margin-top:10px; }
+#mb .mb-opts label { font-weight:600; font-size:0.82rem; }
+#mb .seg { display:flex; flex-wrap:wrap; gap:4px; }
+#mb .seg button { border:1px solid var(--line); background:#fff; border-radius:999px; padding:2px 10px; font-size:0.82rem; cursor:pointer; color:var(--ink); }
+#mb .seg button[aria-pressed="true"] { background:var(--ink); color:#fff; border-color:var(--ink); }
+#mb .rules { list-style:none; padding:0; margin:10px 0 0; }
+#mb .rules li { display:flex; gap:8px; align-items:center; padding:3px 0; border-bottom:1px dashed var(--line); flex-wrap:wrap; }
+#mb .rules code { background:none; color:var(--ink); padding:0; }
+#mb .rules .arrow { color:var(--accent-ink); font-weight:700; }
+#mb .rules button { margin-left:auto; border:none; background:none; color:var(--muted); cursor:pointer; font-size:1rem; line-height:1; }
+#mb .rules button:hover { color:var(--block); }
+#mb .rules label { font-size:0.8rem; color:var(--muted); display:flex; gap:4px; align-items:center; }
+#mb .hint { color:var(--muted); font-size:0.82rem; margin:8px 0 0; }
+#mb .mb-status { border-radius:6px; padding:8px 10px; margin-bottom:8px; font-size:0.86rem; }
+#mb .mb-status.block { background:var(--block-bg); color:var(--block); }
+#mb .mb-status.note { background:var(--warn-bg); color:var(--warn); }
+#mb .mb-status:empty { display:none; }
+#mb #mb-fig { min-height:200px; width:100%; }
+#mb .tabs { display:flex; gap:4px; margin-top:12px; border-bottom:1px solid var(--line); }
+#mb .tabs button { border:none; background:none; padding:5px 10px; cursor:pointer; color:var(--muted); border-bottom:2px solid transparent; font-size:0.86rem; }
+#mb .tabs button[aria-selected="true"] { color:var(--ink); border-bottom-color:var(--accent); font-weight:600; }
+#mb pre.mb-code { background:#fff; border:1px solid var(--line); border-top:none; border-radius:0 0 6px 6px; padding:10px 12px;
+      font-size:0.8rem; max-height:320px; overflow:auto; margin:0; white-space:pre; }
+</style>
+
+<div id="mb">
+  <div class="mb-panel">
+    <h3 class="anchored">Datasets</h3>
+    <div class="mb-ds" id="mb-ds"></div>
+    <h3 class="anchored">Active dataset</h3>
+    <div id="mb-summary"><p class="mb-meta">Loading…</p></div>
+  </div>
+
+  <div class="mb-panel">
+    <h3 class="anchored">Mapping rules: variables → aesthetics</h3>
+    <svg class="mb-canvas" id="mb-svg" aria-label="Mapping canvas"></svg>
+    <div class="mb-opts">
+      <label>Geom</label><div class="seg" id="mb-geom"></div>
+      <label>Layer</label><div class="seg" id="mb-smooth"></div>
+      <label>Coords</label><div class="seg" id="mb-coord"></div>
+    </div>
+    <ul class="rules" id="mb-rules"></ul>
+    <p class="hint" id="mb-hint">Drag from a variable to an aesthetic, or click one and then the other.</p>
+  </div>
+
+  <div class="mb-panel mb-out">
+    <h3 class="anchored">Figure</h3>
+    <div class="mb-status" id="mb-status"></div>
+    <div id="mb-fig"></div>
+    <div class="tabs" role="tablist" id="mb-tabs"></div>
+    <pre class="mb-code" id="mb-code"></pre>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<script>
+(() => {
+  const TT = d => `https://github.com/rfordatascience/tidytuesday/tree/main/data/${d.slice(0, 4)}/${d}`;
+  const DATASETS = [
+    { id: "penguins", title: "Palmer penguins", week: "2020-07-28",
+      desc: "Bill, flipper and body-mass measurements for penguins of three species on three islands in Antarctica.",
+      tables: [{ name: "penguins", file: "data/penguins.csv", grain: "one row per penguin" }] },
+    { id: "office", title: "The Office ratings", week: "2020-03-17",
+      desc: "IMDb rating and vote count for every episode of the US version of The Office (2005–2013). Session 1's dataset.",
+      tables: [{ name: "office_ratings", file: "data/tt-2020-03-17-office_ratings.csv", grain: "one row per episode" }] },
+    { id: "munros", title: "Scottish Munros", week: "2025-08-19",
+      desc: "Munros and Munro Tops with heights, grid coordinates, and their status in each revision of the list, 1891–2021.",
+      tables: [{ name: "scottish_munros", file: "data/tt-2025-08-19-scottish_munros.csv",
+                 grain: "one row per hill. The year columns are wide: one column per list revision" }] },
+    { id: "met", title: "UK Met Office stations", week: "2025-10-21",
+      desc: "Monthly temperature, air frost, rain and sunshine for UK weather stations, some going back to the 1850s.",
+      tables: [{ name: "historic_station_met", file: "data/tt-2025-10-21-historic_station_met.csv", grain: "one row per station per month" },
+               { name: "station_meta", file: "data/tt-2025-10-21-station_meta.csv", grain: "one row per station" }] },
+    { id: "likely", title: "How likely is 'likely'?", week: "2026-03-10",
+      desc: "Quiz respondents' numeric readings of probability phrases, their pairwise comparisons, and who they are.",
+      tables: [{ name: "absolute_judgements", file: "data/tt-2026-03-10-absolute_judgements.csv", grain: "one row per respondent per phrase" },
+               { name: "pairwise_comparisons", file: "data/tt-2026-03-10-pairwise_comparisons.csv", grain: "one row per respondent per phrase pair" },
+               { name: "respondent_metadata", file: "data/tt-2026-03-10-respondent_metadata.csv", grain: "one row per respondent" }] }
+  ];
+  const AES = [
+    { id: "x", label: "x position" }, { id: "y", label: "y position" },
+    { id: "colour", label: "colour / fill" }, { id: "size", label: "size" },
+    { id: "shape", label: "shape" }, { id: "alpha", label: "alpha" }, { id: "facet", label: "facet" }
+  ];
+  const GEOMS = ["point", "line", "bar", "histogram", "boxplot", "tile"];
+  const FILL_GEOMS = ["bar", "histogram", "boxplot", "tile"];
+  const COORDS = ["cartesian", "flip", "polar"];
+  const KIND_TAG = { continuous: "cont", "discrete*": "disc*", discrete: "disc", temporal: "time", identifier: "id" };
+
+  const state = { ds: "office", t: 0, edges: {}, geom: "point", coord: "cartesian", smooth: false, tab: "yaml" };
+  const cache = {};
+  let cur = null, selectedVar = null, view = null, renderSeq = 0;
+
+  const q = s => document.querySelector(s);
+  const NS = "http://www.w3.org/2000/svg";
+  function h(tag, attrs = {}, ...kids) {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else if (v != null) e.setAttribute(k, v);
+    }
+    for (const k of kids.flat()) e.append(k);
+    return e;
+  }
+  function s(tag, attrs = {}, ...kids) {
+    const e = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) if (v != null) e.setAttribute(k, v);
+    for (const k of kids) e.append(k);
+    return e;
+  }
+
+  // ---------- data loading and profiling ----------
+  const NUM = /^-?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i;
+  const DATE = /^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2}(:\d{2})?(\.\d+)?Z?)?$/;
+  async function loadTable(t) {
+    if (cache[t.file]) return cache[t.file];
+    const text = await (await fetch(t.file)).text();
+    const rows = vega.read(text, { type: "csv" });
+    const names = text.slice(0, text.indexOf("\n")).replace(/\r$/, "").split(",").map(n => n.replace(/^"|"$/g, ""));
+    const cols = names.map(name => {
+      let nn = 0, num = true, date = true, int = true;
+      const set = new Set();
+      for (const r of rows) {
+        const v = r[name];
+        if (v === "" || v === "NA" || v == null) { r[name] = null; continue; }
+        nn++; set.add(v);
+        if (num && !NUM.test(v)) num = false;
+        if (date && !DATE.test(v)) date = false;
+      }
+      if (nn === 0) num = date = false;
+      if (num) for (const r of rows) if (r[name] != null) { r[name] = +r[name]; if (int && !Number.isInteger(r[name])) int = false; }
+      if (!num && date) for (const r of rows) if (r[name] != null) r[name] = new Date(r[name]);
+      const levels = set.size;
+      const kind = num ? (int && levels <= 12 ? "discrete*" : "continuous")
+                 : date ? "temporal"
+                 : (levels === nn && nn > 50 ? "identifier" : "discrete");
+      return { name, kind, levels, pctNA: rows.length ? 100 * (rows.length - nn) / rows.length : 0 };
+    });
+    return (cache[t.file] = { rows, cols, file: t.file, name: t.name, grain: t.grain });
+  }
+  const col = f => cur.cols.find(c => c.name === f);
+  const isNumeric = f => ["continuous", "discrete*"].includes(col(f).kind);
+  function vtype(a) {
+    const e = state.edges[a]; if (!e) return null;
+    const k = col(e.field).kind;
+    if (k === "continuous" || k === "discrete*") return e.asCat ? "nominal" : "quantitative";
+    if (k === "temporal") return "temporal";
+    return "nominal";
+  }
+  const label = a => { const e = state.edges[a]; return e.asCat ? `factor(${e.field})` : e.field; };
+
+  // ---------- left panel ----------
+  function drawDatasets() {
+    const box = q("#mb-ds"); box.replaceChildren();
+    for (const d of DATASETS) box.append(h("button", {
+      "aria-pressed": String(d.id === state.ds),
+      onclick: () => { if (d.id !== state.ds) { state.ds = d.id; state.t = 0; state.edges = {}; activate(); } }
+    }, d.title, h("small", {}, `TidyTuesday ${d.week} · ${d.tables.length} table${d.tables.length > 1 ? "s" : ""}`)));
+  }
+  function drawSummary() {
+    const d = DATASETS.find(x => x.id === state.ds);
+    const box = q("#mb-summary"); box.replaceChildren();
+    box.append(h("p", { class: "mb-desc" }, d.desc));
+    box.append(h("p", { class: "mb-meta" }, "Source: ", h("a", { href: TT(d.week), target: "_blank" }, `TidyTuesday ${d.week}`)));
+    if (d.tables.length > 1) {
+      const pills = h("div", { class: "mb-pills" });
+      d.tables.forEach((t, i) => pills.append(h("button", {
+        class: "mb-pill", "aria-pressed": String(i === state.t),
+        onclick: () => { if (i !== state.t) { state.t = i; state.edges = {}; activate(); } }
+      }, t.name)));
+      box.append(pills);
+    }
+    if (!cur) return;
+    box.append(h("p", { class: "mb-meta" },
+      h("strong", {}, cur.name), ` · ${cur.rows.length.toLocaleString()} rows × ${cur.cols.length} columns · ${cur.grain}`));
+    const tb = h("tbody");
+    for (const c of cur.cols) tb.append(h("tr", {},
+      h("td", {}, c.name), h("td", {}, c.kind), h("td", { class: "n" }, c.levels.toLocaleString()),
+      h("td", { class: "n" }, c.pctNA ? c.pctNA.toFixed(c.pctNA < 1 ? 1 : 0) + "%" : "–")));
+    box.append(h("table", { class: "mb-vars" }, h("colgroup", {}, h("col", { class: "c1" }), h("col", { class: "c2" }), h("col"), h("col")),
+      h("thead", {}, h("tr", {}, h("th", {}, "variable"), h("th", {}, "type"), h("th", { class: "n" }, "levels"), h("th", { class: "n" }, "NA"))), tb));
+    box.append(h("p", { class: "hint" }, "discrete* = whole numbers with 12 or fewer values. Whether they are discrete or continuous is a decision, not a fact: tick “as category” on a rule to treat them as discrete."));
+  }
+
+  // ---------- the mapping canvas ----------
+  const W = 500, VX = 8, VW = 196, VH = 26, AX = W - 82, ARX = 70, ARY = 17;
+  let geo = null;
+  function layout() {
+    const n = cur.cols.length, step = Math.max(30, Math.min(38, 420 / n));
+    const varsH = 16 + n * step;
+    const H = Math.max(varsH, 7 * 52 + 20);
+    const vy = i => 10 + i * step + (H - varsH) / 2;
+    const ay = j => 30 + j * ((H - 60) / (AES.length - 1));
+    return { H, vy, ay };
+  }
+  function edgePath(i, j) {
+    const x1 = VX + VW, y1 = geo.vy(i) + VH / 2, x2 = AX - ARX - 6, y2 = geo.ay(j);
+    const dx = (x2 - x1) * 0.5;
+    return `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`;
+  }
+  function drawCanvas() {
+    const svg = q("#mb-svg"); svg.replaceChildren();
+    geo = layout();
+    svg.setAttribute("viewBox", `0 0 ${W} ${geo.H}`);
+    svg.append(s("defs", {}, s("marker", { id: "mb-arrow", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto-start-reverse" },
+      s("path", { d: "M0,0 L10,5 L0,10 z", fill: "#0e7c66" }))));
+    const used = new Set(Object.values(state.edges).map(e => e.field));
+    // edges first so the shapes sit on top of their ends
+    for (const [a, e] of Object.entries(state.edges)) {
+      const i = cur.cols.findIndex(c => c.name === e.field), j = AES.findIndex(x => x.id === a);
+      const d = edgePath(i, j);
+      const g = s("g", { class: "edge", role: "button", tabindex: 0, "aria-label": `Remove rule ${e.field} to ${a}` },
+        s("title", {}, `${label(a)} → ${a}  (click to remove)`), s("path", { class: "hit", d }), s("path", { class: "vis", d, "marker-end": "url(#mb-arrow)" }));
+      const rm = () => { delete state.edges[a]; changed(); };
+      g.addEventListener("click", rm);
+      g.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " " || ev.key === "Delete") { ev.preventDefault(); rm(); } });
+      svg.append(g);
+    }
+    cur.cols.forEach((c, i) => {
+      const y = geo.vy(i);
+      const nm = c.name.length > 17 ? c.name.slice(0, 16) + "…" : c.name;
+      const g = s("g", { class: `var${selectedVar === c.name ? " sel" : ""}${used.has(c.name) ? " used" : ""}`, "data-var": c.name, role: "button", tabindex: 0,
+        "aria-label": `Variable ${c.name}, ${c.kind}` },
+        s("title", {}, `${c.name}: ${c.kind}, ${c.levels} levels`),
+        s("rect", { x: VX, y, width: VW, height: VH, rx: 4 }),
+        s("text", { x: VX + 8, y: y + VH / 2 + 4 }, nm),
+        s("text", { class: "tag", x: VX + VW - 8, y: y + VH / 2 + 4, "text-anchor": "end" }, KIND_TAG[c.kind]));
+      g.addEventListener("pointerdown", ev => startDrag(ev, c.name, i));
+      g.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); selectVar(c.name); } });
+      svg.append(g);
+    });
+    AES.forEach((a, j) => {
+      const y = geo.ay(j);
+      const g = s("g", { class: `aes${state.edges[a.id] ? " on" : ""}`, "data-aes": a.id, role: "button", tabindex: 0, "aria-label": `Aesthetic ${a.label}` },
+        s("ellipse", { cx: AX, cy: y, rx: ARX, ry: ARY }), s("text", { x: AX, y }, a.label));
+      g.addEventListener("click", () => { if (selectedVar) connect(selectedVar, a.id); });
+      g.addEventListener("keydown", ev => { if ((ev.key === "Enter" || ev.key === " ") && selectedVar) { ev.preventDefault(); connect(selectedVar, a.id); } });
+      svg.append(g);
+    });
+  }
+  function svgPoint(svg, ev) {
+    const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY;
+    return p.matrixTransform(svg.getScreenCTM().inverse());
+  }
+  function startDrag(ev, name, i) {
+    ev.preventDefault();
+    const svg = q("#mb-svg");
+    const x1 = VX + VW, y1 = geo.vy(i) + VH / 2;
+    const line = s("path", { class: "drag", d: `M${x1},${y1} L${x1},${y1}` });
+    svg.append(line);
+    let moved = false, target = null;
+    const move = e => {
+      const p = svgPoint(svg, e);
+      if (Math.abs(p.x - x1) > 6 || Math.abs(p.y - y1) > 6) moved = true;
+      line.setAttribute("d", `M${x1},${y1} C${(x1 + p.x) / 2},${y1} ${(x1 + p.x) / 2},${p.y} ${p.x},${p.y}`);
+      const hit = document.elementFromPoint(e.clientX, e.clientY)?.closest("[data-aes]");
+      if (target && target !== hit) target.classList.remove("target");
+      target = hit; if (target) target.classList.add("target");
+    };
+    const up = e => {
+      window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up);
+      line.remove();
+      const hit = document.elementFromPoint(e.clientX, e.clientY)?.closest("[data-aes]");
+      if (moved && hit) connect(name, hit.dataset.aes);
+      else if (!moved) selectVar(name);
+      else drawCanvas();
+    };
+    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up);
+  }
+  function selectVar(name) {
+    selectedVar = selectedVar === name ? null : name;
+    q("#mb-hint").textContent = selectedVar ? `Now click an aesthetic to map ${selectedVar} to it.` : "Drag from a variable to an aesthetic, or click one and then the other.";
+    drawCanvas();
+  }
+  function connect(name, aes) {
+    state.edges[aes] = { field: name, asCat: aes === "facet" || aes === "shape" ? isNumeric(name) : false };
+    selectedVar = null;
+    q("#mb-hint").textContent = "Drag from a variable to an aesthetic, or click one and then the other.";
+    changed();
+  }
+
+  // ---------- options and rule list ----------
+  function seg(id, options, get, set, labelOf = o => o) {
+    const box = q(id); box.replaceChildren();
+    for (const o of options) box.append(h("button", { "aria-pressed": String(get() === o), onclick: () => { set(o); changed(); } }, labelOf(o)));
+  }
+  function drawOptions() {
+    seg("#mb-geom", GEOMS, () => state.geom, v => state.geom = v);
+    seg("#mb-smooth", [false, true], () => state.smooth, v => state.smooth = v, v => v ? "+ smoother" : "geom only");
+    seg("#mb-coord", COORDS, () => state.coord, v => state.coord = v);
+    const ul = q("#mb-rules"); ul.replaceChildren();
+    for (const a of AES) {
+      const e = state.edges[a.id]; if (!e) continue;
+      const li = h("li", {}, h("code", {}, e.field), h("span", { class: "arrow" }, "→"), h("span", {}, a.label));
+      if (isNumeric(e.field)) {
+        const cb = h("input", { type: "checkbox", onchange: ev => { e.asCat = ev.target.checked; changed(); } });
+        cb.checked = e.asCat;
+        li.append(h("label", {}, cb, "as category"));
+      }
+      li.append(h("button", { title: "Remove this rule", "aria-label": `Remove ${e.field} to ${a.label}`, onclick: () => { delete state.edges[a.id]; changed(); } }, "×"));
+      ul.append(li);
+    }
+  }
+
+  // ---------- compile rules to Vega-Lite ----------
+  function compile() {
+    const E = state.edges, has = a => !!E[a], g = state.geom;
+    const polar = state.coord === "polar", flip = state.coord === "flip";
+    const notes = [];
+    if (!has("x")) return { block: "Draw a rule to x position to start a figure." };
+    if (["point", "line", "tile", "boxplot"].includes(g) && !has("y"))
+      return { block: `geom_${g}() needs both x and y. Draw a rule to y position.` };
+    if (g === "histogram") {
+      if (has("y")) return { block: "geom_histogram() computes y itself (a count), so y must stay empty. Remove the y rule or pick another geom." };
+      if (vtype("x") !== "quantitative") return { block: "geom_histogram() bins a continuous x. For a discrete x, use bar." };
+    }
+    if (g === "boxplot" && (vtype("x") === "nominal") === (vtype("y") === "nominal"))
+      return { block: "geom_boxplot() needs one discrete and one continuous position. Tick “as category” on one of them, or map a discrete variable." };
+    if (has("shape") && vtype("shape") !== "nominal")
+      return { block: "A continuous variable can't be mapped to shape. Tick “as category”, or use another aesthetic." };
+    if (has("facet") && vtype("facet") !== "nominal")
+      return { block: "Facets split the data by a discrete variable. Tick “as category” on the facet rule." };
+    if (has("facet") && col(E.facet.field).levels > 30)
+      return { block: `${E.facet.field} has ${col(E.facet.field).levels} levels: too many panels to draw. Facet by something with fewer levels.` };
+    if (polar && !["point", "line"].includes(g))
+      return { block: "In this proof of concept, polar coordinates work with point and line only." };
+    if (has("shape") && col(E.shape.field).levels > 6)
+      notes.push(`ggplot2's default shape palette has 6 shapes, so it would drop ${E.shape.field}'s other ${col(E.shape.field).levels - 6} levels. Vega-Lite reuses shapes instead.`);
+    if (has("colour") && vtype("colour") === "nominal" && col(E.colour.field).levels > 12)
+      notes.push(`${E.colour.field} has ${col(E.colour.field).levels} levels: too many colours to tell apart.`);
+    for (const a of ["x", "y", "colour", "facet"]) if (has(a) && col(E[a].field).kind === "identifier")
+      notes.push(`${E[a].field} is an identifier (every value unique). It labels rows; it isn't a quantity to map.`);
+
+    // ggplot2 never forces zero into a continuous position scale; Vega-Lite does unless told not to
+    const enc = a => ({ field: E[a].field, type: vtype(a), title: label(a),
+                        ...((a === "x" || a === "y") && vtype(a) === "quantitative" ? { scale: { zero: false } } : {}) });
+    const COUNT = { aggregate: "count", type: "quantitative", title: "count" };
+    let x = enc("x"), y = has("y") ? enc("y") : null;
+    if (g === "bar") y = y ? { ...y, aggregate: "sum", scale: undefined } : COUNT;
+    if (g === "histogram") { x = { ...x, bin: { maxbins: 30 } }; y = COUNT; }
+    if (g === "tile") { if (x.type !== "nominal") x = { ...x, type: "ordinal" }; if (y.type !== "nominal") y = { ...y, type: "ordinal" }; }
+    const mark = { point: { type: "point", filled: true }, line: { type: "line" }, bar: { type: "bar" },
+                   histogram: { type: "bar" }, boxplot: { type: "boxplot" }, tile: { type: "rect" } }[g];
+    const encoding = {};
+    if (has("colour")) encoding.color = enc("colour");
+    if (has("size")) encoding.size = enc("size");
+    if (has("shape")) encoding.shape = enc("shape");
+    if (has("alpha")) encoding.opacity = enc("alpha");
+
+    let rows = cur.rows, extraLayers = [], width = "container", height = 380;
+    if (polar) {
+      // coord_polar(): angle from x (clockwise from 12 o'clock), radius from y, both rescaled to [0, 1]
+      const scaler = (a, offset) => {
+        const f = E[a].field;
+        if (vtype(a) === "nominal") {
+          const lv = [...new Set(rows.map(r => r[f]).filter(v => v != null))].sort((p, q) => p < q ? -1 : p > q ? 1 : 0);
+          return v => v == null ? null : (lv.indexOf(v) + offset) / (lv.length - 1 + 2 * offset || 1);
+        }
+        let lo = Infinity, hi = -Infinity;
+        for (const r of rows) { const v = +r[f]; if (r[f] != null) { if (v < lo) lo = v; if (v > hi) hi = v; } }
+        return v => v == null ? null : (+v - lo) / ((hi - lo) || 1);
+      };
+      const tx = scaler("x", 0.5), ry = scaler("y", 0.5), fx = E.x.field, fy = E.y.field;
+      rows = rows.map(r => {
+        const t = tx(r[fx]) * (vtype("x") === "nominal" ? 1 : 0.999), rr = ry(r[fy]);
+        return { ...r, __t: t, __px: t == null || rr == null ? null : rr * Math.sin(2 * Math.PI * t),
+                 __py: t == null || rr == null ? null : rr * Math.cos(2 * Math.PI * t) };
+      });
+      const sc = { domain: [-1.08, 1.08], nice: false };
+      x = { field: "__px", type: "quantitative", axis: null, scale: sc };
+      y = { field: "__py", type: "quantitative", axis: null, scale: sc };
+      if (g === "line") encoding.order = { field: "__t" };
+      if (!has("facet")) {
+        const ring = [];
+        for (const rad of [0.25, 0.5, 0.75, 1]) for (let k = 0; k <= 72; k++)
+          ring.push({ ring: rad, k, px: rad * Math.sin(k * Math.PI / 36), py: rad * Math.cos(k * Math.PI / 36) });
+        extraLayers.push({ data: { values: ring }, mark: { type: "line", color: "#d5dbe0", strokeWidth: 1 },
+          encoding: { x: { field: "px", type: "quantitative", axis: null, scale: sc }, y: { field: "py", type: "quantitative", axis: null, scale: sc },
+                      detail: { field: "ring" }, order: { field: "k" } } });
+        width = height = 380;
+      }
+      notes.push(`Polar: angle = ${label("x")}, radius = ${label("y")}, both rescaled to the data's range. Grid circles mark quarters of the radius.`);
+    }
+    if (flip) [x, y] = [y, x];
+    encoding.x = x; if (y) encoding.y = y;
+
+    const layers = [...extraLayers, { mark, encoding }];
+    let smoothApplied = false;
+    if (state.smooth) {
+      const ok = ["point", "line"].includes(g) && !polar && !flip && vtype("y") === "quantitative" && ["quantitative", "temporal"].includes(vtype("x"));
+      if (!ok) notes.push("Smoother skipped: in this proof of concept it needs a continuous x and y, a point or line geom, and plain cartesian coordinates.");
+      else {
+        const groupby = has("colour") && vtype("colour") === "nominal" ? [E.colour.field] : undefined;
+        const sm = { transform: [{ loess: E.y.field, on: E.x.field, ...(groupby ? { groupby } : {}) }], mark: { type: "line", strokeWidth: 2.5 },
+          encoding: { x: enc("x"), y: enc("y") } };
+        if (groupby) sm.encoding.color = enc("colour");
+        layers.push(sm);
+        smoothApplied = true;
+        if (groupby) notes.push(`One smoother per ${label("colour")} level: colour is mapped for the whole plot, so the smooth layer inherits it, as in ggplot2.`);
+      }
+    }
+    let spec;
+    const base = { $schema: "https://vega.github.io/schema/vega-lite/v5.json", data: { values: rows }, config: { view: { stroke: null }, axis: { grid: true, gridColor: "#eef1f3" } } };
+    if (has("facet")) {
+      // size panels to the space available, leaving room for the legend
+      const ncol = Math.min(col(E.facet.field).levels, 3);
+      const pw = Math.max(110, Math.floor((q("#mb-fig").clientWidth - 170) / ncol) - 30);
+      spec = { ...base, facet: { field: E.facet.field, type: "nominal", title: label("facet") }, columns: ncol,
+               spec: { width: pw, height: polar ? pw : Math.round(pw * 0.75), layer: layers } };
+    } else spec = { ...base, width, height, layer: layers };
+    return { spec, notes, smoothApplied, derived: polar };
+  }
+
+  // ---------- gg-spec YAML and ggplot2 code ----------
+  const rname = f => /^[A-Za-z.][A-Za-z0-9._]*$/.test(f) ? f : "`" + f + "`";
+  const stem = () => cur.file.replace(/^data\//, "").replace(/\.csv$/, "");
+  const aesKey = a => a === "colour" && FILL_GEOMS.includes(state.geom) ? "fill" : a;
+  const geomName = () => state.geom === "bar" && state.edges.y ? "col" : state.geom;
+  function yamlOf(res) {
+    const E = state.edges, L = [`data: ${stem()}`];
+    const m = ["x", "y", "colour", "size", "shape", "alpha"].filter(a => E[a]);
+    if (m.length) { L.push("mapping:"); for (const a of m) L.push(`  ${aesKey(a)}: ${E[a].asCat ? `factor(${E[a].field})` : E[a].field}`); }
+    else L.push("mapping: {}");
+    L.push("layers:", `  - geom: ${geomName()}`);
+    if (res.smoothApplied) L.push("  - geom: smooth");
+    if (E.facet) L.push("facets:", `  by: ${E.facet.field}`);
+    if (state.coord !== "cartesian") L.push(`coords: ${state.coord}`);
+    return L.join("\n");
+  }
+  function ggplotOf(res) {
+    const E = state.edges;
+    const term = a => E[a].asCat ? `factor(${rname(E[a].field)})` : rname(E[a].field);
+    const parts = ["x", "y", "colour", "size", "shape", "alpha"].filter(a => E[a]).map(a => `${aesKey(a)} = ${term(a)}`);
+    let aes = parts.join(", ");
+    if (aes.length > 52) aes = "\n    " + parts.join(",\n    ") + "\n  ";
+    const L = ["library(tidyverse)", "", `df <- read_csv("${cur.file}")`, "", `ggplot(df, aes(${aes})) +`, `  geom_${geomName()}() +`];
+    if (res.smoothApplied) L.push("  geom_smooth() +");
+    if (E.facet) L.push(`  facet_wrap(vars(${rname(E.facet.field)})) +`);
+    if (state.coord !== "cartesian") L.push(`  coord_${state.coord}() +`);
+    L.push("  theme_minimal(base_size = 13)");
+    return L.join("\n");
+  }
+  function vegaliteOf(res) {
+    if (!res.spec) return "";
+    const sp = JSON.parse(JSON.stringify(res.spec, (k, v) => k === "values" && Array.isArray(v) && v.length > 300 ? "__DATA__" : v));
+    sp.data = res.derived ? { url: cur.file, note: "polar positions (__px, __py) are computed by this page before drawing" } : { url: cur.file };
+    return JSON.stringify(sp, null, 2);
+  }
+
+  // ---------- render ----------
+  function drawTabs(res) {
+    const tabs = { yaml: ["gg-spec YAML", yamlOf], ggplot2: ["ggplot2", ggplotOf], vegalite: ["Vega-Lite", vegaliteOf] };
+    const bar = q("#mb-tabs"); bar.replaceChildren();
+    for (const [k, [lab]] of Object.entries(tabs))
+      bar.append(h("button", { role: "tab", "aria-selected": String(state.tab === k), onclick: () => { state.tab = k; drawTabs(res); } }, lab));
+    q("#mb-code").textContent = tabs[state.tab][1](res);
+  }
+  async function render() {
+    const seq = ++renderSeq;
+    const res = compile();
+    const status = q("#mb-status");
+    status.className = "mb-status" + (res.block ? " block" : res.notes.length ? " note" : "");
+    status.replaceChildren(...(res.block ? [res.block] : res.notes.map(n => h("div", {}, n))));
+    drawTabs(res);
+    if (view) { view.finalize(); view = null; }
+    const fig = q("#mb-fig");
+    if (res.block) { fig.replaceChildren(); return; }
+    try {
+      const out = await vegaEmbed(fig, res.spec, { actions: false, renderer: cur.rows.length > 5000 ? "canvas" : "svg" });
+      if (seq !== renderSeq) out.view.finalize(); else view = out.view;
+    } catch (err) {
+      status.className = "mb-status block"; status.textContent = "Vega-Lite could not draw this: " + err.message;
+    }
+  }
+  function writeHash() {
+    const p = new URLSearchParams({ ds: state.ds, t: state.t, geom: state.geom, coord: state.coord });
+    if (state.smooth) p.set("smooth", "1");
+    for (const [a, e] of Object.entries(state.edges)) p.set(a, e.field + (e.asCat ? "~cat" : ""));
+    history.replaceState(null, "", "#" + p.toString());
+  }
+  function readHash() {
+    const p = new URLSearchParams(location.hash.slice(1));
+    if (p.get("ds") && DATASETS.some(d => d.id === p.get("ds"))) state.ds = p.get("ds");
+    state.t = +p.get("t") || 0;
+    if (GEOMS.includes(p.get("geom"))) state.geom = p.get("geom");
+    if (COORDS.includes(p.get("coord"))) state.coord = p.get("coord");
+    state.smooth = p.get("smooth") === "1";
+    const edges = {};
+    for (const a of AES) { const v = p.get(a.id); if (v) { const [field, flag] = v.split("~"); edges[a.id] = { field, asCat: flag === "cat" }; } }
+    return edges;
+  }
+  function changed() { drawCanvas(); drawOptions(); writeHash(); render(); }
+  async function activate(pendingEdges) {
+    drawDatasets();
+    const d = DATASETS.find(x => x.id === state.ds);
+    if (!d.tables[state.t]) state.t = 0;
+    cur = null; drawSummary();
+    cur = await loadTable(d.tables[state.t]);
+    if (pendingEdges) for (const [a, e] of Object.entries(pendingEdges)) if (col(e.field)) state.edges[a] = { ...e, asCat: e.asCat && isNumeric(e.field) };
+    selectedVar = null;
+    drawSummary(); changed();
+  }
+  activate(readHash());
+})();
+</script>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

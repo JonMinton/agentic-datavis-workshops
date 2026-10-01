@@ -11,6 +11,10 @@ website:
         text: Home
       - href: example-gg-spec.qmd
         text: How a spec works
+      - href: mapping-builder.qmd
+        text: Mapping builder
+      - href: slides/2026-09-29-vishub.qmd
+        text: Slides
     right:
       - icon: github
         href: https://github.com/JonMinton/agentic-datavis-workshops
