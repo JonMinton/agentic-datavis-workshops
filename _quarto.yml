@@ -1,6 +1,14 @@
 project:
   type: website
   output-dir: docs
+  # Only these files are published. Without this list, a full render also turns every
+  # .md file (session notes, guides, README, LICENSE) into a public page.
+  render:
+    - index.qmd
+    - example-gg-spec.qmd
+    - mapping-builder.qmd
+    - slides/*.qmd
+    - sessions/*/office-data*.qmd
 
 website:
   title: "Agentic data-vis workshops"

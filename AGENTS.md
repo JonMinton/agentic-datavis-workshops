@@ -185,6 +185,10 @@ reachable via the Pocket MCP tools as a backup source.)
 - **Render gotcha:** rendering several files in one `quarto render a.qmd b.qmd` command can
   leak the wrong `<title>` into a page. **Render each changed page individually**, then
   verify with `grep '<title>' docs/<page>.html`.
+  The `render:` list in `_quarto.yml` is the set of published pages; add a new page there,
+  or a full render will skip it. A full `quarto render` also prunes two `site_libs` files
+  the reveal.js slides still use, so after one, re-render each `slides/*.qmd` individually
+  and check that `git status` shows no deleted `docs/site_libs` files.
 - **Publishing:** GitHub Pages serves from `docs/` on `main`, so `docs/` and `_freeze/` are
   **committed, not ignored**. A change isn't live until the rendered HTML is committed.
   The repo is **public**, so anything committed is published: never commit transcripts,
