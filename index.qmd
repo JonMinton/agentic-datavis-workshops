@@ -47,4 +47,6 @@ never published.
 ## Sessions
 
 - **2026-09-29, a demonstration at a university data-vis lab.**
-  [Slides](slides/2026-09-29-vishub.qmd). The dataset was chosen by the room.
+  [Slides](slides/2026-09-29-vishub.qmd). The room chose *The Office*: IMDb ratings for
+  every episode, built into a season-by-episode heatmap and then ratings over air date.
+  [The session workbook](sessions/2026-09-29/office-data.qmd).

@@ -50,4 +50,11 @@ live, so no other layer can be assumed).
 
 ## Decisions and pain points (log live)
 
--
+- Format on the day: hybrid, not in person only. Six or seven attendees: two in the
+  room, the rest remote. No recording and no transcript. No consent record, so no one
+  is named on the session page.
+- The room chose TidyTuesday 2020-03-17, The Office. Specs are in `specs/` (01 heatmap,
+  02 rating over air date), and the workbook page is `office-data.qmd`.
+- Spec 02: shape by season was dropped (6 default shapes, 9 seasons). Season mapped as
+  `factor(season)` to colour, with one smoother per season.
+- Facilitator reflections and next steps are at the end of `office-data.qmd`.

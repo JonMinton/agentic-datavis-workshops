@@ -237,4 +237,4 @@ facilitators choose. The standing grammar-of-graphics reading list is `sessions/
 
 | Session | Date | Grammar layer | Dataset | Page |
 |---|---|---|---|---|
-| — | — | — | — | *(append a row when a session ends)* |
+| 1 | 2026-09-29 | Data & aesthetic mappings | TidyTuesday 2020-03-17, The Office | `sessions/2026-09-29/office-data.qmd` |

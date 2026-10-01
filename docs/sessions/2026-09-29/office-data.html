@@ -164,6 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#a-first-figure-ratings-by-season-and-episode" id="toc-a-first-figure-ratings-by-season-and-episode" class="nav-link" data-scroll-target="#a-first-figure-ratings-by-season-and-episode">A first figure: ratings by season and episode</a></li>
   <li><a href="#a-second-figure-ratings-over-air-date" id="toc-a-second-figure-ratings-over-air-date" class="nav-link" data-scroll-target="#a-second-figure-ratings-over-air-date">A second figure: ratings over air date</a></li>
   <li><a href="#what-the-data-cant-say" id="toc-what-the-data-cant-say" class="nav-link" data-scroll-target="#what-the-data-cant-say">What the data can’t say</a></li>
+  <li><a href="#reflections-on-in-personhybrid-session" id="toc-reflections-on-in-personhybrid-session" class="nav-link" data-scroll-target="#reflections-on-in-personhybrid-session">Reflections on in-person/hybrid session</a></li>
   </ul>
 </nav>
     </div>
@@ -173,7 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">The Office: what’s in the data</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
-<p class="subtitle lead">Dataset overview · TidyTuesday 2020-03-17</p>
+<p class="subtitle lead">Session 1 · TidyTuesday 2020-03-17 · Grammar layer: data &amp; aesthetic mappings</p>
 </div>
 
 
@@ -196,17 +197,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Not a session page: a dataset overview
+<span class="screen-reader-only">Tip</span>Session 1 · 2026-09-29 · facilitated by Jon Minton
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This page describes the data at a high level before any design decisions are made. It makes no choices about mappings, geoms or scales. Those belong to the group. <a href="../../index.html">How these sessions work</a>.</p>
+<p>With six or seven participants, two in the room and the rest joining remotely. No one is named, because no consent record was taken. Design decisions were made live by the group. This page is the workbook as it stood at the end of the session, prepared by Claude Opus 5.5 from the spec files and figures, with reflections added by the facilitator. The session was not recorded, and the page was approved before publishing. <a href="../../index.html">How these sessions work</a>.</p>
 </div>
 </div>
 <p>TidyTuesday for 2020-03-17 covers the US version of <em>The Office</em> (NBC, 2005–2013). The week itself ships one table, IMDb ratings per episode, and points to the <a href="https://bradlindblad.github.io/schrute/"><code>schrute</code></a> R package for the full dialogue. Both are described here.</p>
@@ -603,7 +604,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-heatmap" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Heatmap of IMDb rating for each episode of The Office, seasons as rows and episode number as columns." width="1350">
+<div id="fig-heatmap" class="quarto-float quarto-figure quarto-figure-center anchored" width="1350" alt="Heatmap of IMDb rating for each episode of The Office, seasons as rows and episode number as columns.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="office-data_files/figure-html/fig-heatmap-1.png" id="fig-heatmap" class="img-fluid figure-img" alt="Heatmap of IMDb rating for each episode of The Office, seasons as rows and episode number as columns." width="1350">
@@ -648,7 +649,7 @@ Figure&nbsp;1
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
-<div id="fig-airdate" class="quarto-float quarto-figure quarto-figure-center anchored" alt="IMDb rating of each episode of The Office against air date, coloured by season, with a separate smoother for each season." width="1350">
+<div id="fig-airdate" class="quarto-float quarto-figure quarto-figure-center anchored" width="1350" alt="IMDb rating of each episode of The Office against air date, coloured by season, with a separate smoother for each season.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-airdate-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="office-data_files/figure-html/fig-airdate-1.png" id="fig-airdate" class="img-fluid figure-img" alt="IMDb rating of each episode of The Office against air date, coloured by season, with a separate smoother for each season." width="1350">
@@ -671,6 +672,29 @@ Figure&nbsp;2
 <section id="what-the-data-cant-say" class="level2">
 <h2 class="anchored" data-anchor-id="what-the-data-cant-say">What the data can’t say</h2>
 <p>IMDb ratings come from self-selected raters voting years after broadcast, so they measure how the show is remembered by people who chose to rate it. They don’t measure how it was received at the time. The episode counts also differ between tables (188 rated episodes against 186 in the transcripts). The sources likely split two-part episodes differently. Check any join for dropped rows. The transcripts are fan-made, so character labels are inconsistent: the same person can appear under several spellings, which inflates the character count.</p>
+</section>
+<section id="reflections-on-in-personhybrid-session" class="level2">
+<h2 class="anchored" data-anchor-id="reflections-on-in-personhybrid-session">Reflections on in-person/hybrid session</h2>
+<ul>
+<li><p>Some people had preference for something more GUI/point-and-click rather than the dev-style IDE presented.</p>
+<ul>
+<li>My discussion about text-based ragged data structures, like the YAML/JSON-like universal gg specification offered in the <code>gg-spec</code> skill, might have been too close to the bedrock on average.</li>
+</ul></li>
+<li><p>Less resistance to CC/Codex taking over implementation tasks than I was expecting.</p></li>
+<li><p>Soft support for key argument made: that more of analysts/analytical knowledge workers’ time should be spent on the design decisions.</p>
+<ul>
+<li><p>e.g.&nbsp;I mentioned ggplot2 used to have qplot, but the defaults took too many important design decisions from the user, so was deprecated.</p></li>
+<li><p>This is now the ‘stuff to sweat’, though maybe a gui will help even more</p></li>
+</ul></li>
+<li><p>Less continual iteration over specific visualisation. Didn’t get to show committing as like rappeling in rock climbing, and this being an organic process.</p></li>
+</ul>
+<p>Next steps:</p>
+<ul class="task-list">
+<li><p><label><input type="checkbox">Get workbook at the end of the session committed and rendered as a page on github pages for showing to attendees.</label></p></li>
+<li><p><label><input type="checkbox">Get a second version of the workshop doc with incremental improvements to visualisation also shown, along with a ‘wow’ visualisation’, such as a 3D plot, and something generated by Opus 5.5 autonomously.</label></p></li>
+<li><p><label><input type="checkbox">Produce a skill with replicates a tableau-style gui way of specifying mapping from dataset features to visual aesthetics in a ggplot2 way. Have this as another page along with some ready datasets to select from.</label></p></li>
+<li><p><label><input type="checkbox">Contextualise what the workshop showed as one key aspect of one of the three modules I’m developing for the Knowledge Tree collection, namely ‘Science Supercharged’. Give links and a description to the broader package and illustrative savings in total time through collapsing of implementation time.</label></p></li>
+</ul>
 
 
 <!-- -->
@@ -1131,182 +1155,189 @@ Figure&nbsp;2
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "The Office: what's in the data"</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Dataset overview · TidyTuesday 2020-03-17"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Session 1 · TidyTuesday 2020-03-17 · Grammar layer: data &amp; aesthetic mappings"</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 2026-09-29</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon="false"}</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Not a session page: a dataset overview</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>This page describes the data at a high level before any design decisions are made. It makes no choices about mappings, geoms or scales. Those belong to the group. <span class="co">[</span><span class="ot">How these sessions work</span><span class="co">](../../index.qmd)</span>.</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>TidyTuesday for 2020-03-17 covers the US version of *The Office* (NBC, 2005–2013). The week itself ships one table, IMDb ratings per episode, and points to the <span class="co">[</span><span class="ot">`schrute`</span><span class="co">](https://bradlindblad.github.io/schrute/)</span> R package for the full dialogue. Both are described here.</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reproducing this page</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>Runs from two CSVs cached in <span class="in">`data/`</span>. The ratings CSV is committed in this repository. The transcripts CSV holds the show's full dialogue, so it is not committed; the second block below rebuilds it locally. To refresh from source:</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># IMDb ratings: the TidyTuesday week</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-03-17/office_ratings.csv"</span>,</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/tt-2020-03-17-office_ratings.csv"</span>)</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Transcripts: the schrute package's data, read without installing the package</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".rda"</span>)</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/bradlindblad/schrute/master/data/theoffice.rda"</span>,</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  tmp, <span class="at">mode =</span> <span class="st">"wb"</span>)</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(tmp)</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_csv</span>(theoffice, <span class="st">"data/schrute-theoffice.csv"</span>)</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>Packages: <span class="in">`tidyverse`</span>. Sources: IMDb ratings via <span class="co">[</span><span class="ot">data.world</span><span class="co">](https://data.world/anujjain7/the-office-imdb-ratings-dataset)</span>; transcripts via Brad Lindblad's <span class="co">[</span><span class="ot">`schrute`</span><span class="co">](https://github.com/bradlindblad/schrute)</span> package (MIT), from fan transcriptions; both through TidyTuesday <span class="co">[</span><span class="ot">2020-03-17</span><span class="co">](https://github.com/rfordatascience/tidytuesday/tree/main/data/2020/2020-03-17)</span>.</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup}</span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>ratings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/tt-2020-03-17-office_ratings.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>lines   <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/schrute-theoffice.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>n_ep_lines   <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(lines<span class="sc">$</span>season, lines<span class="sc">$</span>episode)</span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>n_characters <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(lines<span class="sc">$</span>character)</span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>top_speakers <span class="ot">&lt;-</span> lines <span class="sc">|&gt;</span> <span class="fu">count</span>(character, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## At a glance</span></span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Table <span class="pp">|</span> Grain <span class="pp">|</span> Rows × columns <span class="pp">|</span></span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`office_ratings`</span> <span class="pp">|</span> one row per episode <span class="pp">|</span> <span class="in">`r nrow(ratings)`</span> × <span class="in">`r ncol(ratings)`</span> <span class="pp">|</span></span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`theoffice`</span> (schrute) <span class="pp">|</span> one row per spoken line <span class="pp">|</span> <span class="in">`r format(nrow(lines), big.mark = ",")`</span> × <span class="in">`r ncol(lines)`</span> <span class="pp">|</span></span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>The two tables share <span class="in">`season`</span> and <span class="in">`episode`</span>, which is the join key. The transcript table already carries the IMDb rating, vote count and air date on every line, so it is effectively a line-level table with episode-level columns repeated on each row.</span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## `office_ratings`: one row per episode</span></span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="in">`r nrow(ratings)`</span> episodes across <span class="in">`r n_distinct(ratings$season)`</span> seasons, aired between <span class="in">`r format(min(ratings$air_date), "%B %Y")`</span> and <span class="in">`r format(max(ratings$air_date), "%B %Y")`</span>. IMDb ratings run from <span class="in">`r min(ratings$imdb_rating)`</span> to <span class="in">`r max(ratings$imdb_rating)`</span>, and vote counts from <span class="in">`r format(min(ratings$total_votes), big.mark = ",")`</span> to <span class="in">`r format(max(ratings$total_votes), big.mark = ",")`</span>. There are no missing values.</span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r ratings-head}</span></span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ratings)</span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Type (grammar terms) <span class="pp">|</span> Notes <span class="pp">|</span></span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`season`</span> <span class="pp">|</span> discrete<span class="sc">\*</span> (<span class="in">`r n_distinct(ratings$season)`</span> levels) <span class="pp">|</span> whole numbers, so whether it is discrete or continuous is a decision <span class="pp">|</span></span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`episode`</span> <span class="pp">|</span> continuous, or ordinal within season <span class="pp">|</span> numbering restarts each season <span class="pp">|</span></span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`title`</span> <span class="pp">|</span> identifier <span class="pp">|</span> a label, not an aesthetic <span class="pp">|</span></span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`imdb_rating`</span> <span class="pp">|</span> continuous <span class="pp">|</span> 10 is best <span class="pp">|</span></span>
-<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`total_votes`</span> <span class="pp">|</span> continuous <span class="pp">|</span> IMDb users who rated the episode <span class="pp">|</span></span>
-<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`air_date`</span> <span class="pp">|</span> temporal <span class="pp">|</span> original US air date <span class="pp">|</span></span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## `theoffice`: one row per spoken line</span></span>
-<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a><span class="in">`r format(nrow(lines), big.mark = ",")`</span> lines of dialogue from <span class="in">`r n_ep_lines`</span> episodes, spoken by <span class="in">`r n_characters`</span> distinct character labels. The most frequent speakers are <span class="in">`r paste0(top_speakers$character, " (", format(top_speakers$n, big.mark = ",", trim = TRUE), ")", collapse = ", ")`</span>.</span>
-<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lines-head}</span></span>
-<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>lines <span class="sc">|&gt;</span></span>
-<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(text, text_w_direction, writer), \(x) <span class="fu">str_trunc</span>(x, <span class="dv">40</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
-<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Type (grammar terms) <span class="pp">|</span> Notes <span class="pp">|</span></span>
-<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
-<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`index`</span> <span class="pp">|</span> identifier / order <span class="pp">|</span> running line number across the whole series <span class="pp">|</span></span>
-<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`season`</span>, <span class="in">`episode`</span>, <span class="in">`episode_name`</span> <span class="pp">|</span> discrete <span class="pp">|</span> the join key back to <span class="in">`office_ratings`</span> <span class="pp">|</span></span>
-<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`director`</span>, <span class="in">`writer`</span> <span class="pp">|</span> discrete (many levels) <span class="pp">|</span> <span class="in">`writer`</span> can hold several names separated by <span class="in">`;`</span> <span class="pp">|</span></span>
-<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`character`</span> <span class="pp">|</span> discrete (<span class="in">`r n_characters`</span> levels) <span class="pp">|</span> far too many for colour. Filter or lump first <span class="pp">|</span></span>
-<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`text`</span>, <span class="in">`text_w_direction`</span> <span class="pp">|</span> free text <span class="pp">|</span> the second keeps stage directions in brackets <span class="pp">|</span></span>
-<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`imdb_rating`</span>, <span class="in">`total_votes`</span>, <span class="in">`air_date`</span> <span class="pp">|</span> as above <span class="pp">|</span> repeated on every line of an episode <span class="pp">|</span></span>
-<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a><span class="fu">## A first figure: ratings by season and episode</span></span>
-<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>The first spec asked for a heatmap: season as rows, episode number as columns, and IMDb</span>
-<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a>rating as fill. Everything else is left at ggplot2's defaults.</span>
-<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
-<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="co"># sessions/2026-09-29/specs/01-office-heatmap.yml</span></span>
-<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> tt-2020-03-17-office_ratings</span></span>
-<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="fu">mapping</span><span class="kw">:</span></span>
-<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">x</span><span class="kw">:</span><span class="at"> episode</span></span>
-<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">y</span><span class="kw">:</span><span class="at"> season</span></span>
-<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">fill</span><span class="kw">:</span><span class="at"> imdb_rating</span></span>
-<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="fu">layers</span><span class="kw">:</span></span>
-<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> tile</span></span>
-<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig-heatmap}</span></span>
-<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Heatmap of IMDb rating for each episode of The Office, seasons as rows and episode number as columns."</span></span>
-<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ratings, <span class="fu">aes</span>(<span class="at">x =</span> episode, <span class="at">y =</span> season, <span class="at">fill =</span> imdb_rating)) <span class="sc">+</span></span>
-<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
-<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip icon="false"}</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## Session 1 · 2026-09-29 · facilitated by Jon Minton</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>With six or seven participants, two in the room and the rest joining remotely. No one is named, because no consent record was taken. Design decisions were made live by the group. This page is the workbook as it stood at the end of the session, prepared by Claude Opus 5.5 from the spec files and figures, with reflections added by the facilitator. The session was not recorded, and the page was approved before publishing. <span class="co">[</span><span class="ot">How these sessions work</span><span class="co">](../../index.qmd)</span>.</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>TidyTuesday for 2020-03-17 covers the US version of *The Office* (NBC, 2005–2013). The week itself ships one table, IMDb ratings per episode, and points to the <span class="co">[</span><span class="ot">`schrute`</span><span class="co">](https://bradlindblad.github.io/schrute/)</span> R package for the full dialogue. Both are described here.</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reproducing this page</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>Runs from two CSVs cached in <span class="in">`data/`</span>. The ratings CSV is committed in this repository. The transcripts CSV holds the show's full dialogue, so it is not committed; the second block below rebuilds it locally. To refresh from source:</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># IMDb ratings: the TidyTuesday week</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-03-17/office_ratings.csv"</span>,</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/tt-2020-03-17-office_ratings.csv"</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Transcripts: the schrute package's data, read without installing the package</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".rda"</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://raw.githubusercontent.com/bradlindblad/schrute/master/data/theoffice.rda"</span>,</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  tmp, <span class="at">mode =</span> <span class="st">"wb"</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(tmp)</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">write_csv</span>(theoffice, <span class="st">"data/schrute-theoffice.csv"</span>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>Packages: <span class="in">`tidyverse`</span>. Sources: IMDb ratings via <span class="co">[</span><span class="ot">data.world</span><span class="co">](https://data.world/anujjain7/the-office-imdb-ratings-dataset)</span>; transcripts via Brad Lindblad's <span class="co">[</span><span class="ot">`schrute`</span><span class="co">](https://github.com/bradlindblad/schrute)</span> package (MIT), from fan transcriptions; both through TidyTuesday <span class="co">[</span><span class="ot">2020-03-17</span><span class="co">](https://github.com/rfordatascience/tidytuesday/tree/main/data/2020/2020-03-17)</span>.</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup}</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>ratings <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/tt-2020-03-17-office_ratings.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>lines   <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"../../data/schrute-theoffice.csv"</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>n_ep_lines   <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(lines<span class="sc">$</span>season, lines<span class="sc">$</span>episode)</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>n_characters <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(lines<span class="sc">$</span>character)</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>top_speakers <span class="ot">&lt;-</span> lines <span class="sc">|&gt;</span> <span class="fu">count</span>(character, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## At a glance</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Table <span class="pp">|</span> Grain <span class="pp">|</span> Rows × columns <span class="pp">|</span></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`office_ratings`</span> <span class="pp">|</span> one row per episode <span class="pp">|</span> <span class="in">`r nrow(ratings)`</span> × <span class="in">`r ncol(ratings)`</span> <span class="pp">|</span></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`theoffice`</span> (schrute) <span class="pp">|</span> one row per spoken line <span class="pp">|</span> <span class="in">`r format(nrow(lines), big.mark = ",")`</span> × <span class="in">`r ncol(lines)`</span> <span class="pp">|</span></span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>The two tables share <span class="in">`season`</span> and <span class="in">`episode`</span>, which is the join key. The transcript table already carries the IMDb rating, vote count and air date on every line, so it is effectively a line-level table with episode-level columns repeated on each row.</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## `office_ratings`: one row per episode</span></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="in">`r nrow(ratings)`</span> episodes across <span class="in">`r n_distinct(ratings$season)`</span> seasons, aired between <span class="in">`r format(min(ratings$air_date), "%B %Y")`</span> and <span class="in">`r format(max(ratings$air_date), "%B %Y")`</span>. IMDb ratings run from <span class="in">`r min(ratings$imdb_rating)`</span> to <span class="in">`r max(ratings$imdb_rating)`</span>, and vote counts from <span class="in">`r format(min(ratings$total_votes), big.mark = ",")`</span> to <span class="in">`r format(max(ratings$total_votes), big.mark = ",")`</span>. There are no missing values.</span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a><span class="in">```{r ratings-head}</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ratings)</span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Type (grammar terms) <span class="pp">|</span> Notes <span class="pp">|</span></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`season`</span> <span class="pp">|</span> discrete<span class="sc">\*</span> (<span class="in">`r n_distinct(ratings$season)`</span> levels) <span class="pp">|</span> whole numbers, so whether it is discrete or continuous is a decision <span class="pp">|</span></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`episode`</span> <span class="pp">|</span> continuous, or ordinal within season <span class="pp">|</span> numbering restarts each season <span class="pp">|</span></span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`title`</span> <span class="pp">|</span> identifier <span class="pp">|</span> a label, not an aesthetic <span class="pp">|</span></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`imdb_rating`</span> <span class="pp">|</span> continuous <span class="pp">|</span> 10 is best <span class="pp">|</span></span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`total_votes`</span> <span class="pp">|</span> continuous <span class="pp">|</span> IMDb users who rated the episode <span class="pp">|</span></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`air_date`</span> <span class="pp">|</span> temporal <span class="pp">|</span> original US air date <span class="pp">|</span></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a><span class="fu">## `theoffice`: one row per spoken line</span></span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a><span class="in">`r format(nrow(lines), big.mark = ",")`</span> lines of dialogue from <span class="in">`r n_ep_lines`</span> episodes, spoken by <span class="in">`r n_characters`</span> distinct character labels. The most frequent speakers are <span class="in">`r paste0(top_speakers$character, " (", format(top_speakers$n, big.mark = ",", trim = TRUE), ")", collapse = ", ")`</span>.</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a><span class="in">```{r lines-head}</span></span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>lines <span class="sc">|&gt;</span></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(text, text_w_direction, writer), \(x) <span class="fu">str_trunc</span>(x, <span class="dv">40</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable <span class="pp">|</span> Type (grammar terms) <span class="pp">|</span> Notes <span class="pp">|</span></span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a><span class="pp">|------------------------|------------------------|------------------------|</span></span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`index`</span> <span class="pp">|</span> identifier / order <span class="pp">|</span> running line number across the whole series <span class="pp">|</span></span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`season`</span>, <span class="in">`episode`</span>, <span class="in">`episode_name`</span> <span class="pp">|</span> discrete <span class="pp">|</span> the join key back to <span class="in">`office_ratings`</span> <span class="pp">|</span></span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`director`</span>, <span class="in">`writer`</span> <span class="pp">|</span> discrete (many levels) <span class="pp">|</span> <span class="in">`writer`</span> can hold several names separated by <span class="in">`;`</span> <span class="pp">|</span></span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`character`</span> <span class="pp">|</span> discrete (<span class="in">`r n_characters`</span> levels) <span class="pp">|</span> far too many for colour. Filter or lump first <span class="pp">|</span></span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`text`</span>, <span class="in">`text_w_direction`</span> <span class="pp">|</span> free text <span class="pp">|</span> the second keeps stage directions in brackets <span class="pp">|</span></span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`imdb_rating`</span>, <span class="in">`total_votes`</span>, <span class="in">`air_date`</span> <span class="pp">|</span> as above <span class="pp">|</span> repeated on every line of an episode <span class="pp">|</span></span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## A first figure: ratings by season and episode</span></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a>The first spec asked for a heatmap: season as rows, episode number as columns, and IMDb rating as fill. Everything else is left at ggplot2's defaults.</span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a><span class="in">``` yaml</span></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="co"># sessions/2026-09-29/specs/01-office-heatmap.yml</span></span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> tt-2020-03-17-office_ratings</span></span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="fu">mapping</span><span class="kw">:</span></span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">x</span><span class="kw">:</span><span class="at"> episode</span></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">y</span><span class="kw">:</span><span class="at"> season</span></span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">fill</span><span class="kw">:</span><span class="at"> imdb_rating</span></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a><span class="fu">layers</span><span class="kw">:</span></span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> tile</span></span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig-heatmap}</span></span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "Heatmap of IMDb rating for each episode of The Office, seasons as rows and episode number as columns."</span></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ratings, <span class="fu">aes</span>(<span class="at">x =</span> episode, <span class="at">y =</span> season, <span class="at">fill =</span> imdb_rating)) <span class="sc">+</span></span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>Looking at the render shows three defaults that nobody decided on:</span>
 <span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a>Looking at the render shows three defaults that nobody decided on:</span>
-<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`season`</span> is stored as a number, so ggplot2 treats it as continuous. The axis shows</span>
-<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>  breaks at 2.5, 5.0 and 7.5, which are seasons that don't exist.</span>
-<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The default continuous y scale puts season 1 at the bottom and season 9 at the top.</span>
-<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The default fill gradient runs from dark to light blue, which leaves little contrast</span>
-<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>  across the <span class="in">`r min(ratings$imdb_rating)`</span>–<span class="in">`r max(ratings$imdb_rating)`</span> range.</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`season`</span> is stored as a number, so ggplot2 treats it as continuous. The axis shows breaks at 2.5, 5.0 and 7.5, which are seasons that don't exist.</span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The default continuous y scale puts season 1 at the bottom and season 9 at the top.</span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The default fill gradient runs from dark to light blue, which leaves little contrast across the <span class="in">`r min(ratings$imdb_rating)`</span>–<span class="in">`r max(ratings$imdb_rating)`</span> range.</span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a>The ragged right edge shows how many episodes each season had. Season <span class="in">`r ratings |&gt; count(season) |&gt; slice_min(n, n = 1, with_ties = FALSE) |&gt; pull(season)`</span> is the shortest, with <span class="in">`r ratings |&gt; count(season) |&gt; pull(n) |&gt; min()`</span> episodes.</span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a><span class="fu">## A second figure: ratings over air date</span></span>
 <span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>The ragged right edge shows how many episodes each season had. Season</span>
-<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a><span class="in">`r ratings |&gt; count(season) |&gt; slice_min(n, n = 1, with_ties = FALSE) |&gt; pull(season)`</span></span>
-<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>is the shortest, with</span>
-<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="in">`r ratings |&gt; count(season) |&gt; pull(n) |&gt; min()`</span> episodes.</span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>The second spec puts each episode at its air date, colours it by season, and adds a smoother. Two decisions were made before compiling:</span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Season as a category.** <span class="in">`season`</span> is stored as a number, so the spec maps <span class="in">`factor(season)`</span> to colour, which gives one hue per season instead of a gradient. Shape was dropped: ggplot2's default shape palette has only six shapes, so seasons 7–9 would have gone missing.</span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**One smoother per season.** Colour is mapped for the whole plot, so the smooth layer inherits it and fits a separate curve to each season.</span>
 <span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="fu">## A second figure: ratings over air date</span></span>
-<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a>The second spec puts each episode at its air date, colours it by season, and adds a</span>
-<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a>smoother. Two decisions were made before compiling:</span>
-<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Season as a category.** <span class="in">`season`</span> is stored as a number, so the spec maps</span>
-<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a>  <span class="in">`factor(season)`</span> to colour, which gives one hue per season instead of a gradient. Shape</span>
-<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a>  was dropped: ggplot2's default shape palette has only six shapes, so seasons 7–9 would</span>
-<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a>  have gone missing.</span>
-<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**One smoother per season.** Colour is mapped for the whole plot, so the smooth layer</span>
-<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a>  inherits it and fits a separate curve to each season.</span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="in">``` yaml</span></span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a><span class="co"># sessions/2026-09-29/specs/02-office-airdate.yml</span></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> tt-2020-03-17-office_ratings</span></span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a><span class="fu">mapping</span><span class="kw">:</span></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">x</span><span class="kw">:</span><span class="at"> air_date</span></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">y</span><span class="kw">:</span><span class="at"> imdb_rating</span></span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">colour</span><span class="kw">:</span><span class="at"> factor(season)</span></span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a><span class="fu">layers</span><span class="kw">:</span></span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> point</span></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> smooth</span></span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a><span class="in">```yaml</span></span>
-<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="co"># sessions/2026-09-29/specs/02-office-airdate.yml</span></span>
-<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span><span class="kw">:</span><span class="at"> tt-2020-03-17-office_ratings</span></span>
-<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a><span class="fu">mapping</span><span class="kw">:</span></span>
-<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">x</span><span class="kw">:</span><span class="at"> air_date</span></span>
-<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">y</span><span class="kw">:</span><span class="at"> imdb_rating</span></span>
-<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">colour</span><span class="kw">:</span><span class="at"> factor(season)</span></span>
-<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a><span class="fu">layers</span><span class="kw">:</span></span>
-<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> point</span></span>
-<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> </span><span class="fu">geom</span><span class="kw">:</span><span class="at"> smooth</span></span>
-<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig-airdate}</span></span>
-<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "IMDb rating of each episode of The Office against air date, coloured by season, with a separate smoother for each season."</span></span>
-<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ratings, <span class="fu">aes</span>(<span class="at">x =</span> air_date, <span class="at">y =</span> imdb_rating, <span class="at">colour =</span> <span class="fu">factor</span>(season))) <span class="sc">+</span></span>
-<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
-<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
-<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a>Looking at the render:</span>
-<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The smoother defaults to loess, which is very wiggly when seasons are this short (a median of</span>
-<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a>  <span class="in">`r ratings |&gt; count(season) |&gt; pull(n) |&gt; median()`</span> episodes). Season 1's <span class="in">`r sum(ratings$season == 1)`</span> episodes give a spike with no</span>
-<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>  confidence ribbon, and R prints a warning while fitting it.</span>
-<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Season 4's ribbon balloons across a gap in its air dates. Loess is drawing a curve</span>
-<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a>  through months with no episodes.</span>
-<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Several seasons end on a rise, most sharply the finale at</span>
-<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a>  <span class="in">`r max(ratings$imdb_rating)`</span>. A flexible smoother bends towards the last point or two,</span>
-<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a>  so these end-of-season spikes need checking against the raw points before reading</span>
-<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a>  anything into them.</span>
-<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The legend title is the code <span class="in">`factor(season)`</span>, and the axis titles are raw variable</span>
-<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>  names, because the spec has no <span class="in">`labs`</span> block yet.</span>
-<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## What the data can't say</span></span>
-<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a>IMDb ratings come from self-selected raters voting years after broadcast, so they measure how the show is remembered by people who chose to rate it. They don't measure how it was received at the time. The episode counts also differ between tables (<span class="in">`r nrow(ratings)`</span> rated episodes against <span class="in">`r n_ep_lines`</span> in the transcripts). The sources likely split two-part episodes differently. Check any join for dropped rows. The transcripts are fan-made, so character labels are inconsistent: the same person can appear under several spellings, which inflates the character count.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r fig-airdate}</span></span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "IMDb rating of each episode of The Office against air date, coloured by season, with a separate smoother for each season."</span></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ratings, <span class="fu">aes</span>(<span class="at">x =</span> air_date, <span class="at">y =</span> imdb_rating, <span class="at">colour =</span> <span class="fu">factor</span>(season))) <span class="sc">+</span></span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>() <span class="sc">+</span></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a>Looking at the render:</span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The smoother defaults to loess, which is very wiggly when seasons are this short (a median of <span class="in">`r ratings |&gt; count(season) |&gt; pull(n) |&gt; median()`</span> episodes). Season 1's <span class="in">`r sum(ratings$season == 1)`</span> episodes give a spike with no confidence ribbon, and R prints a warning while fitting it.</span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Season 4's ribbon balloons across a gap in its air dates. Loess is drawing a curve through months with no episodes.</span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Several seasons end on a rise, most sharply the finale at <span class="in">`r max(ratings$imdb_rating)`</span>. A flexible smoother bends towards the last point or two, so these end-of-season spikes need checking against the raw points before reading anything into them.</span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The legend title is the code <span class="in">`factor(season)`</span>, and the axis titles are raw variable names, because the spec has no <span class="in">`labs`</span> block yet.</span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="fu">## What the data can't say</span></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>IMDb ratings come from self-selected raters voting years after broadcast, so they measure how the show is remembered by people who chose to rate it. They don't measure how it was received at the time. The episode counts also differ between tables (<span class="in">`r nrow(ratings)`</span> rated episodes against <span class="in">`r n_ep_lines`</span> in the transcripts). The sources likely split two-part episodes differently. Check any join for dropped rows. The transcripts are fan-made, so character labels are inconsistent: the same person can appear under several spellings, which inflates the character count.</span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reflections on in-person/hybrid session</span></span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Some people had preference for something more GUI/point-and-click rather than the dev-style IDE presented.</span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>My discussion about text-based ragged data structures, like the YAML/JSON-like universal gg specification offered in the <span class="in">`gg-spec`</span> skill, might have been too close to the bedrock on average.</span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Less resistance to CC/Codex taking over implementation tasks than I was expecting.</span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Soft support for key argument made: that more of analysts/analytical knowledge workers' time should be spent on the design decisions.</span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>e.g. I mentioned ggplot2 used to have qplot, but the defaults took too many important design decisions from the user, so was deprecated.</span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>This is now the 'stuff to sweat', though maybe a gui will help even more</span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Less continual iteration over specific visualisation. Didn't get to show committing as like rappeling in rock climbing, and this being an organic process.</span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a>Next steps:</span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Get workbook at the end of the session committed and rendered as a page on github pages for showing to attendees.</span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Get a second version of the workshop doc with incremental improvements to visualisation also shown, along with a 'wow' visualisation', such as a 3D plot, and something generated by Opus 5.5 autonomously.</span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Produce a skill with replicates a tableau-style gui way of specifying mapping from dataset features to visual aesthetics in a ggplot2 way. Have this as another page along with some ready datasets to select from.</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> Contextualise what the workshop showed as one key aspect of one of the three modules I'm developing for the Knowledge Tree collection, namely 'Science Supercharged'. Give links and a description to the broader package and illustrative savings in total time through collapsing of implementation time.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
