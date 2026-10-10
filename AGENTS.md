@@ -158,7 +158,7 @@ reachable via the Pocket MCP tools as a backup source.)
 
 ## Toolchain (Jon's machine — see "For agents other than Claude" if elsewhere)
 
-- **IDE: Positron** (1.124 as of 2026-09-28), a VS Code fork that pulls extensions from
+- **IDE: Positron** (2026.09.1, Code OSS 1.130, as of 2026-10-09), a VS Code fork that pulls extensions from
   Open VSX. Both agent extensions are installed there: **Claude Code**
   (`anthropic.claude-code`) and **Codex** (`openai.chatgpt`). Install either one with
   `/Applications/Positron.app/Contents/Resources/app/bin/code --install-extension <id>`,
@@ -172,6 +172,9 @@ reachable via the Pocket MCP tools as a backup source.)
   area. One agent panel goes in the secondary side bar, and the other agent, if both are
   in use, goes in the panel or as an editor tab. The terminal stays minimised. Positron's
   Console, Variables and Plots panes belong to the humans (see "Working live" below).
+  In Positron both agents' **only** icons are in the secondary side bar, so closing that bar
+  hides both. Recovery steps and pre-session settings are in
+  `sessions/positron-live-setup.md`.
 - **R:** framework R 4.5.2 at
   `/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/bin` — the only install
   with the full tidyverse. The default `Rscript` on `PATH` is a stale anaconda R 4.1.1;

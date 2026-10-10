@@ -15,6 +15,9 @@ there is no fixed schedule or organising group. Choose a scope that fits your ro
    you will use. Check projector readability, image inspection, command approvals,
    and access to the agent service. Use an institution-approved service where needed;
    the live workflow still requires shell access, file editing, and image reading.
+   In Positron, update the agent extensions the day before rather than on the day,
+   and know how to restore the agent panels
+   ([Positron live setup](positron-live-setup.md)).
    A chat-only interface can discuss the spec while a human runs and inspects code.
 3. Fetch the chosen dataset in advance and keep a cached fallback such as penguins.
    Open the worked example and its rendered figures before the session. Cached data
