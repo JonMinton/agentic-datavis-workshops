@@ -23,3 +23,8 @@ sessions/**/*.vtt
 # Full show transcripts (schrute package data): the dialogue itself, so not redistributed
 # from this public repo. Rebuild locally with the code in sessions/2026-09-29/office-data.qmd.
 data/schrute-theoffice.csv
+
+# In-place renders of session pages that aren't in _quarto.yml's render list.
+# Published pages render to docs/; these local previews are not published.
+sessions/**/*.html
+sessions/**/*_files/
