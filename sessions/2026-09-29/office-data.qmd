@@ -6,6 +6,7 @@ date: 2026-09-29
 
 ::: {.callout-tip icon="false"}
 ## Session 1 · 2026-09-29 · facilitated by Jon Minton
+
 With six or seven participants, two in the room and the rest joining remotely. No one is named, because no consent record was taken. Design decisions were made live by the group. This page is the workbook as it stood at the end of the session, prepared by Claude Opus 5.5 from the spec files and figures, with reflections added by the facilitator. The session was not recorded, and the page was approved before publishing. [How these sessions work](../../index.qmd).
 :::
 
