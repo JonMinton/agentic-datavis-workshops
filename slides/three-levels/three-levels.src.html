@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Chart, Three Levels</title>
+<style>
+:root {
+  --bg: #fbfaf7; --ink: #1d1f24; --muted: #6b6f78; --faint: #d9d6cf; --panel: #ffffff;
+  --accent: #0f6e8c; --accent-soft: #e3f1f5; --hl: #c2410c; --hl-soft: #fdebe1;
+  --code-bg: #f4f2ed; --str: #8a4b00; --com: #8b8f97;
+  --c1: #E69F00; --c2: #56B4E9; --c3: #009E73;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #2a2c31; font-family: var(--sans); color: var(--ink); }
+#viewport { position: fixed; inset: 0; display: grid; place-items: center; overflow: hidden; }
+#stage { width: 1280px; height: 720px; position: relative; transform-origin: center center; }
+.slide { position: absolute; inset: 0; background: var(--bg); padding: 44px 56px; display: none; overflow: hidden; }
+.slide.current { display: block; }
+h1 { font-size: 46px; margin: 0 0 8px; letter-spacing: -0.5px; }
+h2 { font-size: 30px; margin: 0 0 4px; letter-spacing: -0.3px; }
+.kicker { font-size: 15px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+.sub { color: var(--muted); font-size: 18px; margin: 0; }
+.foot { position: absolute; left: 56px; right: 56px; bottom: 18px; display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; }
+/* stepping */
+[data-step], [data-only], [data-from-to] { transition: opacity .25s ease; }
+.hidden { opacity: 0 !important; visibility: hidden; }
+/* rail (option A) */
+.railwrap { position: absolute; top: 132px; left: 56px; bottom: 60px; width: 250px; }
+.rail { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 6px 0 6px 34px; }
+.rail::before { content: ""; position: absolute; left: 14px; top: 26px; bottom: 26px; width: 3px; background: var(--faint); border-radius: 2px; }
+.node { position: relative; padding: 10px 12px; border-radius: 10px; border: 2px solid transparent; transition: all .25s ease; }
+.node::before { content: ""; position: absolute; left: -29px; top: 16px; width: 16px; height: 16px; border-radius: 50%; background: var(--bg); border: 3px solid var(--faint); transition: all .25s ease; }
+.node .lv { font-size: 12px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); }
+.node .nm { font-size: 20px; font-weight: 650; }
+.node .ds { font-size: 13.5px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+.node.optional .nm::after { content: " (optional)"; font-weight: 400; font-size: 13px; color: var(--muted); }
+.node.active { border-color: var(--accent); background: var(--accent-soft); }
+.node.active::before { background: var(--accent); border-color: var(--accent); }
+.node.done::before { background: var(--accent); border-color: var(--accent); opacity: .45; }
+.axis { position: absolute; left: -26px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; font-size: 11px; color: var(--muted); writing-mode: vertical-rl; transform: rotate(180deg); }
+.window { position: absolute; top: 132px; left: 340px; right: 56px; bottom: 60px; background: var(--panel); border: 1px solid var(--faint); border-radius: 14px; box-shadow: 0 6px 24px rgba(0,0,0,.06); overflow: hidden; }
+.pane { position: absolute; inset: 0; padding: 22px 26px; }
+.pane h3 { margin: 0 0 12px; font-size: 18px; color: var(--muted); font-weight: 600; }
+.prompt { font-size: 30px; line-height: 1.35; padding: 30px 34px; background: var(--code-bg); border-radius: 12px; border-left: 6px solid var(--accent); font-family: Georgia, "Times New Roman", serif; }
+.note { font-size: 15.5px; color: var(--muted); margin-top: 14px; line-height: 1.4; }
+.note b { color: var(--ink); }
+/* code */
+pre.code { margin: 0; font-family: var(--mono); font-size: 16.5px; line-height: 1.45; background: var(--code-bg); border-radius: 10px; padding: 14px 18px; white-space: pre; overflow: hidden; }
+pre.code.small { font-size: 13px; line-height: 1.38; }
+pre.code.tiny { font-size: 11.5px; line-height: 1.32; }
+.tok-str { color: var(--str); }
+.tok-com { color: var(--com); font-style: italic; }
+.tok-key { color: var(--accent); font-weight: 600; }
+.line-hl { background: var(--hl-soft); box-shadow: inset 3px 0 0 var(--hl); display: inline-block; width: 100%; }
+/* vertical subtabs for code */
+.codegrid { position: absolute; inset: 22px 26px; display: grid; grid-template-columns: 150px 1fr; gap: 18px; }
+.vtabs { display: flex; flex-direction: column; gap: 10px; }
+.vtab { padding: 12px 14px; border-radius: 10px; border: 2px solid var(--faint); font-weight: 650; font-size: 16px; color: var(--muted); transition: all .2s ease; }
+.vtab small { display: block; font-weight: 400; font-size: 12.5px; margin-top: 2px; }
+.vtab.on { border-color: var(--accent); color: var(--ink); background: var(--accent-soft); }
+.codebox { position: relative; }
+.codebox > div { position: absolute; inset: 0; }
+/* mapping diagram */
+.mapsvg { width: 100%; height: auto; display: block; }
+.mapsvg text { font-family: var(--mono); }
+/* option B stack */
+.stack { position: absolute; top: 128px; left: 56px; right: 56px; bottom: 56px; display: flex; flex-direction: column; gap: 10px; }
+.band { border: 1px solid var(--faint); border-radius: 12px; background: var(--panel); overflow: hidden; transition: flex .35s ease, opacity .25s ease; display: flex; }
+.band .tag { width: 150px; flex: none; padding: 12px 14px; border-right: 1px solid var(--faint); background: #f7f6f2; }
+.band .tag .lv { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); }
+.band .tag .nm { font-size: 18px; font-weight: 650; }
+.band .body { flex: 1; padding: 10px 16px; overflow: hidden; position: relative; }
+.band .full, .band .mini { position: absolute; inset: 10px 16px; transition: opacity .25s ease; }
+.band .mini { font-family: var(--mono); font-size: 14.5px; display: block; line-height: 44px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); }
+.band.collapsed { flex: 0 0 64px; }
+.band.collapsed .full { opacity: 0; }
+.band:not(.collapsed) .mini { opacity: 0; }
+.band.open { flex: 1 1 auto; border-color: var(--accent); }
+.band.open .tag { background: var(--accent-soft); }
+.band.waiting { flex: 0 0 64px; opacity: .25; }
+.band.waiting .full { opacity: 0; }
+.hlword { background: var(--hl-soft); color: var(--hl); padding: 0 4px; border-radius: 4px; font-weight: 600; }
+/* option C fan-out */
+.fan { position: absolute; top: 120px; left: 56px; right: 56px; bottom: 50px; display: grid; grid-template-rows: auto auto 1fr; gap: 10px; }
+.fan .row1 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: stretch; }
+.fan .card { background: var(--panel); border: 1px solid var(--faint); border-radius: 12px; padding: 10px 14px; position: relative; }
+.fan .card .lab { font-size: 11.5px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+.fan .row3 { display: grid; grid-template-columns: 1fr 1fr 1.25fr; gap: 12px; min-height: 0; }
+.fan .row3 .card { overflow: hidden; }
+.fan .row3 pre.code { white-space: pre-wrap; word-break: break-all; font-size: 10.5px; line-height: 1.3; }
+.arrows { height: 26px; position: relative; }
+.arrows svg { width: 100%; height: 100%; display: block; }
+/* chart */
+.chartbox svg { width: 100%; height: auto; display: block; }
+/* title + notes slides */
+.opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 34px; }
+.opt { background: var(--panel); border: 1px solid var(--faint); border-radius: 14px; padding: 18px 20px; }
+.opt .k { font-size: 13px; color: var(--accent); font-weight: 700; letter-spacing: 1px; }
+.opt h4 { margin: 4px 0 8px; font-size: 21px; }
+.opt p { margin: 0; color: var(--muted); font-size: 15.5px; line-height: 1.4; }
+table.cmp { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 15.5px; }
+table.cmp th, table.cmp td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--faint); vertical-align: top; line-height: 1.35; }
+table.cmp th { color: var(--muted); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+.rec { margin-top: 18px; padding: 14px 18px; background: var(--accent-soft); border-radius: 12px; font-size: 16.5px; line-height: 1.45; }
+/* progress */
+#hud { position: fixed; right: 14px; top: 8px; color: #c9cbd1; font: 12px var(--sans); opacity: .8; }
+@media print {
+  html, body { background: #fff; }
+  #viewport { position: static; display: block; }
+  #stage { transform: none !important; width: auto; height: auto; }
+  #hud { display: none; }
+  .slide { position: relative; display: block !important; width: 1280px; height: 720px; page-break-after: always; break-after: page; }
+  @page { size: 1280px 720px; margin: 0; }
+  [data-step], [data-only], .band, .node, .vtab { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+<!-- ============ 0. Title ============ -->
+<section class="slide" data-steps="0">
+  <div class="kicker">Data Lab Community · 10 Nov 2026 · draft slides</div>
+  <h1>One chart, three levels of abstraction</h1>
+  <p class="sub">The same penguin chart, described as a picture of mappings, as a language-free specification, and as code. Three ways to lay it out on a slide.</p>
+  <div class="opts">
+    <div class="opt"><div class="k">OPTION A</div><h4>Rail and window</h4><p>Three or four nodes stacked on the left, from most human to most machine. One window on the right shows each level in turn; the code level has vertical tabs for R, Python and JavaScript.</p></div>
+    <div class="opt"><div class="k">OPTION B</div><h4>Collapsing stack</h4><p>Full-width bands stacked top to bottom. Each new level opens while the one above folds to a one-line summary. Ends by tracing one design decision through every level.</p></div>
+    <div class="opt"><div class="k">OPTION C</div><h4>Fan-out</h4><p>Mapping and specification at the top; three implementations side by side below. Makes the "one spec, many languages" point in a single frame.</p></div>
+  </div>
+  <p class="note" style="margin-top:30px">Press <b>→</b> or <b>space</b> to step, <b>←</b> to go back. Every reveal is a separate click. Data: Palmer penguins; specification taken from <code>specs/penguins-example-2.yml</code>; chart rendered from the ggplot2 code shown.</p>
+  <div class="foot"><span>Knowledge Tree and Butterfly</span><span>agentic-datavis-workshops</span></div>
+</section>
+
+<!-- ============ 1. Option A: rail + window ============ -->
+<section class="slide" data-steps="7">
+  <div class="kicker">Option A · rail and window</div>
+  <h2>Describe the chart once. Let the agent go down the levels.</h2>
+  <p class="sub">You work at the top. The agent fills in the bottom. You can check any level.</p>
+
+  <div class="railwrap">
+    <div class="rail">
+      <div class="axis"><span>more machine ↓</span><span>↑ more human</span></div>
+      <div class="node optional" data-active="1" data-done="2,3,4,5,6,7"><div class="lv">Highest</div><div class="nm">Intent</div><div class="ds">A question in plain words</div></div>
+      <div class="node" data-active="2" data-done="3,4,5,6,7"><div class="lv">High</div><div class="nm">Mapping</div><div class="ds">Columns → visual features</div></div>
+      <div class="node" data-active="3" data-done="4,5,6,7"><div class="lv">Middle</div><div class="nm">Specification</div><div class="ds">Precise, language-free</div></div>
+      <div class="node" data-active="4,5,6" data-done="7"><div class="lv">Low</div><div class="nm">Code</div><div class="ds">R, Python or JavaScript</div></div>
+      <div class="node" data-active="7"><div class="lv">Output</div><div class="nm">Chart</div><div class="ds">The cake, not the recipe</div></div>
+    </div>
+  </div>
+
+  <div class="window">
+    <div class="pane" data-only="0">
+      <h3>Same chart, five descriptions</h3>
+      <p class="prompt" style="font-size:26px">Each level down is more precise, longer, and less readable by people. Each level up is shorter and closer to the question.</p>
+      <p class="note">Click through to see each one.</p>
+    </div>
+    <div class="pane" data-only="1">
+      <h3>Intent: what you'd say to a colleague (or a chatbot)</h3>
+      <p class="prompt">“Are bill length and bill depth related in the penguins data, and does it differ by species?”</p>
+      <p class="note"><b>Vague on purpose.</b> A chatbot will guess the rest. An agent in a set-up repo turns it into the next level and shows you what it chose, so you can correct it.</p>
+    </div>
+    <div class="pane" data-only="2">
+      <h3>Mapping: the grammar of graphics as a drawing</h3>
+      <div class="mapslot" data-variant="plain"></div>
+      <p class="note">Every chart is a set of <b>mapping rules</b> from columns to visual features, plus the <b>layers</b> that draw them. This is the level where the design decisions live, and you can do it on paper.</p>
+    </div>
+    <div class="pane" data-only="3">
+      <h3>Specification: the same mapping, written down precisely</h3>
+      <pre class="code codeslot" data-code="yaml"></pre>
+      <p class="note">No programming language: <b>“colour: species”</b> means the same thing in R, Python or JavaScript. This is the file you hand the agent, and the file you keep.</p>
+    </div>
+    <div class="pane" data-from-to="4,6">
+      <div class="codegrid">
+        <div class="vtabs">
+          <div class="vtab" data-on="4">R<small>ggplot2 · <span class="lc" data-for="r"></span> lines</small></div>
+          <div class="vtab" data-on="5">Python<small>plotnine · <span class="lc" data-for="py"></span> lines</small></div>
+          <div class="vtab" data-on="6">JavaScript<small>Vega-Lite · <span class="lc" data-for="vl"></span> lines</small></div>
+          <p class="note" style="font-size:13.5px;margin-top:6px">Same specification, three implementations. The agent writes these; you read them only when you want to.</p>
+        </div>
+        <div class="codebox">
+          <div data-only="4"><pre class="code codeslot" data-code="r" style="font-size:14.2px"></pre></div>
+          <div data-only="5"><pre class="code codeslot" data-code="py" style="font-size:14.2px"></pre></div>
+          <div data-only="6"><pre class="code tiny codeslot" data-code="vl"></pre></div>
+        </div>
+      </div>
+    </div>
+    <div class="pane chartbox" data-only="7" style="padding:14px 20px">
+      <div class="chartslot"></div>
+    </div>
+  </div>
+  <div class="foot"><span>Option A</span><span class="stepcount"></span></div>
+</section>
+
+<!-- ============ 2. Option B: collapsing stack ============ -->
+<section class="slide" data-steps="4">
+  <div class="kicker">Option B · collapsing stack</div>
+  <h2>Top to bottom: from your decision to the agent's code</h2>
+  <p class="sub">Each level opens as the one above folds away. Nothing has to share the screen at full size.</p>
+  <div class="stack">
+    <div class="band" data-open="1" data-collapsed="2,3,4">
+      <div class="tag"><div class="lv">High</div><div class="nm">Mapping</div></div>
+      <div class="body">
+        <div class="full"><div class="mapslot" data-variant="wide"></div></div>
+        <div class="mini">bill_length_mm → x · bill_depth_mm → y · <span data-hlat="4">species → colour</span> · point + linear smooth</div>
+      </div>
+    </div>
+    <div class="band" data-open="2" data-collapsed="3,4" data-waiting="0,1">
+      <div class="tag"><div class="lv">Middle</div><div class="nm">Specification</div></div>
+      <div class="body">
+        <div class="full"><pre class="code small codeslot" data-code="yaml" data-hl="colour: species" style="height:100%;font-size:11.6px;line-height:1.3"></pre></div>
+        <div class="mini">mapping: { x: bill_length_mm, y: bill_depth_mm, <span data-hlat="4">colour: species</span> } · layers: point, smooth(lm)</div>
+      </div>
+    </div>
+    <div class="band" data-open="3" data-collapsed="4" data-waiting="0,1,2">
+      <div class="tag"><div class="lv">Low</div><div class="nm">Code (R)</div></div>
+      <div class="body">
+        <div class="full"><pre class="code small codeslot" data-code="r" data-hl="colour = species" style="height:100%"></pre></div>
+        <div class="mini">ggplot(aes(x = bill_length_mm, y = bill_depth_mm, <span data-hlat="4">colour = species</span>)) + geom_point() + geom_smooth(method = "lm")</div>
+      </div>
+    </div>
+    <div class="band" data-open="4" data-waiting="0,1,2,3" style="border-style:dashed">
+      <div class="tag"><div class="lv">Takeaway</div><div class="nm">One decision</div></div>
+      <div class="body"><div class="full" style="display:flex;align-items:center;gap:24px">
+        <div style="flex:1;font-size:21px;line-height:1.45">Adding <span class="hlword">species → colour</span> is <b>one line</b> at every level, and it turns one downward trend into three upward ones. <span style="color:var(--muted)">That's the decision a person should make. The typing is the agent's job.</span></div>
+        <div class="chartslot" style="width:360px;flex:none"></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="foot"><span>Option B</span><span class="stepcount"></span></div>
+</section>
+
+<!-- ============ 3. Option C: fan-out ============ -->
+<section class="slide" data-steps="3">
+  <div class="kicker">Option C · fan-out</div>
+  <h2>One specification, many languages</h2>
+  <div class="fan">
+    <div class="row1">
+      <div class="card" data-step="1"><div class="lab"><span>High · mapping</span></div><div class="mapslot" data-variant="compact"></div></div>
+      <div class="card" data-step="1"><div class="lab"><span>Middle · specification (YAML)</span><span><span class="lc" data-for="yaml"></span> lines</span></div><pre class="code tiny codeslot" data-code="yaml" style="max-height:178px"></pre></div>
+    </div>
+    <div class="arrows" data-step="2"><svg viewBox="0 0 1168 26" preserveAspectRatio="none"><g stroke="#0f6e8c" stroke-width="2" fill="none"><path d="M876 0 L190 24"/><path d="M876 0 L584 24"/><path d="M876 0 L960 24"/></g></svg></div>
+    <div class="row3" data-step="2">
+      <div class="card"><div class="lab"><span>Low · R / ggplot2</span><span><span class="lc" data-for="r"></span> lines</span></div><pre class="code tiny codeslot" data-code="r"></pre></div>
+      <div class="card"><div class="lab"><span>Low · Python / plotnine</span><span><span class="lc" data-for="py"></span> lines</span></div><pre class="code tiny codeslot" data-code="py"></pre></div>
+      <div class="card"><div class="lab"><span>Low · JavaScript / Vega-Lite</span><span><span class="lc" data-for="vl"></span> lines</span></div><pre class="code tiny codeslot" data-code="vl" style="font-size:9.4px;line-height:1.22"></pre></div>
+    </div>
+  </div>
+  <div class="note" data-step="3" style="position:absolute;right:56px;top:34px;width:560px;background:var(--hl-soft);padding:8px 14px;border-radius:10px;color:var(--ink);font-size:14.5px;margin:0">Not perfectly equivalent: Vega-Lite has no built-in confidence band, so the agent must add one or the chart quietly changes. <b>A person checks the output against the spec.</b></div>
+</section>
+
+<!-- ============ 4. Notes ============ -->
+<section class="slide" data-steps="0">
+  <div class="kicker">For Jon · which to use</div>
+  <h2>Choosing a layout</h2>
+  <table class="cmp">
+    <tr><th style="width:16%">Option</th><th style="width:30%">Strengths</th><th style="width:30%">Weaknesses</th><th>Best for</th></tr>
+    <tr><td><b>A · Rail and window</b></td><td>Always shows where you are on the ladder; full window for each level; vertical tabs keep the three languages tidy; easy to add a 4th level (Intent).</td><td>Eight clicks; the levels are never on screen together, so the link between them is told rather than seen.</td><td>The main explanatory slide in the talk.</td></tr>
+    <tr><td><b>B · Collapsing stack</b></td><td>Reads top to bottom as the levels do; the final step traces <i>one</i> design decision through all three; ends on the chart.</td><td>Only R at the bottom (no room for three languages); animation needs a laptop, not a PDF.</td><td>The "why the design decision matters" moment, just before the live demo.</td></tr>
+    <tr><td><b>C · Fan-out</b></td><td>The one-to-many point in a single frame; shows code length growing as you go down; works in a PDF.</td><td>Code is too small to read on a projector (deliberately: “you don't need to read it”).</td><td>A closing slide, or a handout.</td></tr>
+  </table>
+  <div class="rec"><b>Suggestion:</b> A as the explainer (start at Intent, so the non-technical half of the room has a way in), B's final step as the bridge into the live demo, and C as the handout. All three use the same mapping, YAML and code, so changing one changes them all.</div>
+  <p class="note">Built as one HTML file with no dependencies. Print to PDF (add <code>?print</code> to the URL to get one page per click). Alternatives: reveal.js (fragments, speaker notes, but a dependency) or Quarto revealjs, which fits the rest of the repo.</p>
+</section>
+
+</div></div>
+<div id="hud"></div>
+
+<script>
+// ---------- content ----------
+const CODE = {
+yaml: `data: penguins
+filter: "!is.na(bill_depth_mm)"
+mapping:
+  x: bill_length_mm
+  y: bill_depth_mm
+  colour: species
+layers:
+  - geom: point
+    alpha: 0.6
+  - geom: smooth
+    stat: lm
+    se: true
+scales:
+  colour: okabe-ito
+labs:
+  title: "Within every species, the slope reverses"
+  x: "Bill length (mm)"
+  y: "Bill depth (mm)"
+  colour: "Species"
+theme: minimal`,
+r: `library(ggplot2)
+library(palmerpenguins)
+
+penguins |>
+  dplyr::filter(!is.na(bill_depth_mm)) |>
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, colour = species)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = TRUE) +
+  scale_colour_manual(values = c("#E69F00", "#56B4E9", "#009E73")) +
+  labs(title = "Within every species, the slope reverses",
+       x = "Bill length (mm)", y = "Bill depth (mm)",
+       colour = "Species") +
+  theme_minimal()`,
+py: `from plotnine import *
+from palmerpenguins import load_penguins
+
+df = load_penguins().dropna(subset=["bill_depth_mm"])
+
+(ggplot(df, aes(x="bill_length_mm", y="bill_depth_mm",
+                color="species"))
+ + geom_point(alpha=0.6)
+ + geom_smooth(method="lm", se=True)
+ + scale_color_manual(values=["#E69F00", "#56B4E9", "#009E73"])
+ + labs(title="Within every species, the slope reverses",
+        x="Bill length (mm)", y="Bill depth (mm)",
+        color="Species")
+ + theme_minimal())`,
+vl: `{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Within every species, the slope reverses",
+  "data": {"url": "penguins.csv"},
+  "transform": [{"filter": "isValid(datum.bill_depth_mm)"}],
+  "encoding": {
+    "x": {"field": "bill_length_mm", "type": "quantitative",
+          "scale": {"zero": false}, "title": "Bill length (mm)"},
+    "y": {"field": "bill_depth_mm", "type": "quantitative",
+          "scale": {"zero": false}, "title": "Bill depth (mm)"},
+    "color": {"field": "species", "type": "nominal",
+              "title": "Species",
+              "scale": {"range": ["#E69F00", "#56B4E9", "#009E73"]}}
+  },
+  "layer": [
+    {"mark": {"type": "point", "filled": true, "opacity": 0.6}},
+    {"mark": {"type": "line", "strokeWidth": 2},
+     "transform": [{"regression": "bill_depth_mm",
+                    "on": "bill_length_mm",
+                    "groupby": ["species"]}]}
+  ],
+  "config": {"view": {"stroke": null},
+             "axis": {"grid": true, "gridColor": "#eee"}}
+}`
+};
+
+// mapping diagram: columns on the left, visual features on the right
+function mappingSVG(variant) {
+  const cols = ["bill_length_mm", "bill_depth_mm", "species", "island", "body_mass_g"];
+  const aes  = ["x", "y", "colour", "size", "shape"];
+  const links = [[0,0],[1,1],[2,2]];
+  const compact = variant === "compact", wide = variant === "wide";
+  const W = wide ? 1000 : (compact ? 470 : 860), rowH = compact ? 30 : (wide ? 33 : 50), top = compact ? 8 : 14;
+  const colX = 20, colW = compact ? 190 : 230, aesX = wide ? 520 : (compact ? 330 : 560), r = compact ? 13 : 18;
+  const H = top + rowH * cols.length + (compact ? 6 : 56);
+  let s = `<svg class="mapsvg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  const fs = compact ? 13 : 16;
+  links.forEach(([c,a]) => {
+    const y1 = top + rowH*c + rowH/2, y2 = top + rowH*a + rowH/2;
+    const hl = a === 2;
+    s += `<path d="M${colX+colW} ${y1} C ${(colX+colW+aesX)/2} ${y1}, ${(colX+colW+aesX)/2} ${y2}, ${aesX-r} ${y2}" stroke="${hl ? '#c2410c' : '#0f6e8c'}" stroke-width="${compact?2:3}" fill="none" class="${hl?'hl-link':''}"/>`;
+  });
+  cols.forEach((c,i) => {
+    const used = i < 3, y = top + rowH*i + 4;
+    s += `<rect x="${colX}" y="${y}" width="${colW}" height="${rowH-8}" rx="7" fill="${used?'#fff':'#f4f2ed'}" stroke="${used?'#0f6e8c':'#d9d6cf'}" stroke-width="${used?2:1.5}"/>`;
+    s += `<text x="${colX+12}" y="${y+(rowH-8)/2+fs*0.36}" font-size="${fs}" fill="${used?'#1d1f24':'#9a9ea6'}">${c}</text>`;
+  });
+  aes.forEach((a,i) => {
+    const used = i < 3, cy = top + rowH*i + rowH/2;
+    s += `<circle cx="${aesX}" cy="${cy}" r="${r}" fill="${used?'#e3f1f5':'#f4f2ed'}" stroke="${used?'#0f6e8c':'#d9d6cf'}" stroke-width="${used?2:1.5}"/>`;
+    s += `<text x="${aesX+r+10}" y="${cy+fs*0.36}" font-size="${fs}" fill="${used?'#1d1f24':'#9a9ea6'}" font-family="var(--sans)">${a}</text>`;
+  });
+  // mini legend glyphs for colour
+  if (!compact) {
+    const cy = top + rowH*2 + rowH/2, gx = aesX + r + 90;
+    ["#E69F00","#56B4E9","#009E73"].forEach((c,k)=> s += `<circle cx="${gx+k*18}" cy="${cy}" r="6" fill="${c}"/>`);
+  }
+  if (!compact) {
+    const ly = top + rowH*cols.length + 18, lx = wide ? 720 : colX;
+    const y0 = wide ? top + 10 : ly;
+    s += `<text x="${lx}" y="${y0+4}" font-size="13" fill="#6b6f78" font-family="var(--sans)" letter-spacing="1">LAYERS</text>`;
+    [["point", "alpha 0.6"],["smooth","linear, with band"]].forEach(([g,d],k)=>{
+      const bx = wide ? lx : lx + 80 + k*250, by = wide ? y0 + 16 + k*44 : ly - 16;
+      s += `<rect x="${bx}" y="${by}" width="${wide?240:230}" height="34" rx="17" fill="#fff" stroke="#0f6e8c" stroke-width="2"/>`;
+      s += `<text x="${bx+16}" y="${by+22}" font-size="15" fill="#1d1f24"><tspan font-weight="700">${g}</tspan><tspan fill="#6b6f78" font-family="var(--sans)"> · ${d}</tspan></text>`;
+    });
+  }
+  s += `<text x="${colX}" y="${H-2}" font-size="0"></text></svg>`;
+  return s;
+}
+
+function esc(t){ return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function highlight(src, lang, hl) {
+  return src.split("\n").map(line => {
+    let h = esc(line);
+    // strings, then comments (simple, good enough for slides)
+    h = h.replace(/(&quot;|")((?:[^"\\]|\\.)*)"/g, '<span class="tok-str">"$2"</span>');
+    if (lang === "yaml") h = h.replace(/^(\s*-?\s*)([a-z_]+):/i, '$1<span class="tok-key">$2</span>:');
+    if (lang === "r" || lang === "py") h = h.replace(/\b(ggplot|aes|geom_point|geom_smooth|labs|theme_minimal|scale_colour_manual|scale_color_manual)\b/g, '<span class="tok-key">$1</span>');
+    if (hl && line.includes(hl)) h = `<span class="line-hl">${h}</span>`;
+    return h;
+  }).join("\n");
+}
+
+// ---------- fill slots ----------
+document.querySelectorAll(".codeslot").forEach(el => el.innerHTML = highlight(CODE[el.dataset.code], el.dataset.code, el.dataset.hl));
+document.querySelectorAll(".mapslot").forEach(el => el.innerHTML = mappingSVG(el.dataset.variant));
+document.querySelectorAll(".lc").forEach(el => el.textContent = CODE[el.dataset.for].split("\n").length);
+const CHART = document.getElementById("chart-src").innerHTML;
+document.querySelectorAll(".chartslot").forEach(el => el.innerHTML = CHART);
+
+// ---------- stepping engine ----------
+const list = s => (s || "").split(",").filter(x => x !== "").map(Number);
+function applyStep(slide, n) {
+  slide.querySelectorAll("[data-step]").forEach(e => e.classList.toggle("hidden", n < +e.dataset.step));
+  slide.querySelectorAll("[data-only]").forEach(e => e.classList.toggle("hidden", !list(e.dataset.only).includes(n)));
+  slide.querySelectorAll("[data-from-to]").forEach(e => { const [a,b] = list(e.dataset.fromTo); e.classList.toggle("hidden", n < a || n > b); });
+  slide.querySelectorAll("[data-active]").forEach(e => e.classList.toggle("active", list(e.dataset.active).includes(n)));
+  slide.querySelectorAll("[data-done]").forEach(e => e.classList.toggle("done", list(e.dataset.done).includes(n)));
+  slide.querySelectorAll("[data-hlat]").forEach(e => e.classList.toggle("hlword", n >= +e.dataset.hlat));
+  slide.querySelectorAll("[data-on]").forEach(e => e.classList.toggle("on", list(e.dataset.on).includes(n)));
+  slide.querySelectorAll(".band").forEach(e => {
+    e.classList.toggle("open", list(e.dataset.open).includes(n));
+    e.classList.toggle("collapsed", list(e.dataset.collapsed).includes(n));
+    e.classList.toggle("waiting", list(e.dataset.waiting).includes(n));
+  });
+  const sc = slide.querySelector(".stepcount"); if (sc) sc.textContent = `step ${n} of ${slide.dataset.steps}`;
+}
+
+const params = new URLSearchParams(location.search);
+const stage = document.getElementById("stage");
+if (params.has("print")) {
+  // one page per step, for PDF export
+  const originals = [...document.querySelectorAll(".slide")];
+  originals.forEach(sl => {
+    const steps = +sl.dataset.steps;
+    for (let k = 0; k <= steps; k++) {
+      const c = sl.cloneNode(true); c.classList.add("current"); applyStep(c, k);
+      stage.insertBefore(c, sl);
+    }
+    sl.remove();
+  });
+} else {
+  const slides = [...document.querySelectorAll(".slide")];
+  let i = 0, step = 0;
+  const saved = (location.hash.match(/^#(\d+)\.(\d+)$/) || []);
+  if (saved.length) { i = Math.min(+saved[1], slides.length-1); step = Math.min(+saved[2], +slides[i].dataset.steps); }
+  function show() {
+    slides.forEach((s,k) => s.classList.toggle("current", k === i));
+    applyStep(slides[i], step);
+    document.getElementById("hud").textContent = `${i+1}/${slides.length} · ${step}/${slides[i].dataset.steps}`;
+    history.replaceState(null, "", `#${i}.${step}`);
+  }
+  function next() { if (step < +slides[i].dataset.steps) step++; else if (i < slides.length-1) { i++; step = 0; } show(); }
+  function prev() { if (step > 0) step--; else if (i > 0) { i--; step = +slides[i].dataset.steps; } show(); }
+  addEventListener("keydown", e => {
+    if (["ArrowRight","ArrowDown","PageDown"," ","Enter"].includes(e.key)) { e.preventDefault(); next(); }
+    if (["ArrowLeft","ArrowUp","PageUp","Backspace"].includes(e.key)) { e.preventDefault(); prev(); }
+    if (e.key === "Home") { i = 0; step = 0; show(); }
+  });
+  addEventListener("click", e => { (e.clientX < innerWidth / 4) ? prev() : next(); });
+  const fit = () => stage.style.transform = `scale(${Math.min(innerWidth/1280, innerHeight/720)})`;
+  addEventListener("resize", fit); fit(); show();
+}
+</script>
+<template id="chart-src">{{CHART}}</template>
+</body>
+</html>
