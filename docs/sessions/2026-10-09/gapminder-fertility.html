@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-10-09">
+
+<title>Global fertility: what’s in the data – Agentic data-vis workshops</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-6033a600180109c3731f6a886c29932c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Agentic data-vis workshops</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sessions" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Sessions</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-sessions">    
+        <li class="dropdown-header">Session 1 · 2026-09-29 · The Office</li>
+        <li>
+    <a class="dropdown-item" href="../../sessions/2026-09-29/office-data.html">
+ <span class="dropdown-text">Workbook, end of session</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/2026-09-29/office-data-v2.html">
+ <span class="dropdown-text">Workbook, version 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/2026-09-29-vishub.html">
+ <span class="dropdown-text">Slides</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">2026-10-09 · Preparation: candidate datasets</li>
+        <li>
+    <a class="dropdown-item" href="../../sessions/2026-10-09/gapminder-fertility.html">
+ <span class="dropdown-text">Global fertility (gapminder)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/2026-10-09/nhs-cross-silo.html">
+ <span class="dropdown-text">A&amp;E waits and delayed discharges (NHS Scotland)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../example-gg-spec.html"> 
+<span class="menu-text">How a spec works</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../mapping-builder.html"> 
+<span class="menu-text">Mapping builder</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/JonMinton/agentic-datavis-workshops"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-description" id="toc-the-description" class="nav-link active" data-scroll-target="#the-description">The description</a></li>
+  <li><a href="#reading-it" id="toc-reading-it" class="nav-link" data-scroll-target="#reading-it">Reading it</a></li>
+  <li><a href="#rosling-style-reference-figures" id="toc-rosling-style-reference-figures" class="nav-link" data-scroll-target="#rosling-style-reference-figures">Rosling-style reference figures</a>
+  <ul class="collapse">
+  <li><a href="#time-as-facets-one-panel-per-decade" id="toc-time-as-facets-one-panel-per-decade" class="nav-link" data-scroll-target="#time-as-facets-one-panel-per-decade">Time as facets: one panel per decade</a></li>
+  <li><a href="#time-as-fading-older-years-more-transparent" id="toc-time-as-fading-older-years-more-transparent" class="nav-link" data-scroll-target="#time-as-fading-older-years-more-transparent">Time as fading: older years more transparent</a></li>
+  </ul></li>
+  <li><a href="#what-the-data-cant-say" id="toc-what-the-data-cant-say" class="nav-link" data-scroll-target="#what-the-data-cant-say">What the data can’t say</a></li>
+  <li><a href="#candidate-mappings-the-group-chooses" id="toc-candidate-mappings-the-group-chooses" class="nav-link" data-scroll-target="#candidate-mappings-the-group-chooses">Candidate mappings (the group chooses)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Global fertility: what’s in the data</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<p class="subtitle lead">Preparation · 2026-10-09 · Candidate grammar layer: geoms and stats</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 9, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Preparation notes, not a session writeup
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These notes describe a candidate dataset before any session. The group has made no design decisions. The two Rosling-style figures were asked for by the facilitator as a familiar reference point, and the candidate mappings at the end are options for the group to choose from. Drafted by Claude Opus 5.5 from the output of <code>scripts/describe_data.R</code> and the Rdatasets documentation for <code>dslabs::gapminder</code>.</p>
+</div>
+</div>
+<p>The data is the <code>gapminder</code> table from Rafael Irizarry’s <a href="https://cran.r-project.org/package=dslabs"><code>dslabs</code></a> package, which compiles <a href="https://www.gapminder.org/data/">Gapminder</a> country indicators. It has one row per country per year, giving each country’s total fertility rate (births per woman) alongside life expectancy, infant mortality, population and GDP.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reproducing this page
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The data is cached in <code>data/gapminder-fertility.csv</code>. To refresh it from the <a href="https://vincentarelbundock.github.io/Rdatasets/doc/dslabs/gapminder.html">Rdatasets copy</a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://vincentarelbundock.github.io/Rdatasets/csv/dslabs/gapminder.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>rownames) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">write_csv</span>(<span class="st">"data/gapminder-fertility.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Licence: <code>dslabs</code> is Artistic-2.0, and Gapminder’s data is CC BY 4.0. Cite Gapminder.</p>
+</div>
+</div>
+</div>
+<section id="the-description" class="level2">
+<h2 class="anchored" data-anchor-id="the-description">The description</h2>
+<p>This is the verbatim output of the repository’s deterministic describe script, so it is the same whichever agent runs it.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rscript <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">R.home</span>(<span class="st">"bin"</span>), <span class="st">"Rscript"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">system2</span>(rscript, <span class="fu">c</span>(<span class="st">"--vanilla"</span>, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"scripts/describe_data.R"</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                       here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/gapminder-fertility.csv"</span>)),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">stdout =</span> <span class="cn">TRUE</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>gapminder-fertility.csv: 10,545 rows x 9 cols
+Grain: one row per country x year
+
+ variable         type       levels %NA  examples                     hint               
+ country          discrete     185   0.0 Albania, Algeria, Angola     x / y as categories
+ year             continuous    57   0.0 1960, 1988, 2016             time axis (x)      
+ infant_mortality continuous  1761  13.8 1.5, 88.8, 276.9             x / y / size       
+ life_expectancy  continuous  3095   0.0 13.2, 60.43, 83.9            x / y / size       
+ fertility        continuous   752   1.8 0.84, 4.65, 9.22             x / y / size       
+ population       continuous 10352   1.8 31240, 5016000, 1.376e+09    x / y / size       
+ gdp              continuous  7562  28.2 40400000, 7.833e+09, 1.17... x / y / size       
+ continent        discrete       5   0.0 Europe, Africa, Americas     colour / facet     
+ region           discrete      22   0.0 Southern Europe, Northern... x / y as categories
+
+Colour candidates (2-8):   continent (5) 
+Facet candidates (4-12):   continent (5) </code></pre>
+</div>
+</div>
+</section>
+<section id="reading-it" class="level2">
+<h2 class="anchored" data-anchor-id="reading-it">Reading it</h2>
+<ul>
+<li><strong>What it is.</strong> Country indicators compiled by Gapminder, covering 185 countries from 1960 to 2016.</li>
+<li><strong>Grain.</strong> One row per country per year, 10,545 rows. There’s no reshaping to do: the data is already tidy.</li>
+<li><strong>Types in grammar terms.</strong> <code>fertility</code>, <code>life_expectancy</code>, <code>infant_mortality</code>, <code>population</code> and <code>gdp</code> are continuous. <code>year</code> is temporal and works as a continuous x. <code>continent</code> (5 levels) is the only discrete variable in the range for colour or facets; <code>region</code> (22) and <code>country</code> have too many levels for either.</li>
+<li><strong>Missingness has a shape.</strong> <code>gdp</code> is 28.2% missing. It stops after 2011 and is patchy before 1980. <code>fertility</code> (1.8% missing) and <code>infant_mortality</code> (13.8%) have no values at all for 2016, so in practice the fertility series ends in 2015. A line plot that runs to 2016 will stop short without warning.</li>
+<li><strong>Range.</strong> Fertility runs from 0.84 (Macao, China, 2003) to 9.22 (Yemen, 1983).</li>
+</ul>
+</section>
+<section id="rosling-style-reference-figures" class="level2">
+<h2 class="anchored" data-anchor-id="rosling-style-reference-figures">Rosling-style reference figures</h2>
+<p>Anyone who watched Hans Rosling’s talks will recognise these: fertility on x, life expectancy on y, one bubble per country sized by population and coloured by continent. They are here as a shared starting point to react to, not as the group’s choices. The facilitator asked for them in preparation, and the group can keep, change or throw away any slot.</p>
+<p>The animated original shows time by moving the bubbles. A static page has to put time somewhere else, and the two figures below make that choice in two different ways.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>decades <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1960</span>, <span class="dv">2010</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rosling <span class="ot">&lt;-</span> gm <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(fertility), <span class="sc">!</span><span class="fu">is.na</span>(life_expectancy), <span class="sc">!</span><span class="fu">is.na</span>(population))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>continent_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Africa =</span> <span class="st">"#E69F00"</span>, <span class="at">Americas =</span> <span class="st">"#D55E00"</span>, <span class="at">Asia =</span> <span class="st">"#009E73"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Europe =</span> <span class="st">"#0072B2"</span>, <span class="at">Oceania =</span> <span class="st">"#CC79A7"</span>) <span class="co"># Okabe-Ito</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="time-as-facets-one-panel-per-decade" class="level3">
+<h3 class="anchored" data-anchor-id="time-as-facets-one-panel-per-decade">Time as facets: one panel per decade</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rosling <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> decades) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(population)) <span class="sc">|&gt;</span> <span class="co"># draw big bubbles first so small ones stay visible</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> fertility, <span class="at">y =</span> life_expectancy,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> population, <span class="at">colour =</span> continent)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> year) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">12</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> continent_cols) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>() <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Total fertility rate (births per woman, reversed)"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life expectancy (years)"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Fewer children, longer lives, 1960 to 2010"</span>) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-rosling-facets" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rosling-facets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="gapminder-fertility_files/figure-html/fig-rosling-facets-1.png" class="img-fluid figure-img" width="1350">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rosling-facets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Each panel is one year at the start of a decade. Read across the panels to see the cloud of countries move from top left to bottom right.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The x axis is <strong>reversed</strong>, which is a decision to argue about. Reversed, the movement over time runs left to right, and “fewer births” sits on the same side as “longer lives”. Rosling himself plotted fertility the natural way round (high on the right), so the countries moved right to left. Neither is wrong. But the choice changes what readers see as progress.</p>
+<p>Two figures from the data anchor the panels. In 1960 the median country had 6.19 births per woman and a life expectancy of 56.3; by 2010 those medians were 2.38 and 73.6.</p>
+</section>
+<section id="time-as-fading-older-years-more-transparent" class="level3">
+<h3 class="anchored" data-anchor-id="time-as-fading-older-years-more-transparent">Time as fading: older years more transparent</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>latest <span class="ot">&lt;-</span> rosling <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="fu">max</span>(year))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>rosling <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(country, year) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> fertility, <span class="at">y =</span> life_expectancy, <span class="at">colour =</span> continent)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">group =</span> country, <span class="at">alpha =</span> year), <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> latest, <span class="fu">aes</span>(<span class="at">size =</span> population), <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.6</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">12</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> continent_cols) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>() <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Total fertility rate (births per woman, reversed)"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life expectancy (years)"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">"Where each country came from, "</span>, <span class="fu">min</span>(rosling<span class="sc">$</span>year),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                      <span class="st">" to "</span>, <span class="fu">max</span>(rosling<span class="sc">$</span>year))) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-rosling-trails" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rosling-trails-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="gapminder-fertility_files/figure-html/fig-rosling-trails-1.png" class="img-fluid figure-img" width="1350">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rosling-trails-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Each country’s path from 1960 to 2015, fading into the past. The solid bubbles are the latest year with fertility data.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This version uses <strong>alpha for time</strong>, so older data is more faded. It keeps the movement in one panel, but the paths overlap heavily, and the faint tails are hard to read for any single country. Note the two layers here: the trails use all 10,358 rows, and the bubbles use a second data frame of only the latest year. That every layer can take its own <code>data</code> is itself a grammar point. It comes back on <a href="../../sessions/2026-10-09/nhs-cross-silo.html">the cross-silo page</a>.</p>
+<p>Looking at the rendered figures shows things the code doesn’t. The few sudden vertical drops in life expectancy are not data errors. They are catastrophes: the large Asian bubble low in the 1960 panel is China (life expectancy 30.53) during the famine that followed the Great Leap Forward, and the lone Americas point low in the 2010 panel is Haiti (32.2) in the year of its earthquake. The trails show the same events as spikes.</p>
+<p>Questions these two figures leave for the group:</p>
+<ul>
+<li><strong>Facets or alpha?</strong> Facets give clean snapshots but lose each country’s identity across panels. Alpha keeps identity and loses legibility.</li>
+<li><strong>Size.</strong> Bubble area tracks population, so China and India dominate every panel. Is that the right emphasis for a question about <em>typical</em> countries?</li>
+<li><strong>The stat.</strong> Both figures show raw points. A per-continent median path (a <code>stat_summary</code> layer) would be the geoms-and-stats lesson in one line of code.</li>
+</ul>
+</section>
+</section>
+<section id="what-the-data-cant-say" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-data-cant-say">What the data can’t say</h2>
+<p>These are national averages, so variation within a country is invisible, and every country counts equally whatever its population. The 1960s values for many countries are Gapminder’s estimates and interpolations, not registered births. The record also ends before the recent falls in fertility.</p>
+</section>
+<section id="candidate-mappings-the-group-chooses" class="level2">
+<h2 class="anchored" data-anchor-id="candidate-mappings-the-group-chooses">Candidate mappings (the group chooses)</h2>
+<pre class="text"><code>Candidates (the group chooses) - gapminder-fertility:
+  position x/y (continuous): fertility, life_expectancy, infant_mortality (14% NA),
+                             population, gdp (28% NA, ends 2011)
+  time:                      year (continuous, 1960-2015 usable for fertility)
+  colour / facet (5 levels): continent
+  size:                      population (spans 5 orders of magnitude)
+  not for colour:            region (22), country (185) - filter or highlight a few</code></pre>
+<p>Why the data could suit <strong>geoms and stats</strong>: if you map year to x and fertility to y, you get 10,358 points, and those points can be drawn as dots, as one line per country, as a smoother per continent, or as a boxplot per decade. Choosing between those drawings is that session’s lesson.</p>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Global fertility: what's in the data"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Preparation · 2026-10-09 · Candidate grammar layer: geoms and stats"</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 2026-10-09</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># what other packages could be used?</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>gm <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/gapminder-fertility.csv"</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>pct_na <span class="ot">&lt;-</span> <span class="cf">function</span>(x) scales<span class="sc">::</span><span class="fu">percent</span>(<span class="fu">mean</span>(<span class="fu">is.na</span>(x)), <span class="at">accuracy =</span> <span class="fl">0.1</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>last_year <span class="ot">&lt;-</span> <span class="cf">function</span>(v) <span class="fu">max</span>(gm<span class="sc">$</span>year[<span class="sc">!</span><span class="fu">is.na</span>(gm[[v]])])</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>lowest  <span class="ot">&lt;-</span> <span class="fu">slice_min</span>(gm, fertility, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>highest <span class="ot">&lt;-</span> <span class="fu">slice_max</span>(gm, fertility, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon="false"}</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preparation notes, not a session writeup</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>These notes describe a candidate dataset before any session. The group has made no design decisions. The two Rosling-style figures were asked for by the facilitator as a familiar reference point, and the candidate mappings at the end are options for the group to choose from. Drafted by Claude Opus 5.5 from the output of <span class="in">`scripts/describe_data.R`</span> and the Rdatasets documentation for <span class="in">`dslabs::gapminder`</span>.</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>The data is the <span class="in">`gapminder`</span> table from Rafael Irizarry's <span class="co">[</span><span class="ot">`dslabs`</span><span class="co">](https://cran.r-project.org/package=dslabs)</span> package, which compiles <span class="co">[</span><span class="ot">Gapminder</span><span class="co">](https://www.gapminder.org/data/)</span> country indicators. It has one row per country per year, giving each country's total fertility rate (births per woman) alongside life expectancy, infant mortality, population and GDP.</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reproducing this page</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>The data is cached in <span class="in">`data/gapminder-fertility.csv`</span>. To refresh it from the <span class="co">[</span><span class="ot">Rdatasets copy</span><span class="co">](https://vincentarelbundock.github.io/Rdatasets/doc/dslabs/gapminder.html)</span>:</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"https://vincentarelbundock.github.io/Rdatasets/csv/dslabs/gapminder.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>rownames) <span class="sc">|&gt;</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">write_csv</span>(<span class="st">"data/gapminder-fertility.csv"</span>)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>Licence: <span class="in">`dslabs`</span> is Artistic-2.0, and Gapminder's data is CC BY 4.0. Cite Gapminder.</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## The description</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>This is the verbatim output of the repository's deterministic describe script, so it is the same whichever agent runs it.</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: describe</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="co">#| comment: ""</span></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>rscript <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">R.home</span>(<span class="st">"bin"</span>), <span class="st">"Rscript"</span>)</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">system2</span>(rscript, <span class="fu">c</span>(<span class="st">"--vanilla"</span>, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"scripts/describe_data.R"</span>),</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>                       here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/gapminder-fertility.csv"</span>)),</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>            <span class="at">stdout =</span> <span class="cn">TRUE</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading it</span></span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**What it is.** Country indicators compiled by Gapminder, covering <span class="in">`r n_distinct(gm$country)`</span> countries from <span class="in">`r min(gm$year)`</span> to <span class="in">`r max(gm$year)`</span>.</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Grain.** One row per country per year, <span class="in">`r format(nrow(gm), big.mark = ",")`</span> rows. There's no reshaping to do: the data is already tidy.</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Types in grammar terms.** <span class="in">`fertility`</span>, <span class="in">`life_expectancy`</span>, <span class="in">`infant_mortality`</span>, <span class="in">`population`</span> and <span class="in">`gdp`</span> are continuous. <span class="in">`year`</span> is temporal and works as a continuous x. <span class="in">`continent`</span> (<span class="in">`r n_distinct(gm$continent)`</span> levels) is the only discrete variable in the range for colour or facets; <span class="in">`region`</span> (<span class="in">`r n_distinct(gm$region)`</span>) and <span class="in">`country`</span> have too many levels for either.</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Missingness has a shape.** <span class="in">`gdp`</span> is <span class="in">`r pct_na(gm$gdp)`</span> missing. It stops after <span class="in">`r last_year("gdp")`</span> and is patchy before 1980. <span class="in">`fertility`</span> (<span class="in">`r pct_na(gm$fertility)`</span> missing) and <span class="in">`infant_mortality`</span> (<span class="in">`r pct_na(gm$infant_mortality)`</span>) have no values at all for <span class="in">`r max(gm$year)`</span>, so in practice the fertility series ends in <span class="in">`r last_year("fertility")`</span>. A line plot that runs to <span class="in">`r max(gm$year)`</span> will stop short without warning.</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Range.** Fertility runs from <span class="in">`r lowest$fertility`</span> (<span class="in">`r lowest$country`</span>, <span class="in">`r lowest$year`</span>) to <span class="in">`r highest$fertility`</span> (<span class="in">`r highest$country`</span>, <span class="in">`r highest$year`</span>).</span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Rosling-style reference figures</span></span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>Anyone who watched Hans Rosling's talks will recognise these: fertility on x, life expectancy on y, one bubble per country sized by population and coloured by continent. They are here as a shared starting point to react to, not as the group's choices. The facilitator asked for them in preparation, and the group can keep, change or throw away any slot.</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>The animated original shows time by moving the bubbles. A static page has to put time somewhere else, and the two figures below make that choice in two different ways.</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: rosling-data</span></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>decades <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1960</span>, <span class="dv">2010</span>, <span class="at">by =</span> <span class="dv">10</span>)</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>rosling <span class="ot">&lt;-</span> gm <span class="sc">|&gt;</span></span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(fertility), <span class="sc">!</span><span class="fu">is.na</span>(life_expectancy), <span class="sc">!</span><span class="fu">is.na</span>(population))</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>continent_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Africa =</span> <span class="st">"#E69F00"</span>, <span class="at">Americas =</span> <span class="st">"#D55E00"</span>, <span class="at">Asia =</span> <span class="st">"#009E73"</span>,</span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>                    <span class="at">Europe =</span> <span class="st">"#0072B2"</span>, <span class="at">Oceania =</span> <span class="st">"#CC79A7"</span>) <span class="co"># Okabe-Ito</span></span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a><span class="fu">### Time as facets: one panel per decade</span></span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rosling-facets</span></span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Each panel is one year at the start of a decade. Read across the panels to see the cloud of countries move from top left to bottom right."</span></span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6.5</span></span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>rosling <span class="sc">|&gt;</span></span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> decades) <span class="sc">|&gt;</span></span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(population)) <span class="sc">|&gt;</span> <span class="co"># draw big bubbles first so small ones stay visible</span></span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> fertility, <span class="at">y =</span> life_expectancy,</span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> population, <span class="at">colour =</span> continent)) <span class="sc">+</span></span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> year) <span class="sc">+</span></span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">12</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> continent_cols) <span class="sc">+</span></span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>() <span class="sc">+</span></span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Total fertility rate (births per woman, reversed)"</span>,</span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life expectancy (years)"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Fewer children, longer lives, 1960 to 2010"</span>) <span class="sc">+</span></span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a>The x axis is **reversed**, which is a decision to argue about. Reversed, the movement over time runs left to right, and "fewer births" sits on the same side as "longer lives". Rosling himself plotted fertility the natural way round (high on the right), so the countries moved right to left. Neither is wrong. But the choice changes what readers see as progress.</span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>Two figures from the data anchor the panels. In <span class="in">`r min(decades)`</span> the median country had <span class="in">`r median(rosling$fertility[rosling$year == min(decades)])`</span> births per woman and a life expectancy of <span class="in">`r round(median(rosling$life_expectancy[rosling$year == min(decades)]), 1)`</span>; by <span class="in">`r max(decades)`</span> those medians were <span class="in">`r median(rosling$fertility[rosling$year == max(decades)])`</span> and <span class="in">`r round(median(rosling$life_expectancy[rosling$year == max(decades)]), 1)`</span>.</span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a><span class="fu">### Time as fading: older years more transparent</span></span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-rosling-trails</span></span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Each country's path from 1960 to 2015, fading into the past. The solid bubbles are the latest year with fertility data."</span></span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6.5</span></span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a>latest <span class="ot">&lt;-</span> rosling <span class="sc">|&gt;</span> <span class="fu">filter</span>(year <span class="sc">==</span> <span class="fu">max</span>(year))</span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>rosling <span class="sc">|&gt;</span></span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(country, year) <span class="sc">|&gt;</span></span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> fertility, <span class="at">y =</span> life_expectancy, <span class="at">colour =</span> continent)) <span class="sc">+</span></span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">group =</span> country, <span class="at">alpha =</span> year), <span class="at">linewidth =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> latest, <span class="fu">aes</span>(<span class="at">size =</span> population), <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.6</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>(<span class="at">max_size =</span> <span class="dv">12</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> continent_cols) <span class="sc">+</span></span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>() <span class="sc">+</span></span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Total fertility rate (births per woman, reversed)"</span>,</span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life expectancy (years)"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">"Where each country came from, "</span>, <span class="fu">min</span>(rosling<span class="sc">$</span>year),</span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>                      <span class="st">" to "</span>, <span class="fu">max</span>(rosling<span class="sc">$</span>year))) <span class="sc">+</span></span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>This version uses **alpha for time**, so older data is more faded. It keeps the movement in one panel, but the paths overlap heavily, and the faint tails are hard to read for any single country. Note the two layers here: the trails use all <span class="in">`r format(nrow(rosling), big.mark = ",")`</span> rows, and the bubbles use a second data frame of only the latest year. That every layer can take its own <span class="in">`data`</span> is itself a grammar point. It comes back on <span class="co">[</span><span class="ot">the cross-silo page</span><span class="co">](nhs-cross-silo.qmd)</span>.</span>
+<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>Looking at the rendered figures shows things the code doesn't. The few sudden vertical drops in life expectancy are not data errors. They are catastrophes: the large Asian bubble low in the 1960 panel is China (life expectancy <span class="in">`r gm$life_expectancy[gm$country == "China" &amp; gm$year == 1960]`</span>) during the famine that followed the Great Leap Forward, and the lone Americas point low in the 2010 panel is Haiti (<span class="in">`r gm$life_expectancy[gm$country == "Haiti" &amp; gm$year == 2010]`</span>) in the year of its earthquake. The trails show the same events as spikes.</span>
+<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a>Questions these two figures leave for the group:</span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Facets or alpha?** Facets give clean snapshots but lose each country's identity across panels. Alpha keeps identity and loses legibility.</span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Size.** Bubble area tracks population, so China and India dominate every panel. Is that the right emphasis for a question about *typical* countries?</span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**The stat.** Both figures show raw points. A per-continent median path (a <span class="in">`stat_summary`</span> layer) would be the geoms-and-stats lesson in one line of code.</span>
+<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a><span class="fu">## What the data can't say</span></span>
+<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a>These are national averages, so variation within a country is invisible, and every country counts equally whatever its population. The 1960s values for many countries are Gapminder's estimates and interpolations, not registered births. The record also ends before the recent falls in fertility.</span>
+<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a><span class="fu">## Candidate mappings (the group chooses)</span></span>
+<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a><span class="in">``` text</span></span>
+<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a><span class="in">Candidates (the group chooses) - gapminder-fertility:</span></span>
+<span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a><span class="in">  position x/y (continuous): fertility, life_expectancy, infant_mortality (14% NA),</span></span>
+<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a><span class="in">                             population, gdp (28% NA, ends 2011)</span></span>
+<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a><span class="in">  time:                      year (continuous, 1960-2015 usable for fertility)</span></span>
+<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a><span class="in">  colour / facet (5 levels): continent</span></span>
+<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a><span class="in">  size:                      population (spans 5 orders of magnitude)</span></span>
+<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a><span class="in">  not for colour:            region (22), country (185) - filter or highlight a few</span></span>
+<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a>Why the data could suit **geoms and stats**: if you map year to x and fertility to y, you get <span class="in">`r format(sum(!is.na(gm$fertility)), big.mark = ",")`</span> points, and those points can be drawn as dots, as one line per country, as a smoother per continent, or as a boxplot per decade. Choosing between those drawings is that session's lesson.</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
