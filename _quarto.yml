@@ -10,6 +10,7 @@ project:
     - slides/*.qmd
     - sessions/*/office-data*.qmd
     - sessions/2026-10-09/*.qmd
+    - sessions/2026-10-13/*.qmd
 
 website:
   title: "Agentic data-vis workshops"
@@ -33,6 +34,10 @@ website:
             text: "Global fertility (gapminder)"
           - href: sessions/2026-10-09/nhs-cross-silo.qmd
             text: "A&E waits and delayed discharges (NHS Scotland)"
+          - text: "---"
+          - text: "2026-10-13 · Preparation: whole-system patient flow"
+          - href: sessions/2026-10-13/nhs-whole-system.qmd
+            text: "Front door, ward, back door (NHS Scotland)"
       - href: example-gg-spec.qmd
         text: How a spec works
       - href: mapping-builder.qmd

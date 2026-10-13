@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-10-13">
+
+<title>Front door, ward, back door: the whole system in one script – Agentic data-vis workshops</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-6033a600180109c3731f6a886c29932c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Agentic data-vis workshops</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-sessions" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Sessions</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-sessions">    
+        <li class="dropdown-header">Session 1 · 2026-09-29 · The Office</li>
+        <li>
+    <a class="dropdown-item" href="../../sessions/2026-09-29/office-data.html">
+ <span class="dropdown-text">Workbook, end of session</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/2026-09-29/office-data-v2.html">
+ <span class="dropdown-text">Workbook, version 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../slides/2026-09-29-vishub.html">
+ <span class="dropdown-text">Slides</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">2026-10-09 · Preparation: candidate datasets</li>
+        <li>
+    <a class="dropdown-item" href="../../sessions/2026-10-09/gapminder-fertility.html">
+ <span class="dropdown-text">Global fertility (gapminder)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../sessions/2026-10-09/nhs-cross-silo.html">
+ <span class="dropdown-text">A&amp;E waits and delayed discharges (NHS Scotland)</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">2026-10-13 · Preparation: whole-system patient flow</li>
+        <li>
+    <a class="dropdown-item" href="../../sessions/2026-10-13/nhs-whole-system.html">
+ <span class="dropdown-text">Front door, ward, back door (NHS Scotland)</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../example-gg-spec.html"> 
+<span class="menu-text">How a spec works</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../mapping-builder.html"> 
+<span class="menu-text">Mapping builder</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/JonMinton/agentic-datavis-workshops"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-question" id="toc-the-question" class="nav-link active" data-scroll-target="#the-question">The question</a></li>
+  <li><a href="#what-the-earlier-page-got-right-and-where-it-stopped-short" id="toc-what-the-earlier-page-got-right-and-where-it-stopped-short" class="nav-link" data-scroll-target="#what-the-earlier-page-got-right-and-where-it-stopped-short">What the earlier page got right, and where it stopped short</a></li>
+  <li><a href="#design-decisions" id="toc-design-decisions" class="nav-link" data-scroll-target="#design-decisions">Design decisions</a></li>
+  <li><a href="#sources-and-joins" id="toc-sources-and-joins" class="nav-link" data-scroll-target="#sources-and-joins">Sources and joins</a></li>
+  <li><a href="#how-alignment-works-and-what-it-catches" id="toc-how-alignment-works-and-what-it-catches" class="nav-link" data-scroll-target="#how-alignment-works-and-what-it-catches">How alignment works, and what it catches</a></li>
+  <li><a href="#first-drafts-of-the-figures" id="toc-first-drafts-of-the-figures" class="nav-link" data-scroll-target="#first-drafts-of-the-figures">First drafts of the figures</a>
+  <ul class="collapse">
+  <li><a href="#one-silo-against-another-by-name" id="toc-one-silo-against-another-by-name" class="nav-link" data-scroll-target="#one-silo-against-another-by-name">One silo against another, by name</a></li>
+  <li><a href="#the-whole-system-on-one-page" id="toc-the-whole-system-on-one-page" class="nav-link" data-scroll-target="#the-whole-system-on-one-page">The whole system on one page</a></li>
+  <li><a href="#front-door-against-ward-board-by-board" id="toc-front-door-against-ward-board-by-board" class="nav-link" data-scroll-target="#front-door-against-ward-board-by-board">Front door against ward, board by board</a></li>
+  </ul></li>
+  <li><a href="#candidate-mappings-the-group-chooses" id="toc-candidate-mappings-the-group-chooses" class="nav-link" data-scroll-target="#candidate-mappings-the-group-chooses">Candidate mappings (the group chooses)</a></li>
+  <li><a href="#what-the-data-cant-say" id="toc-what-the-data-cant-say" class="nav-link" data-scroll-target="#what-the-data-cant-say">What the data can’t say</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Front door, ward, back door: the whole system in one script</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<p class="subtitle lead">Preparation · 2026-10-13 · Candidate grammar layer: data, and layers with their own data</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 13, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Preparation notes, not a session writeup
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These notes revisit <a href="../../sessions/2026-10-09/nhs-cross-silo.html">the 2026-10-09 preparation page</a> and take its idea a step further. Nothing here is a decision by a group. The design decisions below are drafting decisions, made by the agent at the facilitator’s request, and every one is open for a group to overturn. Drafted by Claude Opus 5.5 from Public Health Scotland open data.</p>
+</div>
+</div>
+<section id="the-question" class="level2">
+<h2 class="anchored" data-anchor-id="the-question">The question</h2>
+<p>Patient flow is a whole-system problem. Whether someone waits in A&amp;E depends partly on whether a ward bed is free, and that depends partly on whether the people in those beds can be discharged. Seeing this needs charts that put measures from different parts of the system side by side. But the data arrives in silos, published by different teams, and the habit is to analyse each silo on its own. Technique isn’t the obstacle: putting two datasets on one plot is easy. The obstacle is knowing the parts depend on each other, and having code that makes that dependence visible.</p>
+<p>The earlier page had already put two silos on one chart, so the question for this page is narrower: <strong>does the code that draws the chart carry the whole-system idea, or only the chart?</strong></p>
+</section>
+<section id="what-the-earlier-page-got-right-and-where-it-stopped-short" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-earlier-page-got-right-and-where-it-stopped-short">What the earlier page got right, and where it stopped short</h2>
+<p>The 2026-10-09 page made the case for crossing silos with Public Health Scotland data: A&amp;E four-hour performance against beds occupied by delayed discharges, and the “exit block” story that links them. Two of its choices work against that aim.</p>
+<ol type="1">
+<li><strong>It rejected the <code>$</code> approach.</strong> It showed <code>aes(x = delays_scot$delayed_beds, y = ed_scot$pct_4h)</code> as the fragile option, because ggplot2 pairs the two vectors by position, not by month. That’s true, and it’s still the most readable expression of “this silo against that one”. The page gave up the readability to get the safety.</li>
+<li><strong>Its join erased the silos.</strong> The recommended route was <code>inner_join()</code> into a table called <code>both_scot</code>. That’s correct, but after it, nothing in the plotting code says that the columns came from different parts of the system. The analyst writing the next chart starts again from one table, which is the silo habit again.</li>
+</ol>
+<p>It also named the data frames after the publishing teams (<code>ed</code>, <code>delays</code>), not after where they sit in the system, and it stopped at two silos, jumping from the front door straight to the back.</p>
+</section>
+<section id="design-decisions" class="level2">
+<h2 class="anchored" data-anchor-id="design-decisions">Design decisions</h2>
+<p>Each decision below is recorded as considered, chosen and why, for a group to reopen.</p>
+<p><strong>1. Name each silo by its place on the patient’s journey.</strong> Considered: team names (<code>ed</code>, <code>delays</code>, <code>beds</code>); dataset names (<code>ae_monthly</code>); journey names. Chosen: <code>front_door</code> (A&amp;E), <code>ward</code> (acute beds) and <code>back_door</code> (delayed discharges). The names cost nothing and say what the chart needs said: these are three points on one path, not three reports. Anyone reading <code>flow$back_door$delayed_beds</code> is reminded where the patient is.</p>
+<p><strong>2. Keep the silos separate, but align them before plotting.</strong> Considered: a joined wide table (the earlier page); layers with their own <code>data</code> (works for time series, can’t make a scatter); <code>$</code> vectors as they come (fragile). Chosen: a small helper, <code>align_silos()</code>, that takes named silos and the shared keys, refuses any silo with more than one row per key, keeps only keys every silo has, and returns the silos as a named list, each sorted the same way. The silos stay distinct objects with distinct names, and the pairing rule is applied once, in one place, where it can be checked.</p>
+<p><strong>3. Use <code>$</code> freely after alignment.</strong> Chosen: plotting code like <code>aes(x = flow$back_door$delayed_beds, y = flow$front_door$pct_4h)</code>. Every aesthetic names the silo it came from. Alignment makes it safe, because row <em>i</em> of every silo is the same month.</p>
+<p><strong>4. Make the silo itself a variable, so the grammar can map it.</strong> Considered: one chart per silo stacked with patchwork (the earlier “silo view”); dual y axes (rejected: two scales on one axis invite the reader to compare lines whose heights mean nothing to each other). Chosen: bind the silos into one long table with <code>bind_rows(..., .id = "stage")</code> and facet by stage, in journey order. “Which part of the system” becomes a column, which is the grammar’s way of saying it matters.</p>
+<p><strong>5. Add the middle of the journey.</strong> The ward silo is acute bed occupancy from the Public Health Scotland quarterly beds publication. It exists only by quarter, so the other two silos are summed to quarters for the whole-system figures, and a quarter counts only when all three of its months are present. Considered: keep everything monthly and leave the ward out; interpolate occupancy to months (rejected: it invents data). The cost is a shorter, coarser record: 21 quarters, Oct–Dec 2020 to Oct–Dec 2025, starting late in the first pandemic year.</p>
+<p><strong>6. Leave admitted patients and ambulances for later.</strong> The four-hour figure counts every Type 1 attendance, including the majority who go home and never need a ward bed. Admitted-only figures, and ambulance handover times at the very front door, would sharpen the chain. Neither is in the open files used here.</p>
+</section>
+<section id="sources-and-joins" class="level2">
+<h2 class="anchored" data-anchor-id="sources-and-joins">Sources and joins</h2>
+<p>Three publications, three silos, and three alignments, one for each figure. Nothing is joined into a single wide table: each <code>align_silos()</code> step trims the silos to the keys they share and hands them back side by side, still named.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-sources" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sources-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-sources">flowchart TB
+  subgraph PHS["Public Health Scotland open data, cached in data/"]
+    direction LR
+    AE[("A&amp;amp;E activity&lt;br/&gt;site × month")]
+    BD[("Hospital beds&lt;br/&gt;location × specialty × quarter")]
+    DD[("Delayed discharges&lt;br/&gt;board × month")]
+  end
+
+  AE --&gt;|"Type 1 sites, all attendances,&lt;br/&gt;summed to board"| FDm(["front_door&lt;br/&gt;board × month"])
+  BD --&gt;|"All Acute,&lt;br/&gt;board-level rows"| WDq(["ward&lt;br/&gt;board × quarter"])
+  DD --&gt;|"adults,&lt;br/&gt;all delay reasons"| BKm(["back_door&lt;br/&gt;board × month"])
+
+  FDm --&gt;|"complete quarters"| FDq(["front_door&lt;br/&gt;board × quarter"])
+  BKm --&gt;|"complete quarters"| BKq(["back_door&lt;br/&gt;board × quarter"])
+
+  FDm --&gt;|"Scotland"| A1{{"align_silos()&lt;br/&gt;by month"}}
+  BKm --&gt;|"Scotland"| A1
+
+  FDq --&gt; A2{{"align_silos()&lt;br/&gt;Scotland, by quarter"}}
+  WDq --&gt; A2
+  BKq --&gt; A2
+
+  FDq --&gt; A3{{"align_silos()&lt;br/&gt;board × quarter"}}
+  WDq --&gt; A3
+  BKq --&gt; A3
+
+  A1 --&gt; F1["flow_m&lt;br/&gt;Back door against front door"]
+  A2 --&gt; F2["flow_q&lt;br/&gt;One patient journey"]
+  A3 --&gt; F3["flow_hb_q&lt;br/&gt;Fuller wards, slower front doors?"]
+
+  classDef src fill:#ffffff,stroke:#777,color:#000
+  classDef front fill:#cfe3f1,stroke:#0072B2,color:#000
+  classDef ward fill:#d4ede4,stroke:#009E73,color:#000
+  classDef back fill:#f6dccb,stroke:#D55E00,color:#000
+  classDef align fill:#ffffff,stroke:#555,color:#000
+  classDef fig fill:#f4f4f4,stroke:#999,color:#000
+  class AE,BD,DD src
+  class FDm,FDq front
+  class WDq ward
+  class BKm,BKq back
+  class A1,A2,A3 align
+  class F1,F2,F3 fig
+  style PHS fill:#fafafa,stroke:#bbb,color:#000
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sources-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Where each figure’s data comes from. Cylinders are the cached Public Health Scotland files, rounded boxes are silos (coloured by stage of the patient’s journey: blue front door, green ward, orange back door), hexagons are alignments, and the grey boxes at the bottom are the figures. Edge labels say what each step keeps or sums.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Two things the diagram makes visible that the code alone doesn’t. The ward only exists by quarter, so it forces the other two silos up to its grain before they can meet it; and each figure has its own alignment, so the monthly chart can use all 122 months, while the three-silo charts are limited to the 21 quarters the ward covers.</p>
+</section>
+<section id="how-alignment-works-and-what-it-catches" class="level2">
+<h2 class="anchored" data-anchor-id="how-alignment-works-and-what-it-catches">How alignment works, and what it catches</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>flow_m <span class="ot">&lt;-</span> <span class="fu">align_silos</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">front_door =</span> front_door_scot_m,   <span class="co"># A&amp;E, Scotland, by month</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">back_door  =</span> back_door_scot_m,    <span class="co"># delayed discharges, Scotland, by month</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"month"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>For the monthly Scotland system, alignment keeps 122 months, July 2016 to August 2026, and drops 108 A&amp;E months that have no delayed-discharge record (that series starts later). The drop is reported, not silent.</p>
+<p>If a silo is ambiguous, for example because a month appears twice after a careless append, alignment stops instead of drawing a plausible wrong chart:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Error: silo 'back_door' has 1 key(s) with more than one row; aggregate it to
+one row per month first</code></pre>
+</div>
+</div>
+</section>
+<section id="first-drafts-of-the-figures" class="level2">
+<h2 class="anchored" data-anchor-id="first-drafts-of-the-figures">First drafts of the figures</h2>
+<p>These are the agent’s drafts, made without a group. Each one is a set of decisions the group can overturn.</p>
+<section id="one-silo-against-another-by-name" class="level3">
+<h3 class="anchored" data-anchor-id="one-silo-against-another-by-name">One silo against another, by name</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">x =</span> flow_m<span class="sc">$</span>back_door<span class="sc">$</span>delayed_beds, <span class="at">y =</span> flow_m<span class="sc">$</span>front_door<span class="sc">$</span>pct_4h),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">0.4</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> flow_m<span class="sc">$</span>back_door<span class="sc">$</span>delayed_beds, <span class="at">y =</span> flow_m<span class="sc">$</span>front_door<span class="sc">$</span>pct_4h,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> flow_m<span class="sc">$</span>front_door<span class="sc">$</span>month), <span class="at">size =</span> <span class="fl">1.8</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_c</span>(<span class="at">trans =</span> <span class="st">"date"</span>, <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_date</span>(<span class="st">"%Y"</span>)) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> \(y) <span class="fu">paste0</span>(y, <span class="st">"%"</span>)) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Back door: beds occupied by delayed discharges (daily average)"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Front door: A&amp;E patients seen within 4 hours"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Back door against front door"</span>) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"cm"</span>), <span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-by-name" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-by-name-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="nhs-whole-system_files/figure-html/fig-by-name-1.png" class="img-fluid figure-img" width="1350">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-by-name-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Scotland, monthly. Every aesthetic names its silo: flow<span class="math inline">\(back_door on x, flow\)</span>front_door on y and in colour. Colour runs from the earliest month (dark) to the latest (yellow).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This is the same chart as the earlier page’s cross-silo view, drawn from separate silos rather than a joined table. Nothing about the picture changes. What changes is the code a reader copies: it names the two parts of the system on every line.</p>
+</section>
+<section id="the-whole-system-on-one-page" class="level3">
+<h3 class="anchored" data-anchor-id="the-whole-system-on-one-page">The whole system on one page</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>stages <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">front_door =</span> <span class="st">"Front door: A&amp;E patients seen within 4 hours (%)"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ward       =</span> <span class="st">"Ward: acute beds occupied (%)"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">back_door  =</span> <span class="st">"Back door: beds occupied by delayed discharges (daily average)"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>whole_system <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">front_door =</span> <span class="fu">tibble</span>(<span class="at">quarter =</span> flow_q<span class="sc">$</span>front_door<span class="sc">$</span>quarter, <span class="at">value =</span> flow_q<span class="sc">$</span>front_door<span class="sc">$</span>pct_4h),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ward       =</span> <span class="fu">tibble</span>(<span class="at">quarter =</span> flow_q<span class="sc">$</span>ward<span class="sc">$</span>quarter,       <span class="at">value =</span> flow_q<span class="sc">$</span>ward<span class="sc">$</span>occupancy),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">back_door  =</span> <span class="fu">tibble</span>(<span class="at">quarter =</span> flow_q<span class="sc">$</span>back_door<span class="sc">$</span>quarter,  <span class="at">value =</span> flow_q<span class="sc">$</span>back_door<span class="sc">$</span>delayed_beds),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">.id =</span> <span class="st">"stage"</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stage =</span> <span class="fu">factor</span>(stage, <span class="at">levels =</span> <span class="fu">names</span>(stages), <span class="at">labels =</span> stages))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(whole_system, <span class="fu">aes</span>(quarter, value)) <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"#0072B2"</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"#0072B2"</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> stage, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"One patient journey, three publications"</span>) <span class="sc">+</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-strip" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-strip-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="nhs-whole-system_files/figure-html/fig-strip-1.png" class="img-fluid figure-img" width="1350">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-strip-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Scotland, quarterly. One panel per stage of the patient’s journey, from the front door down to the back door, sharing the time axis. The y scales are free because the measures are in different units.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Read from top to bottom, the panels follow a patient in and out of hospital. Over these 21 quarters, acute occupancy ran from 80% to 89%, and it was above 85% in 17 of them. 85% is often quoted as the level above which hospitals start to struggle to admit promptly. The line between the panels is the argument the chart exists to make: the front door’s figure is partly made at the back door, and the ward is where they meet.</p>
+</section>
+<section id="front-door-against-ward-board-by-board" class="level3">
+<h3 class="anchored" data-anchor-id="front-door-against-ward-board-by-board">Front door against ward, board by board</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> flow_hb_q<span class="sc">$</span>ward<span class="sc">$</span>occupancy, <span class="at">y =</span> flow_hb_q<span class="sc">$</span>front_door<span class="sc">$</span>pct_4h,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> flow_hb_q<span class="sc">$</span>ward<span class="sc">$</span>quarter),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"#0072B2"</span>, <span class="at">size =</span> <span class="fl">1.6</span>) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.9</span>), <span class="at">trans =</span> <span class="st">"date"</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> \(x) <span class="fu">paste0</span>(x, <span class="st">"%"</span>)) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> \(y) <span class="fu">paste0</span>(y, <span class="st">"%"</span>)) <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Ward: acute beds occupied"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Front door: A&amp;E patients seen within 4 hours"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Fuller wards, slower front doors?"</span>) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-ward" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="nhs-whole-system_files/figure-html/fig-ward-1.png" class="img-fluid figure-img" width="1350">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ward-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Each point is one health board in one quarter. x comes from the ward silo and y from the front-door silo, aligned on board and quarter. Older quarters are fainter.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This uses 14 boards with both an emergency department and acute beds. Boards differ in size, case mix and geography, so a cloud like this mixes differences <em>between</em> boards with changes <em>within</em> each board over time. Separating the two is the obvious next step for a group, by faceting by board or by drawing one path per board.</p>
+</section>
+</section>
+<section id="candidate-mappings-the-group-chooses" class="level2">
+<h2 class="anchored" data-anchor-id="candidate-mappings-the-group-chooses">Candidate mappings (the group chooses)</h2>
+<pre class="text"><code>Candidates (the group chooses) - nhs-whole-system:
+  silos:          front_door (A&amp;E), ward (acute beds), back_door (delayed discharges)
+  grain:          board x month (two silos) or board x quarter (all three)
+  position x/y:   any silo's measure against any other's, after align_silos()
+  facet:          stage (journey order), or board
+  colour/alpha:   time; or a third silo's measure (e.g. delayed beds on the ward plot)
+  silo as data:   bind_rows(.id = "stage") turns "which part of the system" into a variable</code></pre>
+<p>Questions for the group:</p>
+<ul>
+<li><strong>Is the <code>$</code> version clearer, or just shorter?</strong> The test is whether someone new to the data can say, from the code alone, which parts of the system the chart connects.</li>
+<li><strong>Journey names or team names?</strong> <code>front_door</code> is vivid but informal. Some teams would rather see the publication name.</li>
+<li><strong>Should the helper be visible?</strong> It could live in a shared script so the session sees only the <code>$</code> plots, or be written live as part of the lesson.</li>
+<li><strong>What belongs between the ward and the back door?</strong> Length of stay and discharges by day of the week are both published and both sit on the same path.</li>
+</ul>
+</section>
+<section id="what-the-data-cant-say" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-data-cant-say">What the data can’t say</h2>
+<p>These are aggregate totals by board and month or quarter. They can’t follow a patient, so they can’t show that the person waiting in A&amp;E was waiting for a bed held by a delayed discharge. The three measures share drivers, including an ageing population, winter, staffing and the pandemic, that could move them together without any causal chain. The four-hour figure includes patients who were never admitted. Acute occupancy is an average over a quarter and a whole board, so it hides the days and hospitals that were full. The three-silo record is only 21 quarters, starting late in the first pandemic year, which is too short to separate a trend from a relationship. Bed definitions and delay definitions are set nationally and can change; a change in definition would look like a change in the system.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reproducing this page: download the whole pipeline as one R script
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong><a href="whole-system.R" download="whole-system.R">Download <code>whole-system.R</code></a></strong> (annotated, about 300 lines). It runs every step on this page from start to finish: it fetches the data (or uses the cached copies in <code>data/</code>), builds the three silos, defines <code>align_silos()</code>, sums to quarters, does the three alignments, shows the duplicated-month check, saves the three figures to <code>figures/</code>, and prints the numbers quoted above. Run it from the repository root, or from any empty folder:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> whole-system.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>It needs only the tidyverse. It was checked on 2026-10-13 by running it in an empty folder, where it downloaded all three files and reproduced every number on this page.</p>
+<p>The data comes from the <a href="https://www.opendata.nhs.scot/">Public Health Scotland open data portal</a>, under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3</a>:</p>
+<ul>
+<li><code>phs-ae-monthly.csv</code>: <a href="https://www.opendata.nhs.scot/dataset/monthly-accident-and-emergency-activity-and-waiting-times">Monthly A&amp;E activity and waiting times</a>.</li>
+<li><code>phs-delayed-discharge.csv</code>: <a href="https://www.opendata.nhs.scot/dataset/delayed-discharges-in-nhsscotland">Delayed discharges in NHSScotland</a>.</li>
+<li><code>phs-beds-quarterly.csv</code>: <a href="https://www.opendata.nhs.scot/dataset/hospital-beds-information">NHS beds information in Scotland</a>, beds by board of treatment and specialty. This page uses the <code>All Acute</code> rows at board level (where <code>Location</code> equals <code>HB</code>). Pulled on 2026-10-13, it runs from October–December 2020 to October–December 2025, and quarters are calendar quarters.</li>
+</ul>
+<p>Some download links carry the release month, so they go out of date. If a download fails, take the current link from the dataset page and update the <code>sources</code> table at the top of the script. The page itself also reads <code>phs-health-boards.csv</code> (<a href="https://www.opendata.nhs.scot/dataset/geography-codes-and-labels">health board codes and labels</a>), which the script doesn’t need.</p>
+<p>Cite Public Health Scotland as the source.</p>
+</div>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Front door, ward, back door: the whole system in one script"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Preparation · 2026-10-13 · Candidate grammar layer: data, and layers with their own data"</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 2026-10-13</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="an">resources:</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">  - whole-system.R</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>ae_raw   <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/phs-ae-monthly.csv"</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>dd_raw   <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/phs-delayed-discharge.csv"</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>beds_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/phs-beds-quarterly.csv"</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>boards   <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/phs-health-boards.csv"</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(HBDateArchived)) <span class="sc">|&gt;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">board_code =</span> HB, <span class="at">board =</span> <span class="fu">str_remove</span>(HBName, <span class="st">"^NHS "</span>))</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>scotland <span class="ot">&lt;-</span> <span class="st">"S92000003"</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>yyyymm   <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ym</span>(<span class="fu">as.character</span>(x)) <span class="co"># PHS codes months as 202608, not as dates</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>fmt_m    <span class="ot">&lt;-</span> <span class="cf">function</span>(d) <span class="fu">format</span>(d, <span class="st">"%B %Y"</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>fmt_q    <span class="ot">&lt;-</span> <span class="cf">function</span>(d) <span class="fu">paste0</span>(<span class="fu">format</span>(d, <span class="st">"%b"</span>), <span class="st">"–"</span>, <span class="fu">format</span>(d <span class="sc">%m+%</span> <span class="fu">months</span>(<span class="dv">2</span>), <span class="st">"%b %Y"</span>))</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>pct      <span class="ot">&lt;-</span> <span class="cf">function</span>(x) scales<span class="sc">::</span><span class="fu">percent</span>(x <span class="sc">/</span> <span class="dv">100</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: silos</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Each silo is built from its own publication and keeps its own name.</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co"># The names describe where the measure sits on a patient's journey, not which team</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="co"># publishes it: front door (A&amp;E), ward (acute beds), back door (delayed discharges).</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Front door: Type 1 emergency departments, all attendances, board x month</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>front_door_m <span class="ot">&lt;-</span> ae_raw <span class="sc">|&gt;</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DepartmentType <span class="sc">==</span> <span class="st">"Type 1"</span>, AttendanceCategory <span class="sc">==</span> <span class="st">"All"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(<span class="at">board_code =</span> HBT, <span class="at">month =</span> <span class="fu">yyyymm</span>(Month)) <span class="sc">|&gt;</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">attendances =</span> <span class="fu">sum</span>(NumberOfAttendancesAll),</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>            <span class="at">within_4h   =</span> <span class="fu">sum</span>(NumberWithin4HoursAll), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Back door: adults delayed in hospital, all reasons, board x month (Scotland row included)</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>back_door_m <span class="ot">&lt;-</span> dd_raw <span class="sc">|&gt;</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AgeGroup <span class="sc">==</span> <span class="st">"18plus"</span>, ReasonForDelay <span class="sc">==</span> <span class="st">"All Delay Reasons"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">board_code =</span> HBT, <span class="at">month =</span> <span class="fu">yyyymm</span>(MonthOfDelay),</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>            <span class="at">bed_days =</span> NumberOfDelayedBedDays,</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>            <span class="at">delayed_beds =</span> AverageDailyNumberOfDelayedBeds)</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Ward: acute specialties, board-level rows, board x quarter</span></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>ward_q <span class="ot">&lt;-</span> beds_raw <span class="sc">|&gt;</span></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(SpecialtyName <span class="sc">==</span> <span class="st">"All Acute"</span>, Location <span class="sc">==</span> HB) <span class="sc">|&gt;</span></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">board_code =</span> HB, <span class="at">quarter =</span> <span class="fu">yq</span>(Quarter),</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>            <span class="at">occupied_beds =</span> AverageOccupiedBeds,</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>            <span class="at">occupancy =</span> PercentageOccupancy)</span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: align</span></span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a><span class="co"># The one helper this page adds. It keeps every silo as its own data frame, but trims</span></span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a><span class="co"># them all to the same keys in the same order, and refuses anything ambiguous. After it</span></span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a><span class="co"># has run, silo$column vectors from different silos line up row for row.</span></span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>align_silos <span class="ot">&lt;-</span> <span class="cf">function</span>(..., by) {</span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>  silos <span class="ot">&lt;-</span> <span class="fu">list</span>(...)</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="st">"give each silo a name"</span> <span class="ot">=</span> <span class="sc">!</span><span class="fu">is.null</span>(<span class="fu">names</span>(silos)) <span class="sc">&amp;&amp;</span> <span class="fu">all</span>(<span class="fu">names</span>(silos) <span class="sc">!=</span> <span class="st">""</span>))</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (nm <span class="cf">in</span> <span class="fu">names</span>(silos)) {</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>    dupes <span class="ot">&lt;-</span> silos[[nm]] <span class="sc">|&gt;</span> <span class="fu">count</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(by))) <span class="sc">|&gt;</span> <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">nrow</span>(dupes) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stop</span>(<span class="st">"silo '"</span>, nm, <span class="st">"' has "</span>, <span class="fu">nrow</span>(dupes), <span class="st">" key(s) with more than one row; "</span>,</span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>           <span class="st">"aggregate it to one row per "</span>, <span class="fu">paste</span>(by, <span class="at">collapse =</span> <span class="st">" x "</span>), <span class="st">" first"</span>,</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>           <span class="at">call. =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>  keys <span class="ot">&lt;-</span> silos <span class="sc">|&gt;</span></span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>    <span class="fu">map</span>(\(s) <span class="fu">distinct</span>(s, <span class="fu">across</span>(<span class="fu">all_of</span>(by)))) <span class="sc">|&gt;</span></span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>    <span class="fu">reduce</span>(inner_join, <span class="at">by =</span> by) <span class="sc">|&gt;</span></span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">across</span>(<span class="fu">all_of</span>(by)))</span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>  aligned <span class="ot">&lt;-</span> <span class="fu">map</span>(silos, \(s) <span class="fu">left_join</span>(keys, s, <span class="at">by =</span> by))</span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attr</span>(aligned, <span class="st">"dropped"</span>) <span class="ot">&lt;-</span> <span class="fu">map_int</span>(silos, nrow) <span class="sc">-</span> <span class="fu">nrow</span>(keys)</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>  aligned</span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Monthly system, Scotland: front door and back door</span></span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>front_door_scot_m <span class="ot">&lt;-</span> front_door_m <span class="sc">|&gt;</span></span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">|&gt;</span></span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">attendances =</span> <span class="fu">sum</span>(attendances), <span class="at">within_4h =</span> <span class="fu">sum</span>(within_4h)) <span class="sc">|&gt;</span></span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct_4h =</span> <span class="dv">100</span> <span class="sc">*</span> within_4h <span class="sc">/</span> attendances)</span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>back_door_scot_m <span class="ot">&lt;-</span> back_door_m <span class="sc">|&gt;</span> <span class="fu">filter</span>(board_code <span class="sc">==</span> scotland) <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>board_code)</span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>flow_m <span class="ot">&lt;-</span> <span class="fu">align_silos</span>(<span class="at">front_door =</span> front_door_scot_m, <span class="at">back_door =</span> back_door_scot_m,</span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>                      <span class="at">by =</span> <span class="st">"month"</span>)</span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a><span class="co"># Quarterly system: the ward silo only exists by quarter, so the other two are summed</span></span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a><span class="co"># up to quarters. A quarter counts only if all three of its months are present.</span></span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>to_quarter <span class="ot">&lt;-</span> <span class="cf">function</span>(d, ...) {</span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>  d <span class="sc">|&gt;</span></span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">quarter =</span> <span class="fu">floor_date</span>(month, <span class="st">"quarter"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(quarter, ...) <span class="sc">|&gt;</span></span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">==</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"attendances"</span>, <span class="st">"within_4h"</span>, <span class="st">"bed_days"</span>)), sum),</span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>              <span class="at">days =</span> <span class="fu">sum</span>(<span class="fu">days_in_month</span>(month)), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>front_door_q <span class="ot">&lt;-</span> <span class="fu">to_quarter</span>(front_door_m, board_code) <span class="sc">|&gt;</span></span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct_4h =</span> <span class="dv">100</span> <span class="sc">*</span> within_4h <span class="sc">/</span> attendances) <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>days)</span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a>back_door_q  <span class="ot">&lt;-</span> <span class="fu">to_quarter</span>(back_door_m, board_code) <span class="sc">|&gt;</span></span>
+<span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">delayed_beds =</span> bed_days <span class="sc">/</span> days) <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>days)</span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>front_door_scot_q <span class="ot">&lt;-</span> front_door_q <span class="sc">|&gt;</span></span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(quarter) <span class="sc">|&gt;</span></span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">attendances =</span> <span class="fu">sum</span>(attendances), <span class="at">within_4h =</span> <span class="fu">sum</span>(within_4h)) <span class="sc">|&gt;</span></span>
+<span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct_4h =</span> <span class="dv">100</span> <span class="sc">*</span> within_4h <span class="sc">/</span> attendances)</span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a>flow_q <span class="ot">&lt;-</span> <span class="fu">align_silos</span>(</span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>  <span class="at">front_door =</span> front_door_scot_q,</span>
+<span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a>  <span class="at">ward       =</span> ward_q <span class="sc">|&gt;</span> <span class="fu">filter</span>(board_code <span class="sc">==</span> scotland) <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>board_code),</span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>  <span class="at">back_door  =</span> back_door_q <span class="sc">|&gt;</span> <span class="fu">filter</span>(board_code <span class="sc">==</span> scotland) <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>board_code),</span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"quarter"</span></span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>flow_hb_q <span class="ot">&lt;-</span> <span class="fu">align_silos</span>(</span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>  <span class="at">front_door =</span> front_door_q,</span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>  <span class="at">ward       =</span> ward_q <span class="sc">|&gt;</span> <span class="fu">filter</span>(board_code <span class="sc">!=</span> scotland),</span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>  <span class="at">back_door  =</span> back_door_q <span class="sc">|&gt;</span> <span class="fu">filter</span>(board_code <span class="sc">!=</span> scotland),</span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"board_code"</span>, <span class="st">"quarter"</span>)</span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>n_m   <span class="ot">&lt;-</span> <span class="fu">nrow</span>(flow_m<span class="sc">$</span>front_door)</span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a>n_q   <span class="ot">&lt;-</span> <span class="fu">nrow</span>(flow_q<span class="sc">$</span>ward)</span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a>q1    <span class="ot">&lt;-</span> <span class="fu">min</span>(flow_q<span class="sc">$</span>ward<span class="sc">$</span>quarter)</span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a>qn    <span class="ot">&lt;-</span> <span class="fu">max</span>(flow_q<span class="sc">$</span>ward<span class="sc">$</span>quarter)</span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a>n_hb  <span class="ot">&lt;-</span> <span class="fu">n_distinct</span>(flow_hb_q<span class="sc">$</span>ward<span class="sc">$</span>board_code)</span>
+<span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a>dropped_m <span class="ot">&lt;-</span> <span class="fu">attr</span>(flow_m, <span class="st">"dropped"</span>)</span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a><span class="co"># The misaligned case the helper exists to catch: one silo has a month twice</span></span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a>caught <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">align_silos</span>(<span class="at">front_door =</span> front_door_scot_m,</span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a>              <span class="at">back_door  =</span> <span class="fu">bind_rows</span>(back_door_scot_m, <span class="fu">slice</span>(back_door_scot_m, <span class="dv">1</span>)),</span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>              <span class="at">by =</span> <span class="st">"month"</span>),</span>
+<span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a>  <span class="at">error =</span> conditionMessage</span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a>::: {.callout-note icon="false"}</span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preparation notes, not a session writeup</span></span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a>These notes revisit <span class="co">[</span><span class="ot">the 2026-10-09 preparation page</span><span class="co">](../2026-10-09/nhs-cross-silo.qmd)</span> and take its idea a step further. Nothing here is a decision by a group. The design decisions below are drafting decisions, made by the agent at the facilitator's request, and every one is open for a group to overturn. Drafted by Claude Opus 5.5 from Public Health Scotland open data.</span>
+<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a><span class="fu">## The question</span></span>
+<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a>Patient flow is a whole-system problem. Whether someone waits in A&amp;E depends partly on whether a ward bed is free, and that depends partly on whether the people in those beds can be discharged. Seeing this needs charts that put measures from different parts of the system side by side. But the data arrives in silos, published by different teams, and the habit is to analyse each silo on its own. Technique isn't the obstacle: putting two datasets on one plot is easy. The obstacle is knowing the parts depend on each other, and having code that makes that dependence visible.</span>
+<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a>The earlier page had already put two silos on one chart, so the question for this page is narrower: **does the code that draws the chart carry the whole-system idea, or only the chart?**</span>
+<span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a><span class="fu">## What the earlier page got right, and where it stopped short</span></span>
+<span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a>The 2026-10-09 page made the case for crossing silos with Public Health Scotland data: A&amp;E four-hour performance against beds occupied by delayed discharges, and the "exit block" story that links them. Two of its choices work against that aim.</span>
+<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**It rejected the `$` approach.** It showed <span class="in">`aes(x = delays_scot$delayed_beds, y = ed_scot$pct_4h)`</span> as the fragile option, because ggplot2 pairs the two vectors by position, not by month. That's true, and it's still the most readable expression of "this silo against that one". The page gave up the readability to get the safety.</span>
+<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Its join erased the silos.** The recommended route was <span class="in">`inner_join()`</span> into a table called <span class="in">`both_scot`</span>. That's correct, but after it, nothing in the plotting code says that the columns came from different parts of the system. The analyst writing the next chart starts again from one table, which is the silo habit again.</span>
+<span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a>It also named the data frames after the publishing teams (<span class="in">`ed`</span>, <span class="in">`delays`</span>), not after where they sit in the system, and it stopped at two silos, jumping from the front door straight to the back.</span>
+<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a><span class="fu">## Design decisions</span></span>
+<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a>Each decision below is recorded as considered, chosen and why, for a group to reopen.</span>
+<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-175"><a href="#cb8-175" aria-hidden="true" tabindex="-1"></a>**1. Name each silo by its place on the patient's journey.** Considered: team names (<span class="in">`ed`</span>, <span class="in">`delays`</span>, <span class="in">`beds`</span>); dataset names (<span class="in">`ae_monthly`</span>); journey names. Chosen: <span class="in">`front_door`</span> (A&amp;E), <span class="in">`ward`</span> (acute beds) and <span class="in">`back_door`</span> (delayed discharges). The names cost nothing and say what the chart needs said: these are three points on one path, not three reports. Anyone reading <span class="in">`flow$back_door$delayed_beds`</span> is reminded where the patient is.</span>
+<span id="cb8-176"><a href="#cb8-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-177"><a href="#cb8-177" aria-hidden="true" tabindex="-1"></a>**2. Keep the silos separate, but align them before plotting.** Considered: a joined wide table (the earlier page); layers with their own <span class="in">`data`</span> (works for time series, can't make a scatter); <span class="in">`$`</span> vectors as they come (fragile). Chosen: a small helper, <span class="in">`align_silos()`</span>, that takes named silos and the shared keys, refuses any silo with more than one row per key, keeps only keys every silo has, and returns the silos as a named list, each sorted the same way. The silos stay distinct objects with distinct names, and the pairing rule is applied once, in one place, where it can be checked.</span>
+<span id="cb8-178"><a href="#cb8-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-179"><a href="#cb8-179" aria-hidden="true" tabindex="-1"></a>**3. Use `$` freely after alignment.** Chosen: plotting code like <span class="in">`aes(x = flow$back_door$delayed_beds, y = flow$front_door$pct_4h)`</span>. Every aesthetic names the silo it came from. Alignment makes it safe, because row *i* of every silo is the same month.</span>
+<span id="cb8-180"><a href="#cb8-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-181"><a href="#cb8-181" aria-hidden="true" tabindex="-1"></a>**4. Make the silo itself a variable, so the grammar can map it.** Considered: one chart per silo stacked with patchwork (the earlier "silo view"); dual y axes (rejected: two scales on one axis invite the reader to compare lines whose heights mean nothing to each other). Chosen: bind the silos into one long table with <span class="in">`bind_rows(..., .id = "stage")`</span> and facet by stage, in journey order. "Which part of the system" becomes a column, which is the grammar's way of saying it matters.</span>
+<span id="cb8-182"><a href="#cb8-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-183"><a href="#cb8-183" aria-hidden="true" tabindex="-1"></a>**5. Add the middle of the journey.** The ward silo is acute bed occupancy from the Public Health Scotland quarterly beds publication. It exists only by quarter, so the other two silos are summed to quarters for the whole-system figures, and a quarter counts only when all three of its months are present. Considered: keep everything monthly and leave the ward out; interpolate occupancy to months (rejected: it invents data). The cost is a shorter, coarser record: <span class="in">`r n_q`</span> quarters, <span class="in">`r fmt_q(q1)`</span> to <span class="in">`r fmt_q(qn)`</span>, starting late in the first pandemic year.</span>
+<span id="cb8-184"><a href="#cb8-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a>**6. Leave admitted patients and ambulances for later.** The four-hour figure counts every Type 1 attendance, including the majority who go home and never need a ward bed. Admitted-only figures, and ambulance handover times at the very front door, would sharpen the chain. Neither is in the open files used here.</span>
+<span id="cb8-186"><a href="#cb8-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sources and joins</span></span>
+<span id="cb8-188"><a href="#cb8-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-189"><a href="#cb8-189" aria-hidden="true" tabindex="-1"></a>Three publications, three silos, and three alignments, one for each figure. Nothing is joined into a single wide table: each <span class="in">`align_silos()`</span> step trims the silos to the keys they share and hands them back side by side, still named.</span>
+<span id="cb8-190"><a href="#cb8-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-193"><a href="#cb8-193" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb8-194"><a href="#cb8-194" aria-hidden="true" tabindex="-1"></a>%%| label: fig-sources</span>
+<span id="cb8-195"><a href="#cb8-195" aria-hidden="true" tabindex="-1"></a>%%| fig-cap: <span class="ot">"</span><span class="st">Where each figure's data comes from. Cylinders are the cached Public Health Scotland files, rounded boxes are silos (coloured by stage of the patient's journey: blue front door, green ward, orange back door), hexagons are alignments, and the grey boxes at the bottom are the figures. Edge labels say what each step keeps or sums.</span><span class="ot">"</span></span>
+<span id="cb8-196"><a href="#cb8-196" aria-hidden="true" tabindex="-1"></a>flowchart TB</span>
+<span id="cb8-197"><a href="#cb8-197" aria-hidden="true" tabindex="-1"></a>  subgraph PHS[<span class="ot">"</span><span class="st">Public Health Scotland open data, cached in data/</span><span class="ot">"</span>]</span>
+<span id="cb8-198"><a href="#cb8-198" aria-hidden="true" tabindex="-1"></a>    direction LR</span>
+<span id="cb8-199"><a href="#cb8-199" aria-hidden="true" tabindex="-1"></a>    AE[(<span class="ot">"</span><span class="st">A&amp;amp;E activity&lt;br/&gt;site × month</span><span class="ot">"</span>)]</span>
+<span id="cb8-200"><a href="#cb8-200" aria-hidden="true" tabindex="-1"></a>    BD[(<span class="ot">"</span><span class="st">Hospital beds&lt;br/&gt;location × specialty × quarter</span><span class="ot">"</span>)]</span>
+<span id="cb8-201"><a href="#cb8-201" aria-hidden="true" tabindex="-1"></a>    DD[(<span class="ot">"</span><span class="st">Delayed discharges&lt;br/&gt;board × month</span><span class="ot">"</span>)]</span>
+<span id="cb8-202"><a href="#cb8-202" aria-hidden="true" tabindex="-1"></a>  end</span>
+<span id="cb8-203"><a href="#cb8-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a>  AE --&gt;|<span class="ot">"</span><span class="st">Type 1 sites, all attendances,&lt;br/&gt;summed to board</span><span class="ot">"</span>| FDm([<span class="ot">"</span><span class="st">front_door&lt;br/&gt;board × month</span><span class="ot">"</span>])</span>
+<span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a>  BD --&gt;|<span class="ot">"</span><span class="st">All Acute,&lt;br/&gt;board-level rows</span><span class="ot">"</span>| WDq([<span class="ot">"</span><span class="st">ward&lt;br/&gt;board × quarter</span><span class="ot">"</span>])</span>
+<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a>  DD --&gt;|<span class="ot">"</span><span class="st">adults,&lt;br/&gt;all delay reasons</span><span class="ot">"</span>| BKm([<span class="ot">"</span><span class="st">back_door&lt;br/&gt;board × month</span><span class="ot">"</span>])</span>
+<span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a>  FDm --&gt;|<span class="ot">"</span><span class="st">complete quarters</span><span class="ot">"</span>| FDq([<span class="ot">"</span><span class="st">front_door&lt;br/&gt;board × quarter</span><span class="ot">"</span>])</span>
+<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a>  BKm --&gt;|<span class="ot">"</span><span class="st">complete quarters</span><span class="ot">"</span>| BKq([<span class="ot">"</span><span class="st">back_door&lt;br/&gt;board × quarter</span><span class="ot">"</span>])</span>
+<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a>  FDm --&gt;|<span class="ot">"</span><span class="st">Scotland</span><span class="ot">"</span>| A1{{<span class="ot">"</span><span class="st">align_silos()&lt;br/&gt;by month</span><span class="ot">"</span>}}</span>
+<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a>  BKm --&gt;|<span class="ot">"</span><span class="st">Scotland</span><span class="ot">"</span>| A1</span>
+<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a>  FDq --&gt; A2{{<span class="ot">"</span><span class="st">align_silos()&lt;br/&gt;Scotland, by quarter</span><span class="ot">"</span>}}</span>
+<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a>  WDq --&gt; A2</span>
+<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a>  BKq --&gt; A2</span>
+<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a>  FDq --&gt; A3{{<span class="ot">"</span><span class="st">align_silos()&lt;br/&gt;board × quarter</span><span class="ot">"</span>}}</span>
+<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a>  WDq --&gt; A3</span>
+<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a>  BKq --&gt; A3</span>
+<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a>  A1 --&gt; F1[<span class="ot">"</span><span class="st">flow_m&lt;br/&gt;Back door against front door</span><span class="ot">"</span>]</span>
+<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a>  A2 --&gt; F2[<span class="ot">"</span><span class="st">flow_q&lt;br/&gt;One patient journey</span><span class="ot">"</span>]</span>
+<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a>  A3 --&gt; F3[<span class="ot">"</span><span class="st">flow_hb_q&lt;br/&gt;Fuller wards, slower front doors?</span><span class="ot">"</span>]</span>
+<span id="cb8-225"><a href="#cb8-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-226"><a href="#cb8-226" aria-hidden="true" tabindex="-1"></a>  classDef src fill:<span class="co">#ffffff,stroke:#777,color:#000</span></span>
+<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a>  classDef front fill:<span class="co">#cfe3f1,stroke:#0072B2,color:#000</span></span>
+<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a>  classDef ward fill:<span class="co">#d4ede4,stroke:#009E73,color:#000</span></span>
+<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a>  classDef back fill:<span class="co">#f6dccb,stroke:#D55E00,color:#000</span></span>
+<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a>  classDef align fill:<span class="co">#ffffff,stroke:#555,color:#000</span></span>
+<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a>  classDef fig fill:<span class="co">#f4f4f4,stroke:#999,color:#000</span></span>
+<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a>  class AE,BD,DD src</span>
+<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a>  class FDm,FDq front</span>
+<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a>  class WDq ward</span>
+<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a>  class BKm,BKq back</span>
+<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a>  class A1,A2,A3 align</span>
+<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a>  class F1,F2,F3 fig</span>
+<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a>  style PHS fill:<span class="co">#fafafa,stroke:#bbb,color:#000</span></span>
+<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a>Two things the diagram makes visible that the code alone doesn't. The ward only exists by quarter, so it forces the other two silos up to its grain before they can meet it; and each figure has its own alignment, so the monthly chart can use all <span class="in">`r n_m`</span> months, while the three-silo charts are limited to the <span class="in">`r n_q`</span> quarters the ward covers.</span>
+<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a><span class="fu">## How alignment works, and what it catches</span></span>
+<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-247"><a href="#cb8-247" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-248"><a href="#cb8-248" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: show-helper</span></span>
+<span id="cb8-249"><a href="#cb8-249" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb8-250"><a href="#cb8-250" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a>flow_m <span class="ot">&lt;-</span> <span class="fu">align_silos</span>(</span>
+<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a>  <span class="at">front_door =</span> front_door_scot_m,   <span class="co"># A&amp;E, Scotland, by month</span></span>
+<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a>  <span class="at">back_door  =</span> back_door_scot_m,    <span class="co"># delayed discharges, Scotland, by month</span></span>
+<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"month"</span></span>
+<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a>For the monthly Scotland system, alignment keeps <span class="in">`r n_m`</span> months, <span class="in">`r fmt_m(min(flow_m$front_door$month))`</span> to <span class="in">`r fmt_m(max(flow_m$front_door$month))`</span>, and drops <span class="in">`r dropped_m[["front_door"]]`</span> A&amp;E months that have no delayed-discharge record (that series starts later). The drop is reported, not silent.</span>
+<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-260"><a href="#cb8-260" aria-hidden="true" tabindex="-1"></a>If a silo is ambiguous, for example because a month appears twice after a careless append, alignment stops instead of drawing a plausible wrong chart:</span>
+<span id="cb8-261"><a href="#cb8-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-264"><a href="#cb8-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: show-caught</span></span>
+<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">strwrap</span>(<span class="fu">paste</span>(<span class="st">"Error:"</span>, caught), <span class="at">width =</span> <span class="dv">80</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a><span class="fu">## First drafts of the figures</span></span>
+<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-272"><a href="#cb8-272" aria-hidden="true" tabindex="-1"></a>These are the agent's drafts, made without a group. Each one is a set of decisions the group can overturn.</span>
+<span id="cb8-273"><a href="#cb8-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-274"><a href="#cb8-274" aria-hidden="true" tabindex="-1"></a><span class="fu">### One silo against another, by name</span></span>
+<span id="cb8-275"><a href="#cb8-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-278"><a href="#cb8-278" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-279"><a href="#cb8-279" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-by-name</span></span>
+<span id="cb8-280"><a href="#cb8-280" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Scotland, monthly. Every aesthetic names its silo: flow$back_door on x, flow$front_door on y and in colour. Colour runs from the earliest month (dark) to the latest (yellow)."</span></span>
+<span id="cb8-281"><a href="#cb8-281" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
+<span id="cb8-282"><a href="#cb8-282" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6.5</span></span>
+<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="fu">aes</span>(<span class="at">x =</span> flow_m<span class="sc">$</span>back_door<span class="sc">$</span>delayed_beds, <span class="at">y =</span> flow_m<span class="sc">$</span>front_door<span class="sc">$</span>pct_4h),</span>
+<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">0.4</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">"grey50"</span>) <span class="sc">+</span></span>
+<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> flow_m<span class="sc">$</span>back_door<span class="sc">$</span>delayed_beds, <span class="at">y =</span> flow_m<span class="sc">$</span>front_door<span class="sc">$</span>pct_4h,</span>
+<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour =</span> flow_m<span class="sc">$</span>front_door<span class="sc">$</span>month), <span class="at">size =</span> <span class="fl">1.8</span>) <span class="sc">+</span></span>
+<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_c</span>(<span class="at">trans =</span> <span class="st">"date"</span>, <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_date</span>(<span class="st">"%Y"</span>)) <span class="sc">+</span></span>
+<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> \(y) <span class="fu">paste0</span>(y, <span class="st">"%"</span>)) <span class="sc">+</span></span>
+<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Back door: beds occupied by delayed discharges (daily average)"</span>,</span>
+<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Front door: A&amp;E patients seen within 4 hours"</span>,</span>
+<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a>       <span class="at">colour =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Back door against front door"</span>) <span class="sc">+</span></span>
+<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"cm"</span>), <span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a>This is the same chart as the earlier page's cross-silo view, drawn from separate silos rather than a joined table. Nothing about the picture changes. What changes is the code a reader copies: it names the two parts of the system on every line.</span>
+<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a><span class="fu">### The whole system on one page</span></span>
+<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-304"><a href="#cb8-304" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-strip</span></span>
+<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Scotland, quarterly. One panel per stage of the patient's journey, from the front door down to the back door, sharing the time axis. The y scales are free because the measures are in different units."</span></span>
+<span id="cb8-307"><a href="#cb8-307" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
+<span id="cb8-308"><a href="#cb8-308" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 8</span></span>
+<span id="cb8-309"><a href="#cb8-309" aria-hidden="true" tabindex="-1"></a>stages <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb8-310"><a href="#cb8-310" aria-hidden="true" tabindex="-1"></a>  <span class="at">front_door =</span> <span class="st">"Front door: A&amp;E patients seen within 4 hours (%)"</span>,</span>
+<span id="cb8-311"><a href="#cb8-311" aria-hidden="true" tabindex="-1"></a>  <span class="at">ward       =</span> <span class="st">"Ward: acute beds occupied (%)"</span>,</span>
+<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a>  <span class="at">back_door  =</span> <span class="st">"Back door: beds occupied by delayed discharges (daily average)"</span></span>
+<span id="cb8-313"><a href="#cb8-313" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-314"><a href="#cb8-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-315"><a href="#cb8-315" aria-hidden="true" tabindex="-1"></a>whole_system <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb8-316"><a href="#cb8-316" aria-hidden="true" tabindex="-1"></a>  <span class="at">front_door =</span> <span class="fu">tibble</span>(<span class="at">quarter =</span> flow_q<span class="sc">$</span>front_door<span class="sc">$</span>quarter, <span class="at">value =</span> flow_q<span class="sc">$</span>front_door<span class="sc">$</span>pct_4h),</span>
+<span id="cb8-317"><a href="#cb8-317" aria-hidden="true" tabindex="-1"></a>  <span class="at">ward       =</span> <span class="fu">tibble</span>(<span class="at">quarter =</span> flow_q<span class="sc">$</span>ward<span class="sc">$</span>quarter,       <span class="at">value =</span> flow_q<span class="sc">$</span>ward<span class="sc">$</span>occupancy),</span>
+<span id="cb8-318"><a href="#cb8-318" aria-hidden="true" tabindex="-1"></a>  <span class="at">back_door  =</span> <span class="fu">tibble</span>(<span class="at">quarter =</span> flow_q<span class="sc">$</span>back_door<span class="sc">$</span>quarter,  <span class="at">value =</span> flow_q<span class="sc">$</span>back_door<span class="sc">$</span>delayed_beds),</span>
+<span id="cb8-319"><a href="#cb8-319" aria-hidden="true" tabindex="-1"></a>  <span class="at">.id =</span> <span class="st">"stage"</span></span>
+<span id="cb8-320"><a href="#cb8-320" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb8-321"><a href="#cb8-321" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">stage =</span> <span class="fu">factor</span>(stage, <span class="at">levels =</span> <span class="fu">names</span>(stages), <span class="at">labels =</span> stages))</span>
+<span id="cb8-322"><a href="#cb8-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-323"><a href="#cb8-323" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(whole_system, <span class="fu">aes</span>(quarter, value)) <span class="sc">+</span></span>
+<span id="cb8-324"><a href="#cb8-324" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour =</span> <span class="st">"#0072B2"</span>) <span class="sc">+</span></span>
+<span id="cb8-325"><a href="#cb8-325" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"#0072B2"</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb8-326"><a href="#cb8-326" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> stage, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb8-327"><a href="#cb8-327" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma) <span class="sc">+</span></span>
+<span id="cb8-328"><a href="#cb8-328" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"One patient journey, three publications"</span>) <span class="sc">+</span></span>
+<span id="cb8-329"><a href="#cb8-329" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb8-330"><a href="#cb8-330" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">face =</span> <span class="st">"bold"</span>))</span>
+<span id="cb8-331"><a href="#cb8-331" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-333"><a href="#cb8-333" aria-hidden="true" tabindex="-1"></a>Read from top to bottom, the panels follow a patient in and out of hospital. Over these <span class="in">`r n_q`</span> quarters, acute occupancy ran from <span class="in">`r pct(min(flow_q$ward$occupancy))`</span> to <span class="in">`r pct(max(flow_q$ward$occupancy))`</span>, and it was above 85% in <span class="in">`r sum(flow_q$ward$occupancy &gt; 85)`</span> of them. 85% is often quoted as the level above which hospitals start to struggle to admit promptly. The line between the panels is the argument the chart exists to make: the front door's figure is partly made at the back door, and the ward is where they meet.</span>
+<span id="cb8-334"><a href="#cb8-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-335"><a href="#cb8-335" aria-hidden="true" tabindex="-1"></a><span class="fu">### Front door against ward, board by board</span></span>
+<span id="cb8-336"><a href="#cb8-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-339"><a href="#cb8-339" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb8-340"><a href="#cb8-340" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-ward</span></span>
+<span id="cb8-341"><a href="#cb8-341" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Each point is one health board in one quarter. x comes from the ward silo and y from the front-door silo, aligned on board and quarter. Older quarters are fainter."</span></span>
+<span id="cb8-342"><a href="#cb8-342" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
+<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6.5</span></span>
+<span id="cb8-344"><a href="#cb8-344" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> flow_hb_q<span class="sc">$</span>ward<span class="sc">$</span>occupancy, <span class="at">y =</span> flow_hb_q<span class="sc">$</span>front_door<span class="sc">$</span>pct_4h,</span>
+<span id="cb8-346"><a href="#cb8-346" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> flow_hb_q<span class="sc">$</span>ward<span class="sc">$</span>quarter),</span>
+<span id="cb8-347"><a href="#cb8-347" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"#0072B2"</span>, <span class="at">size =</span> <span class="fl">1.6</span>) <span class="sc">+</span></span>
+<span id="cb8-348"><a href="#cb8-348" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.15</span>, <span class="fl">0.9</span>), <span class="at">trans =</span> <span class="st">"date"</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb8-349"><a href="#cb8-349" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> \(x) <span class="fu">paste0</span>(x, <span class="st">"%"</span>)) <span class="sc">+</span></span>
+<span id="cb8-350"><a href="#cb8-350" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> \(y) <span class="fu">paste0</span>(y, <span class="st">"%"</span>)) <span class="sc">+</span></span>
+<span id="cb8-351"><a href="#cb8-351" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Ward: acute beds occupied"</span>,</span>
+<span id="cb8-352"><a href="#cb8-352" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Front door: A&amp;E patients seen within 4 hours"</span>,</span>
+<span id="cb8-353"><a href="#cb8-353" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Fuller wards, slower front doors?"</span>) <span class="sc">+</span></span>
+<span id="cb8-354"><a href="#cb8-354" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span>
+<span id="cb8-355"><a href="#cb8-355" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-356"><a href="#cb8-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-357"><a href="#cb8-357" aria-hidden="true" tabindex="-1"></a>This uses <span class="in">`r n_hb`</span> boards with both an emergency department and acute beds. Boards differ in size, case mix and geography, so a cloud like this mixes differences *between* boards with changes *within* each board over time. Separating the two is the obvious next step for a group, by faceting by board or by drawing one path per board.</span>
+<span id="cb8-358"><a href="#cb8-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-359"><a href="#cb8-359" aria-hidden="true" tabindex="-1"></a><span class="fu">## Candidate mappings (the group chooses)</span></span>
+<span id="cb8-360"><a href="#cb8-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-361"><a href="#cb8-361" aria-hidden="true" tabindex="-1"></a><span class="in">``` text</span></span>
+<span id="cb8-362"><a href="#cb8-362" aria-hidden="true" tabindex="-1"></a><span class="in">Candidates (the group chooses) - nhs-whole-system:</span></span>
+<span id="cb8-363"><a href="#cb8-363" aria-hidden="true" tabindex="-1"></a><span class="in">  silos:          front_door (A&amp;E), ward (acute beds), back_door (delayed discharges)</span></span>
+<span id="cb8-364"><a href="#cb8-364" aria-hidden="true" tabindex="-1"></a><span class="in">  grain:          board x month (two silos) or board x quarter (all three)</span></span>
+<span id="cb8-365"><a href="#cb8-365" aria-hidden="true" tabindex="-1"></a><span class="in">  position x/y:   any silo's measure against any other's, after align_silos()</span></span>
+<span id="cb8-366"><a href="#cb8-366" aria-hidden="true" tabindex="-1"></a><span class="in">  facet:          stage (journey order), or board</span></span>
+<span id="cb8-367"><a href="#cb8-367" aria-hidden="true" tabindex="-1"></a><span class="in">  colour/alpha:   time; or a third silo's measure (e.g. delayed beds on the ward plot)</span></span>
+<span id="cb8-368"><a href="#cb8-368" aria-hidden="true" tabindex="-1"></a><span class="in">  silo as data:   bind_rows(.id = "stage") turns "which part of the system" into a variable</span></span>
+<span id="cb8-369"><a href="#cb8-369" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-370"><a href="#cb8-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-371"><a href="#cb8-371" aria-hidden="true" tabindex="-1"></a>Questions for the group:</span>
+<span id="cb8-372"><a href="#cb8-372" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-373"><a href="#cb8-373" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Is the `$` version clearer, or just shorter?** The test is whether someone new to the data can say, from the code alone, which parts of the system the chart connects.</span>
+<span id="cb8-374"><a href="#cb8-374" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Journey names or team names?** <span class="in">`front_door`</span> is vivid but informal. Some teams would rather see the publication name.</span>
+<span id="cb8-375"><a href="#cb8-375" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Should the helper be visible?** It could live in a shared script so the session sees only the <span class="in">`$`</span> plots, or be written live as part of the lesson.</span>
+<span id="cb8-376"><a href="#cb8-376" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**What belongs between the ward and the back door?** Length of stay and discharges by day of the week are both published and both sit on the same path.</span>
+<span id="cb8-377"><a href="#cb8-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-378"><a href="#cb8-378" aria-hidden="true" tabindex="-1"></a><span class="fu">## What the data can't say</span></span>
+<span id="cb8-379"><a href="#cb8-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-380"><a href="#cb8-380" aria-hidden="true" tabindex="-1"></a>These are aggregate totals by board and month or quarter. They can't follow a patient, so they can't show that the person waiting in A&amp;E was waiting for a bed held by a delayed discharge. The three measures share drivers, including an ageing population, winter, staffing and the pandemic, that could move them together without any causal chain. The four-hour figure includes patients who were never admitted. Acute occupancy is an average over a quarter and a whole board, so it hides the days and hospitals that were full. The three-silo record is only <span class="in">`r n_q`</span> quarters, starting late in the first pandemic year, which is too short to separate a trend from a relationship. Bed definitions and delay definitions are set nationally and can change; a change in definition would look like a change in the system.</span>
+<span id="cb8-381"><a href="#cb8-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-382"><a href="#cb8-382" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip collapse="true"}</span>
+<span id="cb8-383"><a href="#cb8-383" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reproducing this page: download the whole pipeline as one R script</span></span>
+<span id="cb8-384"><a href="#cb8-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-385"><a href="#cb8-385" aria-hidden="true" tabindex="-1"></a>**[Download `whole-system.R`](whole-system.R){download="whole-system.R"}** (annotated, about 300 lines). It runs every step on this page from start to finish: it fetches the data (or uses the cached copies in <span class="in">`data/`</span>), builds the three silos, defines <span class="in">`align_silos()`</span>, sums to quarters, does the three alignments, shows the duplicated-month check, saves the three figures to <span class="in">`figures/`</span>, and prints the numbers quoted above. Run it from the repository root, or from any empty folder:</span>
+<span id="cb8-386"><a href="#cb8-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-387"><a href="#cb8-387" aria-hidden="true" tabindex="-1"></a><span class="in">``` sh</span></span>
+<span id="cb8-388"><a href="#cb8-388" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> whole-system.R</span>
+<span id="cb8-389"><a href="#cb8-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-390"><a href="#cb8-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-391"><a href="#cb8-391" aria-hidden="true" tabindex="-1"></a>It needs only the tidyverse. It was checked on 2026-10-13 by running it in an empty folder, where it downloaded all three files and reproduced every number on this page.</span>
+<span id="cb8-392"><a href="#cb8-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-393"><a href="#cb8-393" aria-hidden="true" tabindex="-1"></a>The data comes from the <span class="co">[</span><span class="ot">Public Health Scotland open data portal</span><span class="co">](https://www.opendata.nhs.scot/)</span>, under the <span class="co">[</span><span class="ot">Open Government Licence v3</span><span class="co">](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)</span>:</span>
+<span id="cb8-394"><a href="#cb8-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-395"><a href="#cb8-395" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`phs-ae-monthly.csv`</span>: <span class="co">[</span><span class="ot">Monthly A&amp;E activity and waiting times</span><span class="co">](https://www.opendata.nhs.scot/dataset/monthly-accident-and-emergency-activity-and-waiting-times)</span>.</span>
+<span id="cb8-396"><a href="#cb8-396" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`phs-delayed-discharge.csv`</span>: <span class="co">[</span><span class="ot">Delayed discharges in NHSScotland</span><span class="co">](https://www.opendata.nhs.scot/dataset/delayed-discharges-in-nhsscotland)</span>.</span>
+<span id="cb8-397"><a href="#cb8-397" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`phs-beds-quarterly.csv`</span>: <span class="co">[</span><span class="ot">NHS beds information in Scotland</span><span class="co">](https://www.opendata.nhs.scot/dataset/hospital-beds-information)</span>, beds by board of treatment and specialty. This page uses the <span class="in">`All Acute`</span> rows at board level (where <span class="in">`Location`</span> equals <span class="in">`HB`</span>). Pulled on 2026-10-13, it runs from October–December 2020 to October–December 2025, and quarters are calendar quarters.</span>
+<span id="cb8-398"><a href="#cb8-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-399"><a href="#cb8-399" aria-hidden="true" tabindex="-1"></a>Some download links carry the release month, so they go out of date. If a download fails, take the current link from the dataset page and update the <span class="in">`sources`</span> table at the top of the script. The page itself also reads <span class="in">`phs-health-boards.csv`</span> (<span class="co">[</span><span class="ot">health board codes and labels</span><span class="co">](https://www.opendata.nhs.scot/dataset/geography-codes-and-labels)</span>), which the script doesn't need.</span>
+<span id="cb8-400"><a href="#cb8-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-401"><a href="#cb8-401" aria-hidden="true" tabindex="-1"></a>Cite Public Health Scotland as the source.</span>
+<span id="cb8-402"><a href="#cb8-402" aria-hidden="true" tabindex="-1"></a>:::</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

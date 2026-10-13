@@ -78,3 +78,7 @@ make no design decisions; the group makes those on the day.
   [A&E waits and delayed discharges](sessions/2026-10-09/nhs-cross-silo.qmd): two
   Public Health Scotland datasets that are usually analysed separately, put on one plot.
   It's a candidate for a session on layers that each have their own data.
+- **2026-10-13.** [Front door, ward, back door](sessions/2026-10-13/nhs-whole-system.qmd):
+  the same NHS data with a third silo, acute bed occupancy. The plotting code names each
+  part of the patient's journey, so that cross-silo charts become the natural thing to
+  write.
