@@ -66,6 +66,11 @@ never published.
   [version 2](sessions/2026-09-29/office-data-v2.qmd), which continues it after the session.
   Version 2 adds revised specs, a 3D view with explicit linear models, and an
   autonomously produced section on the transcripts.
+- **2026-10-16, music sales and styles.** No TidyTuesday week has real sales data, so the
+  room chose Rolling Stone's "500 Greatest Albums" lists from 2003, 2012 and 2020.
+  [The session workbook](sessions/2026-10-16/rolling-stone.qmd) runs from the shortlist
+  through the data description to two figures: release year against rank, and a
+  Sankey-style chart of how the genre of the top five changed.
 
 ## Candidate datasets
 

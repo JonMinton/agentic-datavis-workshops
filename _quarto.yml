@@ -11,6 +11,7 @@ project:
     - sessions/*/office-data*.qmd
     - sessions/2026-10-09/*.qmd
     - sessions/2026-10-13/*.qmd
+    - sessions/2026-10-16/*.qmd
 
 website:
   title: "Agentic data-vis workshops"
@@ -28,6 +29,10 @@ website:
             text: "Workbook, version 2"
           - href: slides/2026-09-29-vishub.qmd
             text: "Slides"
+          - text: "---"
+          - text: "Session 2 · 2026-10-16 · Rolling Stone albums"
+          - href: sessions/2026-10-16/rolling-stone.qmd
+            text: "Workbook"
           - text: "---"
           - text: "2026-10-09 · Preparation: candidate datasets"
           - href: sessions/2026-10-09/gapminder-fertility.qmd

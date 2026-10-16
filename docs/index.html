@@ -149,6 +149,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Slides</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Session 2 · 2026-10-16 · Rolling Stone albums</li>
+        <li>
+    <a class="dropdown-item" href="./sessions/2026-10-16/rolling-stone.html">
+ <span class="dropdown-text">Workbook</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">2026-10-09 · Preparation: candidate datasets</li>
         <li>
     <a class="dropdown-item" href="./sessions/2026-10-09/gapminder-fertility.html">
@@ -249,6 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="sessions">Sessions</h2>
 <ul>
 <li><strong>2026-09-29, a demonstration at a university data-vis lab.</strong> <a href="./slides/2026-09-29-vishub.html">Slides</a>. The room chose <em>The Office</em>: IMDb ratings for every episode, built into a season-by-episode heatmap and then ratings over air date. <a href="./sessions/2026-09-29/office-data.html">The session workbook</a>, and <a href="./sessions/2026-09-29/office-data-v2.html">version 2</a>, which continues it after the session. Version 2 adds revised specs, a 3D view with explicit linear models, and an autonomously produced section on the transcripts.</li>
+<li><strong>2026-10-16, music sales and styles.</strong> No TidyTuesday week has real sales data, so the room chose Rolling Stone’s “500 Greatest Albums” lists from 2003, 2012 and 2020. <a href="./sessions/2026-10-16/rolling-stone.html">The session workbook</a> runs from the shortlist through the data description to two figures: release year against rank, and a Sankey-style chart of how the genre of the top five changed.</li>
 </ul>
 </section>
 <section id="candidate-datasets" class="level2">
@@ -784,22 +791,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>  <span class="co">[</span><span class="ot">version 2</span><span class="co">](sessions/2026-09-29/office-data-v2.qmd)</span>, which continues it after the session.</span>
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>  Version 2 adds revised specs, a 3D view with explicit linear models, and an</span>
 <span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>  autonomously produced section on the transcripts.</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="fu">## Candidate datasets</span></span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>Preparation notes describe a dataset before any session uses it. They offer options and</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>make no design decisions; the group makes those on the day.</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**2026-10-16, music sales and styles.** No TidyTuesday week has real sales data, so the</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>  room chose Rolling Stone's "500 Greatest Albums" lists from 2003, 2012 and 2020.</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>  <span class="co">[</span><span class="ot">The session workbook</span><span class="co">](sessions/2026-10-16/rolling-stone.qmd)</span> runs from the shortlist</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  through the data description to two figures: release year against rank, and a</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>  Sankey-style chart of how the genre of the top five changed.</span>
 <span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**2026-10-09.** <span class="co">[</span><span class="ot">Global fertility</span><span class="co">](sessions/2026-10-09/gapminder-fertility.qmd)</span>: the</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>  gapminder country indicators, a candidate for a geoms-and-stats session, with two</span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>  Rosling-style reference figures to react to.</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>  <span class="co">[</span><span class="ot">A&amp;E waits and delayed discharges</span><span class="co">](sessions/2026-10-09/nhs-cross-silo.qmd)</span>: two</span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>  Public Health Scotland datasets that are usually analysed separately, put on one plot.</span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>  It's a candidate for a session on layers that each have their own data.</span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**2026-10-13.** <span class="co">[</span><span class="ot">Front door, ward, back door</span><span class="co">](sessions/2026-10-13/nhs-whole-system.qmd)</span>:</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>  the same NHS data with a third silo, acute bed occupancy. The plotting code names each</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>  part of the patient's journey, so that cross-silo charts become the natural thing to</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>  write.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## Candidate datasets</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>Preparation notes describe a dataset before any session uses it. They offer options and</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>make no design decisions; the group makes those on the day.</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**2026-10-09.** <span class="co">[</span><span class="ot">Global fertility</span><span class="co">](sessions/2026-10-09/gapminder-fertility.qmd)</span>: the</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>  gapminder country indicators, a candidate for a geoms-and-stats session, with two</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>  Rosling-style reference figures to react to.</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>  <span class="co">[</span><span class="ot">A&amp;E waits and delayed discharges</span><span class="co">](sessions/2026-10-09/nhs-cross-silo.qmd)</span>: two</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>  Public Health Scotland datasets that are usually analysed separately, put on one plot.</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  It's a candidate for a session on layers that each have their own data.</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**2026-10-13.** <span class="co">[</span><span class="ot">Front door, ward, back door</span><span class="co">](sessions/2026-10-13/nhs-whole-system.qmd)</span>:</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>  the same NHS data with a third silo, acute bed occupancy. The plotting code names each</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>  part of the patient's journey, so that cross-silo charts become the natural thing to</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>  write.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

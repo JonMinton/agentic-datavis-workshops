@@ -1,0 +1,22 @@
+# Spec 01. Agent-proposed first figure: every slot below was filled by the agent at the
+# facilitator's request, before the session, not chosen by the room. It is a starting
+# point to revise.
+# Question: which release eras did the 2020 list reward, and where in the ranking?
+data: tt-2024-05-07-rolling_stone
+filter: "!is.na(rank_2020)"   # grain: one row per album on the 2020 list
+mapping:
+  x: release_year
+  y: rank_2020
+  colour: artist_gender
+layers:
+  - geom: point
+    alpha: 0.7
+scales:
+  y: scale_y_reverse(breaks = c(1, 100, 200, 300, 400, 500))
+  colour: okabe-ito
+labs:
+  title: "Rolling Stone's 500 greatest albums (2020 list)"
+  x: "Release year"
+  y: "Rank in 2020 (1 = greatest)"
+  colour: "Artist gender"
+theme: minimal
