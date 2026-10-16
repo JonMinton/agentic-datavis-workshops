@@ -1,4 +1,7 @@
 # Invoked through sh scripts/workshop preflight; no downloads or installations.
+# With --live, the packages a live session may reach for are required, not optional,
+# because live mode forbids installing anything mid-session (sessions/LIVE.md).
+live <- "--live" %in% commandArgs(trailingOnly = TRUE)
 failed <- FALSE
 check <- function(ok, message) {
   cat(if (ok) "PASS" else "FAIL", message, "\n")
@@ -11,9 +14,17 @@ for (package in required) {
   available <- requireNamespace(package, quietly = TRUE)
   check(available, paste(package, if (available) as.character(packageVersion(package)) else "missing"))
 }
-for (package in c("ggridges", "ggdist", "patchwork", "leaflet")) {
-  cat("OPTIONAL", package, if (requireNamespace(package, quietly = TRUE))
-    as.character(packageVersion(package)) else "not installed", "\n")
+live_packages <- c("ggalluvial", "ggbump", "ggbeeswarm", "ggdist", "ggrepel", "ggridges",
+                   "patchwork", "scales")
+optional <- union(c("ggridges", "ggdist", "patchwork", "leaflet"), live_packages)
+for (package in optional) {
+  available <- requireNamespace(package, quietly = TRUE)
+  version <- if (available) as.character(packageVersion(package)) else "not installed"
+  if (live && package %in% live_packages) {
+    check(available, paste(package, version, "(required in live mode)"))
+  } else {
+    cat("OPTIONAL", package, version, "\n")
+  }
 }
 for (skill in c("tt-fetch", "gg-spec", "dataset-scout")) {
   source <- file.path(".claude", "skills", skill, "SKILL.md")
@@ -36,6 +47,21 @@ for (directory in c("data", "sessions", "docs", "_freeze")) {
   ok <- dir.exists(directory) && isTRUE(suppressWarnings(file.create(probe)))
   if (ok) unlink(probe)
   check(ok, paste(directory, "is writable"))
+}
+check(file.exists("sessions/LIVE.md"), "live-mode contract sessions/LIVE.md exists")
+if (live) {
+  marker <- ".live-session"
+  check(file.exists(marker), "live mode is on (sh scripts/workshop live on YYYY-MM-DD)")
+  if (file.exists(marker)) {
+    session <- file.path("sessions", trimws(readLines(marker, n = 1, warn = FALSE)))
+    check(dir.exists(session), paste(session, "exists"))
+  }
+  missing <- live_packages[!vapply(live_packages, requireNamespace, logical(1), quietly = TRUE)]
+  if (length(missing) > 0) {
+    cat("Install the missing live packages before the session:\n",
+        sprintf("sh scripts/workshop r -e 'install.packages(c(%s), repos=\"https://cloud.r-project.org\")'\n",
+                paste0('"', missing, '"', collapse = ", ")))
+  }
 }
 cat("Manual checks: agent skill discovery, image reading, network and command approvals.\n")
 quit(status = if (failed) 1 else 0)

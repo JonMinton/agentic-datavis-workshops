@@ -198,6 +198,23 @@ reachable via the Pocket MCP tools as a backup source.)
   chat exports, or names without a consent record. Site:
   https://jonminton.github.io/agentic-datavis-workshops/
 
+## Live mode
+
+**If `.live-session` exists at the repo root, live mode is on: read `sessions/LIVE.md`
+before anything else and follow it for the whole session.** The file holds the session
+date. Live mode is for a facilitator driving a shared screen in front of an audience: TidyTuesday data
+only, one `.qmd` as the single output, one change per request, no installs, missing values
+left missing, and a one-line narration before each wait.
+
+The facilitator switches it with `sh scripts/workshop live on YYYY-MM-DD` and `... live
+off`. For Claude Code, `live on` also installs `.claude/live-settings.json` as the
+gitignored `.claude/settings.local.json`. That sets medium effort, denies web search
+and package installs, and adds hooks (`scripts/live_hook.R`) that load the contract at
+session start and block writes outside the session's `.qmd`, `specs/` and `figures/`.
+Codex has no equivalent hooks; `sh scripts/workshop live codex` launches it with web
+search disabled, medium reasoning effort and the contract as its first message. In
+Codex the contract is enforced by instruction only.
+
 ## Working live with the facilitators
 
 Pure separation, as in the parent repo: humans drive the interactive console and the
@@ -213,7 +230,8 @@ spec, don't name its author in any writeup (Chatham House default).
 The realtime layer of a session is the **artefact trail** (numbered specs, compiled
 code, rendered figures, decisions and pain points logged live in `notes.md`) — not
 prose. The writeup is drafted from the artefacts and transcripts immediately *after* the
-session, aiming for a same-day draft for approval.
+session, aiming for a same-day draft for approval. In live mode the session `.qmd` replaces `notes.md` as the live
+log; `notes.md` is written afterwards.
 
 ## The tt-fetch skill
 

@@ -1,0 +1,36 @@
+{
+  "effortLevel": "medium",
+  "permissions": {
+    "deny": [
+      "WebSearch",
+      "Bash(*install.packages*)",
+      "Bash(*pak::pkg_install*)",
+      "Bash(*remotes::install*)",
+      "Bash(*BiocManager::install*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && sh scripts/workshop r scripts/live_hook.R session-start"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|WebFetch|Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && sh scripts/workshop r scripts/live_hook.R pre-tool"
+          }
+        ]
+      }
+    ]
+  }
+}

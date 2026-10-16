@@ -28,3 +28,8 @@ data/schrute-theoffice.csv
 # Published pages render to docs/; these local previews are not published.
 sessions/**/*.html
 sessions/**/*_files/
+
+# Live mode (sh scripts/workshop live on|off): local switch, never committed.
+.live-session
+.claude/settings.local.json
+.claude/settings.local.json.pre-live

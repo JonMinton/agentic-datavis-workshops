@@ -41,6 +41,22 @@ there is no fixed schedule or organising group. Choose a scope that fits your ro
    No recording is a valid choice: keep sufficiently detailed specs and decision notes
    for a writeup. Keep any private consent evidence or raw recordings outside the repo.
 
+6. **For a live audience, turn on live mode** (see [`LIVE.md`](LIVE.md)):
+
+   ```sh
+   sh scripts/workshop live on YYYY-MM-DD
+   sh scripts/workshop preflight --live
+   ```
+
+   Live mode limits the agent to TidyTuesday data and one `.qmd` per session. It
+   allows one change per request, no installs, and medium effort, and it narrates
+   waits. The live preflight fails if a package a session may need is missing; install
+   it now, not on stage. Start a fresh agent session afterwards so the settings load;
+   for Codex, launch with `sh scripts/workshop live codex`. Ask for "the decisions and
+   code in the `.qmd`", not for the agent's reasoning. If a session is cut off, open a
+   new one and say "Live mode. Continue session YYYY-MM-DD from `<slug>.qmd`." Run
+   `sh scripts/workshop live off` afterwards.
+
 ## In the room
 
 Explain that people make the design decisions and the agent executes them. Read the

@@ -46,5 +46,6 @@ case "$workshop_action" in
     printf 'Rscript: %s\n' "$workshop_r"
     exec "$workshop_r" --vanilla scripts/preflight.R "$@"
     ;;
-  *) echo 'Usage: sh scripts/workshop {preflight|r <Rscript arguments>|quarto <arguments>}' >&2; exit 1 ;;
+  live) exec sh scripts/live-mode.sh "$@" ;;
+  *) echo 'Usage: sh scripts/workshop {preflight [--live]|r <Rscript arguments>|quarto <arguments>|live {on [YYYY-MM-DD]|off|status|claude|codex}}' >&2; exit 1 ;;
 esac
