@@ -213,7 +213,9 @@ and package installs, and adds hooks (`scripts/live_hook.R`) that load the contr
 session start and block writes outside the session's `.qmd`, `specs/` and `figures/`.
 Codex has no equivalent hooks; `sh scripts/workshop live codex` launches it with web
 search disabled, medium reasoning effort and the contract as its first message. In
-Codex the contract is enforced by instruction only.
+Codex the contract is enforced by instruction only. Either way, live mode needs a **fresh
+agent session** started after `live on`: if it is switched on during a session, the
+settings and hooks don't load, so tell the facilitator and recommend a restart.
 
 ## Working live with the facilitators
 
@@ -240,7 +242,9 @@ to `data/` through `scripts/tt_fetch.R`, and describes it with `scripts/describe
 the grain, each variable's type in grammar terms, level counts and missingness. It then
 *proposes* candidate aesthetics for gg-spec. Proposing is as far as it goes: choosing
 belongs to the room. The helper scripts are deterministic, so Claude Code and Codex
-produce the same description. When the network fails, use what is already cached in `data/`.
+produce the same description, including what empty values mean and the units of
+time-like columns (years BP and BCE run backwards). When the network fails, use what is
+already cached in `data/`.
 
 ## The gg-spec skill
 
@@ -257,7 +261,9 @@ Before compiling, the skill runs `scripts/check_spec.R`. It checks a spec agains
 warn about, and the message for each. The mapping builder page loads the same file, and
 both use the same column-type test (`scripts/grammar_types.R`, mirrored in the page). So
 the agent and the page refuse the same things in the same words. Change a rule in the
-JSON file only.
+JSON file only. Missing values in a mapped variable are a decision for the room, recorded in
+the spec's `missing:` block; until it is made, a category's missing values compile as
+"Not recorded" rather than ggplot2's bare "NA" or silent drop.
 
 ## The dataset-scout skill
 

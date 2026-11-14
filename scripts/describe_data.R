@@ -7,7 +7,8 @@
 # Prints rows x cols, a guess at the row grain ("one row per ..."), and one line per
 # variable: name, grammar type (continuous / discrete / temporal), n distinct, % missing,
 # example values, and an aesthetic hint (colour/facet candidates for discrete variables
-# with 2-12 levels). Deterministic: the same file always prints the same output.
+# with 2-12 levels), then the units of time-like number columns, read from the week's
+# readme when there is one. Deterministic: the same file always prints the same output.
 # Uses base R + readr/dplyr/tibble only.
 
 suppressPackageStartupMessages({
@@ -110,3 +111,36 @@ list_cands <- function(label, lo, hi) {
 }
 list_cands(sprintf("%-26s", "Colour candidates (2-8):"), 2, 8)
 list_cands(sprintf("%-26s", "Facet candidates (4-12):"), 4, 12)
+
+# Units of time-like number columns. Years BP or BCE run backwards (larger is older), so
+# the default axis puts the oldest dates on the right: a scale decision for the room.
+# Read from the column's line in the week's readme when there is one; never guessed.
+time_cols <- summary_tbl |>
+  filter(type %in% c("continuous", "discrete*"),
+         grepl("(^|_)(year|yr|age|date|bp|bce|bc|ad|cal|century|decade|period)s?(_|$)",
+               variable, ignore.case = TRUE)) |>
+  pull(variable)
+if (length(time_cols)) {
+  readme <- sub("^(.*tt-[0-9]{4}-[0-9]{2}-[0-9]{2})-.*\\.csv$", "\\1-readme.md", path)
+  readme_lines <- if (readme != path && file.exists(readme)) readLines(readme, warn = FALSE) else character()
+  unit_of <- function(v) {
+    desc <- grep(paste0("^\\|\\s*`?", v, "`?\\s*\\|"), readme_lines, value = TRUE)[1]
+    x <- df[[v]][!is.na(df[[v]])]
+    unit <- if (!is.na(desc) && grepl("before present|before 1950|\\bBP\\b", desc, ignore.case = TRUE)) {
+      "years BP (before 1950): larger is older"
+    } else if (!is.na(desc) && grepl("\\bBCE?\\b", desc)) {
+      "years BCE: larger is older"
+    } else if (!is.na(desc) && grepl("\\b(CE|AD)\\b", desc)) {
+      "years CE"
+    } else if (length(x) && all(x == round(x)) && all(x >= 1000 & x <= 2100)) {
+      "calendar years (CE), inferred from the values"
+    } else {
+      "not stated (a date or a duration?): ask before mapping"
+    }
+    src <- if (!is.na(desc)) paste0("  readme: ", trimws(strsplit(desc, "\\|")[[1]][4])) else ""
+    sprintf("  %-24s %s%s", v, unit, src)
+  }
+  cat("\nUnits of time-like columns (larger-is-older units run right to left by default):\n")
+  cat(vapply(time_cols, unit_of, character(1)), sep = "\n")
+  cat("\n")
+}

@@ -5,7 +5,8 @@
 #   sh scripts/workshop r scripts/check_spec.R sessions/<date>/specs/<NN-slug>.yml
 #
 # Reads the rules from assets/gg-rules.json (the same file the mapping builder
-# page uses), the spec, and data/<data>.csv. Prints one line per broken rule, as
+# page uses), the spec, and data/<data>.csv, and applies the spec's filter and
+# missing: decisions before checking. Prints one line per broken rule, as
 # ERROR or WARNING, with the message and what ggplot2 itself would do, or "OK".
 # Exits with status 1 if any rule at error severity is broken. Deterministic.
 
@@ -32,6 +33,24 @@ if (!file.exists(data_path)) stop("No such data file: ", data_path, call. = FALS
 df <- read_csv(data_path, show_col_types = FALSE, progress = FALSE, guess_max = 10000)
 if (!is.null(spec$filter)) df <- filter(df, !!rlang::parse_expr(spec$filter))
 
+# ---- the spec's decisions about missing values (missing: block) ----
+# Applied before the checks, so a label counts as a level (and needs a shape) and a
+# dropped variable no longer has missing values. "keep" leaves ggplot2's default.
+decided_missing <- character()
+na_labels <- list()   # compiled with forcats::fct_na_value_to_level(), so the label is the last level
+for (f in names(spec$missing %||% list())) {
+  how <- spec$missing[[f]]
+  if (!f %in% names(df)) stop("missing: names ", f, ", which isn't a column in ", spec$data, call. = FALSE)
+  if (!is.character(how) || length(how) != 1)
+    stop("missing: ", f, " must be drop, keep, or a label in quotes", call. = FALSE)
+  if (how == "drop") df <- df[!is.na(df[[f]]), , drop = FALSE]
+  else if (how != "keep") {
+    df[[f]] <- ifelse(is.na(df[[f]]), how, as.character(df[[f]]))
+    na_labels[[f]] <- how
+  }
+  decided_missing <- c(decided_missing, f)
+}
+
 # ---- what each mapping refers to, in rule terms ----
 # A mapping value is a column name, `backticked`, or factor(column). factor() makes it
 # discrete; a discrete* column left bare counts as continuous, as it does in ggplot2.
@@ -41,14 +60,24 @@ resolve <- function(value) {
   field <- gsub("`", "", sub("^factor\\((.+)\\)$", "\\1", value))
   if (!field %in% names(df)) {
     if (grepl("^[A-Za-z.][A-Za-z0-9._]*$", field) || grepl("`", value))
-      return(list(field = field, type = "missing", levels = NA))
+      return(list(field = field, type = "absent", levels = NA))
     return(NULL)   # an R expression: type checks don't apply
   }
   x <- df[[field]]
   k <- n_distinct(x, na.rm = TRUE)
   g <- grammar_type(x, k, field)
   type <- if (as_factor) "discrete" else switch(g, id = "identifier", `discrete*` = "continuous", g)
-  list(field = value, type = type, levels = k)
+  # Levels in the order ggplot2 gives them (sorted), so the ones past a palette's end
+  # can be named.
+  lv <- if (type == "discrete") as.character(sort(unique(x[!is.na(x)]))) else character()
+  if (!is.null(na_labels[[field]])) lv <- c(setdiff(lv, na_labels[[field]]), na_labels[[field]])
+  # gg-spec's default for an undecided category with missing values: a last level,
+  # "Not recorded" (see the skill's compilation contract), which also needs a shape.
+  if (type == "discrete" && any(is.na(x)) && !field %in% decided_missing) {
+    lv <- c(lv, "Not recorded"); k <- k + 1
+  }
+  list(field = value, column = field, type = type, levels = k, level_names = lv,
+       n_missing = sum(is.na(x)))
 }
 norm_aes <- function(a) if (a == "color") "colour" else a
 
@@ -92,7 +121,7 @@ for (layer in layers) {
     if (ck$kind == "field-exists") {
       for (t in aes_targets(layer, c(names(layer$map), "facet"))) {
         r <- resolve(t$value)
-        if (!is.null(r) && r$type == "missing") hit(rule, c(base, field = r$field))
+        if (!is.null(r) && r$type == "absent") hit(rule, c(base, field = r$field))
       }
     } else if (ck$kind == "requires-aes" && in_geoms(rule, layer$geom)) {
       if (is.null(layer$map[[ck$aes]])) hit(rule, base)
@@ -101,7 +130,7 @@ for (layer in layers) {
     } else if (ck$kind %in% c("aes-type", "geom-aes-type", "layer-aes-type") && in_geoms(rule, layer$geom)) {
       for (t in aes_targets(layer, unlist(ck$aes))) {
         r <- resolve(t$value)
-        if (is.null(r) || r$type == "missing") next
+        if (is.null(r) || r$type == "absent") next
         bad <- (!is.null(ck$allowed) && !r$type %in% unlist(ck$allowed)) ||
                (!is.null(ck$forbidden) && r$type %in% unlist(ck$forbidden))
         if (bad) hit(rule, c(base, field = r$field, type = r$type))
@@ -109,10 +138,19 @@ for (layer in layers) {
     } else if (ck$kind == "max-levels") {
       for (t in aes_targets(layer, unlist(ck$aes))) {
         r <- resolve(t$value)
-        if (is.null(r) || r$type == "missing") next
+        if (is.null(r) || r$type == "absent") next
         if (!is.null(ck$types) && !r$type %in% unlist(ck$types)) next
         if (r$type != "continuous" && r$levels > ck$max)
-          hit(rule, c(base, field = r$field, levels = r$levels, excess = r$levels - ck$max))
+          hit(rule, c(base, field = r$field, levels = r$levels, excess = r$levels - ck$max,
+                      dropped = paste(tail(r$level_names, r$levels - ck$max), collapse = ", ")))
+      }
+    } else if (ck$kind == "has-missing") {
+      for (t in aes_targets(layer, unlist(ck$aes))) {
+        r <- resolve(t$value)
+        if (is.null(r) || r$type == "absent" || r$column %in% decided_missing) next
+        if (r$n_missing > 0)
+          hit(rule, c(base, field = r$field, missing = format(r$n_missing, big.mark = ","),
+                      pct = paste0(signif(100 * r$n_missing / nrow(df), 2), "%")))
       }
     } else if (ck$kind == "one-discrete-position" && in_geoms(rule, layer$geom)) {
       tx <- if (!is.null(layer$map$x)) resolve(layer$map$x)$type else NA

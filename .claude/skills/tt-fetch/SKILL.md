@@ -61,7 +61,7 @@ sh scripts/workshop r scripts/describe_data.R data/tt-<date>-<name>.csv
 ```
 
 Show the script output **verbatim** (it is already sized for a projected screen), then
-add at most five lines of your own:
+add at most six lines of your own:
 
 1. **What it is** — one sentence, from the readme, with the source named.
 2. **Grain** — "one row per …" in plain words. If the script found no unique key, or
@@ -70,8 +70,17 @@ add at most five lines of your own:
 3. **Types in grammar terms** — continuous / discrete / temporal. Point out any `*`
    variables (whole numbers with few values, e.g. month or a 1–5 rating): whether they
    are discrete or continuous is a decision, not a fact.
-4. **Missingness** worth knowing (anything over ~5%, and what it probably means).
-5. **What the data can't say** — one line: the confounder, the selection, the censoring,
+4. **Missingness, and what empty means.** For every column with missing values that the
+   room might map, say what an empty value means, from the readme: not recorded, not
+   applicable, or a category of its own (an empty `founder_crop` means "not a founder
+   crop"). If the readme doesn't say, say the meaning is unknown. gg-spec asks the room
+   what to do with them, and this line is what the room decides from.
+5. **Units of time.** The script ends with a "Units of time-like columns" block, read
+   from the readme. Say the units in one line. Years BP or BCE run backwards (larger is
+   older), so the default axis puts the oldest dates on the right: flag that as a scale
+   decision for the room. If the units are "not stated", say so and ask; never assume
+   years CE for an archaeological, geological or astronomical dataset.
+6. **What the data can't say** — one line: the confounder, the selection, the censoring,
    or the too-short record.
 
 If a week has several tables, name the join key(s) in one line; do not join unless asked.
@@ -88,6 +97,8 @@ Candidates (the group chooses) - historic_station_met, 2025-10-21:
   facet (discrete, 4-12):    month (12)
   not for colour:            station (37 levels) - filter or lump first, or facet a few
   join:                      station_meta by station (adds lat/lng, opened)
+  empty values:              sun 23% (not recorded at some stations)
+  time units:                year: calendar years (CE)
 ```
 
 Rules for this block:
@@ -101,7 +112,7 @@ Rules for this block:
 
 ## Output discipline
 
-Everything shown is read off a projected screen by a room: keep prose to the five lines
+Everything shown is read off a projected screen by a room: keep prose to the six lines
 above plus the candidates block, and never paste the full readme or a `head()` dump
 unless asked. Numbers in any later writeup come from inline `r` expressions per AGENTS.md,
 not from this description.

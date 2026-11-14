@@ -424,6 +424,12 @@ concept: it supports six geoms, one smoother, and three coordinate systems.
     if (e.asCat) return "discrete";
     return { identifier: "identifier", continuous: "continuous", "discrete*": "continuous", temporal: "temporal" }[k] || "discrete";
   }
+  // gg-spec's default for missing values in a mapped category (no missing: block on this
+  // page): they become a last level, "Not recorded". Not for numbers wrapped in factor().
+  const notRecorded = a => {
+    const e = state.edges[a];
+    return !!e && ruleType(a) === "discrete" && !e.asCat && cur.rows.some(r => r[e.field] == null);
+  };
   function checkRules() {
     if (!RULES) return [];
     const fillGeom = FILL_GEOMS.includes(state.geom);
@@ -450,9 +456,23 @@ concept: it supports six geoms, one smoother, and three coordinate systems.
         }
       } else if (ck.kind === "max-levels") {
         for (const a of targets(ck.aes)) {
-          const ty = ruleType(a), lv = col(state.edges[a].field).levels;
-          if ((!ck.types || ck.types.includes(ty)) && ty !== "continuous" && lv > ck.max)
-            add(r, { ...base, field: label(a), levels: lv, excess: lv - ck.max });
+          const ty = ruleType(a), f = state.edges[a].field, lv = col(f).levels + (notRecorded(a) ? 1 : 0);
+          if ((!ck.types || ck.types.includes(ty)) && ty !== "continuous" && lv > ck.max) {
+            // the levels past the palette's end, in ggplot2's (sorted) order
+            const names = [...new Set(cur.rows.map(r => r[f]).filter(v => v != null))]
+              .sort((p, q) => typeof p === "number" && typeof q === "number" ? p - q : String(p).localeCompare(String(q)))
+              .map(String);
+            // gg-spec's default adds "Not recorded" as the last level when a category has missing values
+            if (notRecorded(a)) names.push("Not recorded");
+            add(r, { ...base, field: label(a), levels: names.length, excess: names.length - ck.max, dropped: names.slice(ck.max).join(", ") });
+          }
+        }
+      } else if (ck.kind === "has-missing") {
+        // this page has no missing: block, so missing values are always reported
+        for (const a of targets(ck.aes)) {
+          const f = state.edges[a].field, nMiss = cur.rows.filter(r => r[f] == null).length;
+          if (nMiss > 0) add(r, { ...base, field: label(a), missing: nMiss.toLocaleString("en-GB"),
+                                  pct: +(100 * nMiss / cur.rows.length).toPrecision(2) + "%" });
         }
       } else if (ck.kind === "one-discrete-position" && inG) {
         if (["x", "y"].filter(k => amap[k] && ruleType(amap[k]) === "discrete").length !== 1) add(r, base);
@@ -578,7 +598,11 @@ concept: it supports six geoms, one smoother, and three coordinate systems.
     const parts = ["x", "y", "colour", "size", "shape", "alpha"].filter(a => E[a]).map(a => `${aesKey(a)} = ${term(a)}`);
     let aes = parts.join(", ");
     if (aes.length > 52) aes = "\n    " + parts.join(",\n    ") + "\n  ";
-    const L = ["library(tidyverse)", "", `df <- read_csv("${cur.file}")`, "", `ggplot(df, aes(${aes})) +`, `  geom_${geomName()}() +`];
+    const L = ["library(tidyverse)", "", `df <- read_csv("${cur.file}")`];
+    // gg-spec's default: a mapped category's missing values become "Not recorded"
+    const nr = [...new Set(["x", "y", "colour", "shape", "facet"].filter(notRecorded).map(a => E[a].field))];
+    if (nr.length) L.push(`df <- df |> mutate(across(c(${nr.map(rname).join(", ")}), \\(v) fct_na_value_to_level(v, level = "Not recorded")))`);
+    L.push("", `ggplot(df, aes(${aes})) +`, `  geom_${geomName()}() +`);
     if (res.smoothApplied) L.push("  geom_smooth() +");
     if (E.facet) L.push(`  facet_wrap(vars(${rname(E.facet.field)})) +`);
     if (state.coord !== "cartesian") L.push(`  coord_${state.coord}() +`);

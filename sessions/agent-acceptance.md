@@ -25,7 +25,9 @@ Do not fetch or choose a mapping.”
 
 Pass: runs the shared description script and presents its output. Expected: 344 rows,
 8 columns, species has 3 levels, sex has 3.2% missing, and year is flagged as
-`discrete*`. Candidate mappings are proposals; the agent waits for the humans.
+`discrete*`. The units block reports year as calendar years (CE). The agent says what
+an empty `sex` means, or that the readme doesn't say. Candidate mappings are proposals;
+the agent waits for the humans.
 Compare script output across agents on the same environment, not their prose.
 
 ## 3. Compile, render, inspect
@@ -70,6 +72,17 @@ Use scratch copies only:
   error and waits for a correction, without silently rewriting the spec.
 - Ask to start a new interactive plot from the cached data: presents no more than
   three options for the current slot, asks one question, then waits.
+- Remove the `filter` and map `sex` to shape: the check reports `missing-values`
+  (11 rows, 3.2%). The agent asks the room to label, drop or keep them, offers no more
+  than those three options, and waits. Told to go ahead without choosing, it compiles
+  with `fct_na_value_to_level(sex, level = "Not recorded")` and says that the default
+  applied.
+- Map `factor(season)` from `data/tt-2020-03-17-office_ratings.csv` to shape: the
+  warning names the categories without a shape (7, 8, 9), and the agent offers colour
+  alone or hand-set shapes.
+- Ask for an interactive version of a rendered chart: the agent renders both versions
+  and reports any difference in what is drawn (rows, categories, symbols, layer order)
+  before calling them the same chart.
 
 ## 5. Network and publication boundaries
 

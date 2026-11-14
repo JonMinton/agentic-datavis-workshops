@@ -24,7 +24,10 @@ quoted in the session writeup.
    - **ERROR:** don't compile. Relay the message, which says what is wrong *in grammar
      terms*, and the nearest coherent spec. Don't silently fix it: the misunderstanding
      is teaching material.
-   - **WARNING:** compile, and report the warning with the figure.
+   - **WARNING:** compile, and report the warning with the figure. Two warnings need
+     the room before compiling, in interactive mode (below): `missing-values` and
+     `shape-palette-size`. The first asks what empty values mean; the second names the
+     categories that would get no shape, so offer colour alone or hand-set shapes.
    - **Changing a rule:** edit `assets/gg-rules.json`, never the checker or the page. The
      file says what each rule checks and what ggplot2 itself would do.
    - **Incoherence the rules miss:** still say so. If it will recur, propose a new rule
@@ -36,7 +39,9 @@ quoted in the session writeup.
    `sh scripts/workshop r <compiled-script.R>`, save a
    PNG at the site's geometry (9×6 in, dpi 150), and **read the PNG** before presenting
    it. Check: title fits (~60 chars max at base_size 13), legend not colliding, overplotting,
-   unlabelled axes.
+   unlabelled axes, and **which categories and rows were actually drawn**: compare the
+   legend with the plot, and report any rows ggplot2 removed (its "Removed N rows"
+   warning) with the count.
 5. **Present** the figure and the code together, and note anything the render revealed
    that the spec didn't anticipate — those observations feed the writeup's pain points.
 
@@ -53,7 +58,7 @@ when a facilitator explicitly asks for it, and its output is labelled as such.
 
 If the group has no spec yet, build one by walking the grammar **slot by slot, in this
 order**: data & grain → question → mapping (x, y, then *one* further aesthetic) →
-geom/stat → scales → facets → coords → labs/theme. At each slot:
+missing values → geom/stat → scales → facets → coords → labs/theme. At each slot:
 
 1. State the current value, or the ggplot2 default if the slot is empty ("no scales block
    yet, so the default hue scale"). Defaults are decisions too.
@@ -61,6 +66,22 @@ geom/stat → scales → facets → coords → labs/theme. At each slot:
    (`tt-fetch`) flagged, not from the whole of ggplot2. Anything beyond them is the room's
    to propose.
 3. Ask one question, then wait.
+
+**The missing-values slot** comes up whenever `check_spec.R` reports `missing-values`
+for a mapped variable. Say how many values are missing and what empty means in this
+dataset, from the tt-fetch description or the readme (for example, an empty
+`founder_crop` means "not a founder crop", not lost data). If the meaning isn't known,
+say so. Then offer three options and wait:
+
+1. **Label them** with what empty means: `missing: {founder_crop: "Not a founder crop"}`.
+   The rows stay, as a last category with its own colour or shape.
+2. **Drop them**: `missing: {founder_crop: drop}`, and say how many rows go.
+3. **Keep ggplot2's default**: `missing: {founder_crop: keep}`. Grey "NA" for colour,
+   fill, facets and discrete positions; the rows silently vanish for shape, size, alpha
+   and continuous positions.
+
+Record the answer in the spec's `missing:` block, so the decision is in the record. Never
+choose for the room. If the room defers, the default below applies; say so.
 
 This is how the skill stays generic without enumerating ggplot2's degrees of freedom: the
 **schema** limits the vocabulary, the **slot order** limits the conversation, and the
@@ -95,6 +116,10 @@ layers:                   # one entry per layer, in drawing order
   #   mapping:
   #     colour: species     # points coloured; a later smooth layer stays pooled
     se: true
+missing:                  # optional; what to do with missing values, by column
+  sex: "Not recorded"     # a label: missing values become this category (the last level)
+  # island: drop          # drop: remove rows where the column is missing
+  # year: keep            # keep: ggplot2's own handling
 scales:                   # optional; keyed by aesthetic
   colour: okabe-ito       # named shorthand (below) or a scale_* call verbatim
   y: log10
@@ -130,11 +155,22 @@ Anything else the group wants: accept a verbatim `scale_*()` call as the value.
   report the normalization without rewriting the historical spec. Conflicting
   `stat: lm` and `method` values are errors. Other `stat` values pass to ggplot2's
   `stat` argument; never generally treat `stat` as an alias for `method`.
-- Read `data/<data>.csv` with `readr::read_csv()`, then apply `filter` if supplied.
-  Preserve layer order and inherit plot-level mappings. Do not add sampling,
-  aggregation, jitter, labels, or other transformations that the spec did not request.
+- Read `data/<data>.csv` with `readr::read_csv()`, then apply `filter` if supplied,
+  then the `missing:` block: a label becomes
+  `mutate(<col> = fct_na_value_to_level(<col>, level = "<label>"))`, `drop` becomes
+  `filter(!is.na(<col>))`, and `keep` adds nothing. Preserve layer order and inherit
+  plot-level mappings. Do not add sampling, aggregation, jitter, labels, or other
+  transformations that the spec did not request.
+- **Default for missing values.** A discrete column mapped to an aesthetic (or used as a
+  facet) that has missing values, and no `missing:` entry, compiles as if it said
+  `"Not recorded"`: the rows stay, as a last category the reader can see. This is the
+  second deliberate override of ggplot2, whose own default drops those rows for shape
+  and shows a bare "NA" elsewhere. Announce it whenever it applies. Missing values in a
+  continuous column have no default: ggplot2 removes those rows, and you report how many.
+  `check_spec.R` counts the default "Not recorded" level when it checks palette sizes.
 - Omitted `theme` means `theme_minimal(base_size = 13)`. Explicit named themes also
-  use base size 13. This is the one deliberate override of ggplot2 defaults.
+  use base size 13. This and the missing-values default are the two deliberate
+  overrides of ggplot2 defaults.
   Omitted scales, facets, coords, and layer parameters retain ggplot2 defaults;
   omitted labs add no custom labels. Announce defaults during interactive design.
 - `facets.by` means `facet_wrap(vars(...))`; `rows`/`cols` mean `facet_grid()`.
@@ -171,6 +207,19 @@ Targets, roughly in order of how cleanly the spec maps:
 - **plotly** (JS / Python / R) — layered traces but *not* a true grammar: no stat/geom
   separation, no scale-and-guide algebra. Where the spec won't translate, say so — the
   friction shows what a grammar *is* by contrast.
+
+**Converting a rendered chart is a translation too, and it is not automatically
+faithful.** When a chart is converted to another library (for example
+`plotly::ggplotly()` to make it interactive), render both versions and compare them
+before presenting the conversion as "the same chart". Check, category by category:
+which categories and how many rows are drawn, which symbols are filled or outline-only,
+which layer is drawn on top, and what the legend lists. Report every difference. Known
+`ggplotly()` differences: it draws rows that ggplot2 dropped (for example, categories
+past the six-shape palette, or missing values on shape), using a default filled circle;
+it turns ggplot2's line-only shapes into "open" symbols; and its last trace, often the
+missing-value category, is drawn on top of the others. In session 3 (2026-11-10), grey
+missing-value circles drawn inside open symbols looked like grey fills with coloured
+edges, and the agent didn't catch it.
 
 Name the places where a translation is *not* clean (e.g. Vega-Lite's `transform` vs dplyr
 pre-processing, plotnine lacking a native `okabe-ito` shorthand) — the rough edges are

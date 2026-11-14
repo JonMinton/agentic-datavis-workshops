@@ -482,7 +482,7 @@ The agent's design choices: one circle per site phase rather than per plant reco
 
 **Place and time were never joined.** When the interactive map failed, the session turned to the date columns and didn't come back. The map above is my attempt at that join, made afterwards with my own design choices, for the domain expert and the statistician to revise.
 
-Changes to the repo's skills that would prevent these next time. These are suggestions; none has been made yet:
+Changes to the repo's skills that would prevent these next time. At the facilitator's request, all of them were made on 2026-11-14, together with a new default for missing values: unless the room decides otherwise, a category's missing values are now shown as "Not recorded", and the room is asked what they mean before anything is drawn.
 
 - **gg-spec:** when a variable has more levels than the shape palette, name the levels that will vanish, and offer colour alone. Label an empty category by what it means in this dataset, such as "not a founder crop", not as "NA". After converting a chart to another library, render both and compare them.
 - **tt-fetch:** flag the units of date columns (years BP, BCE or CE) in the data description.

@@ -51,7 +51,8 @@ there is no fixed schedule or organising group. Choose a scope that fits your ro
    Live mode limits the agent to TidyTuesday data and one `.qmd` per session. It
    allows one change per request, no installs, and medium effort, and it narrates
    waits. The live preflight fails if a package a session may need is missing; install
-   it now, not on stage. Start a fresh agent session afterwards so the settings load;
+   it now, not on stage. Start a fresh agent session afterwards so the settings load (a session that was
+   already running when you switched live mode on won't pick them up);
    for Codex, launch with `sh scripts/workshop live codex`. Ask for "the decisions and
    code in the `.qmd`", not for the agent's reasoning. If a session is cut off, open a
    new one and say "Live mode. Continue session YYYY-MM-DD from `<slug>.qmd`." Run

@@ -1,6 +1,6 @@
 {
   "about": "Coherence rules for grammar-of-graphics mapping rules. The single source for what the gg-spec skill refuses or warns about before compiling, and for what the mapping builder page (mapping-builder.qmd) refuses or warns about before drawing. Edit rules here, never in either consumer. Checked by scripts/check_spec.R.",
-  "version": 1,
+  "version": 2,
   "types": {
     "continuous": "numbers treated as quantities (a discrete* column counts as continuous unless wrapped in factor())",
     "discrete": "categories: text, logical, or any column wrapped in factor()",
@@ -9,7 +9,8 @@
   },
   "severities": {
     "error": "refuse: say what is wrong in grammar terms and suggest the nearest coherent spec; do not compile or draw",
-    "warning": "compile and draw, but report the message alongside the figure"
+    "warning": "compile and draw, but report the message alongside the figure",
+    "note": "has-missing is skipped for a variable whose missing values a gg-spec spec has already decided (its missing: block); the mapping builder has no such block, so it always reports them"
   },
   "rules": [
     {
@@ -79,8 +80,15 @@
       "id": "shape-palette-size",
       "severity": "warning",
       "check": { "kind": "max-levels", "aes": "shape", "max": 6 },
-      "message": "ggplot2's default shape palette has 6 shapes, so {field}'s other {excess} levels would be dropped. Use colour, or set the shapes by hand.",
+      "message": "ggplot2's default shape palette has 6 shapes, so {field}'s other {excess} levels ({dropped}) would get no shape: their rows wouldn't be drawn, though they'd stay in the legend. Use colour alone, or set the shapes by hand.",
       "ggplot2": "Warning: The shape palette can deal with a maximum of 6 discrete values. Removed rows containing missing values."
+    },
+    {
+      "id": "missing-values",
+      "severity": "warning",
+      "check": { "kind": "has-missing", "aes": ["x", "y", "colour", "fill", "shape", "size", "alpha", "facet"] },
+      "message": "{field} has {missing} missing values ({pct} of rows). Decide what to do with them before drawing: drop them, keep them as ggplot2 shows them, or, for a category, label them with what empty means here. Until that's decided, gg-spec shows a category's missing values as \"Not recorded\".",
+      "ggplot2": "Shows them as a grey \"NA\" category for colour, fill, facets and discrete positions; for shape, size, alpha and continuous positions, removes the rows with a warning."
     },
     {
       "id": "colour-too-many-levels",
