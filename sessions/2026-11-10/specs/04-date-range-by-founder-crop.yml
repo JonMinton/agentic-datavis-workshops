@@ -1,0 +1,11 @@
+# Spec 04. Room decision: start and end date against founder crop. Founder crop on y;
+# each record's date range on x, from age_end (most recent) to age_start (oldest), in
+# years BP. Chosen by the agent, change on request: the range geom (one horizontal line
+# per row). Scales are ggplot2 defaults, so older dates are on the right.
+data: tt-2023-04-18-founder_crops   # grain: one row per taxon in one phase of one site
+mapping:
+  y: founder_crop
+  xmin: age_end
+  xmax: age_start
+layers:
+  - geom: linerange

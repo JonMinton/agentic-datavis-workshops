@@ -272,3 +272,4 @@ facilitators choose. The standing grammar-of-graphics reading list is `sessions/
 |---|---|---|---|---|
 | 1 | 2026-09-29 | Data & aesthetic mappings | TidyTuesday 2020-03-17, The Office | `sessions/2026-09-29/office-data.qmd` (v2: `office-data-v2.qmd`) |
 | 2 | 2026-10-16 | Not fixed (dataset stresses scales & position) | TidyTuesday 2024-05-07, Rolling Stone albums | `sessions/2026-10-16/rolling-stone.qmd` |
+| 3 | 2026-11-10 | Not fixed (supergroup masterclass at The Data Lab) | TidyTuesday 2023-04-18, Neolithic founder crops | `sessions/2026-11-10/datalab-masterclass.qmd` |

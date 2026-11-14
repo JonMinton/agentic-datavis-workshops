@@ -1,0 +1,489 @@
+---
+title: "A scientific supergroup at The Data Lab: Neolithic founder crops"
+subtitle: "Session 3 · 2026-11-10 · Archaeology · TidyTuesday 2023-04-18"
+date: 2026-11-10
+---
+
+```{=html}
+<style>
+.todo { background: #fff3cd; border: 1px dashed #c9a227; border-radius: 3px;
+        padding: 0 .35em; font-style: italic; color: #6b5300; }
+.roles td:first-child { white-space: nowrap; font-weight: 600; }
+</style>
+```
+
+::: {.callout-tip icon="false"}
+## Session 3 · 2026-11-10 · The Data Lab · facilitated by Jon Minton
+An evening event for [The Data Lab community](https://community.thedatalab.com/), run as an impromptu scientific supergroup with two volunteers from the audience, Chelsi Slotten and Ozan Evkaya. Design decisions were made live by the group. This page was filled in live during the session by Claude Opus 5.5 (in Claude Code), from the room's decisions and the spec files under `specs/`. It was completed afterwards from those artefacts, The Data Lab's public recap of the event, and the auto-generated transcript of [the event recording on YouTube](https://www.youtube.com/watch?v=jxexRtPMczE). Approved by the facilitator before publishing. [How these sessions work](../../index.qmd).
+:::
+
+::: {.callout-note icon="false"}
+## About the facilitator
+
+**Jon Minton** is Head of Data at [Elevate Great](https://elevategreat.co.uk/). He runs this session **in a personal capacity**, and nothing on this page represents the views of Elevate Great.
+
+- Jon's website: [jonminton.net](https://jonminton.net/)
+- Jon's company, [Knowledge Tree and Butterfly (KT&B)](https://ktandb.co.uk/), is currently **frozen**.
+- The workshop materials, on GitHub: [github.com/JonMinton/agentic-datavis-workshops](https://github.com/JonMinton/agentic-datavis-workshops)
+- The published site, including this page: [jonminton.github.io/agentic-datavis-workshops](https://jonminton.github.io/agentic-datavis-workshops/)
+:::
+
+::: {.callout-warning icon="false"}
+## How this page was made
+
+This page was filled in live during the session on 2026-11-10 and completed afterwards from the recording. A section added on 2026-11-14, at the end, holds post-session work by the agent: the two issues raised in the room, an interactive map in time, and a reflection. The facilitator approved it on 2026-11-14.
+
+- [x] 1. The domain
+- [x] 2. Finding a dataset
+- [x] 3. What the data holds
+- [x] 4. Design decisions
+- [x] 5. Reading the chart
+- [x] 6. Summary and next steps
+:::
+
+## How this session works: a scientific supergroup
+
+The room is too big for everyone to make every decision, so this session runs as a masterclass in the **scientific supergroup** format. Three people, each with different expertise, work through one problem together in front of the room. No one needs every skill; the point is what the combination can do. The format is described on the KT&B site: [Scientific Supergroups](https://ktandb.co.uk/supergroups).
+
+::: {.roles}
+| Role | Who | What they bring |
+|---|---|---|
+| Domain expert | Chelsi Slotten | Names the domain and the question. Says what matters, what's plausible, and what the data is missing. |
+| Analyst / statistician | Ozan Evkaya | Advises on how to show the data and how to read it: the right summary, the right comparison, and the uncertainty. |
+| AI wrangler | Jon Minton | Drives the agent. Turns the group's decisions into specs and prompts, and reports what each render shows. |
+| The agent | Claude Opus 5.5, in Claude Code | Fetches and describes data, writes the code, renders the chart. It proposes only when asked and never chooses a design. |
+| The room | Everyone else | Asks questions, challenges choices, and suggests edits through the chat. |
+:::
+
+Every decision is made by people. The agent's suggestions are labelled "proposed by the agent". The Chatham House Rule applies: this page records what *the group* decided, not who said what. Someone can be named for a contribution only if they opt in through `consent.md`. The two volunteers agreed to have their contributions attributed by role, so this page says "the domain expert" or "the statistician" where the recording shows who contributed.
+
+## 1. The domain
+
+**Domain:** archaeology or biodiversity.
+
+**Question:** the session opened with the statistician's question, how the four plant categories are spread around the region. It became the domain expert's: *"I'd love to see that start and end date against the founder crops, because this is a period where we have a shift from hunter-gatherer to agriculture."*
+
+**Why it matters:** eight "founder crops" have long been thought to be the bedrock of Neolithic farming in Southwest Asia. When and where they appear in the archaeological record bears on how the shift from hunting and gathering to farming happened.
+
+## 2. Finding a TidyTuesday dataset
+
+We searched the [TidyTuesday](https://github.com/rfordatascience/tidytuesday) yearly indexes (2018–2026) for archaeology and biodiversity. The search found four archaeology weeks and 13 biodiversity weeks, including National Park Species, Global Invasive Species, Extinct Plants (IUCN Red List), AVONET birds, AmphibiaWeb and the Portal Project. The archaeology weeks were:
+
+| Week | What it is |
+|---|---|
+| [2023-04-18](https://github.com/rfordatascience/tidytuesday/tree/main/data/2023/2023-04-18) | Neolithic Founder Crops: plant remains from archaeological sites in Southwest Asia |
+| [2026-06-30](https://github.com/rfordatascience/tidytuesday/tree/main/data/2026/2026-06-30) | Wreck Inventory of Ireland: shipwrecks |
+| [2024-02-06](https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-02-06) | UNESCO World Heritage Sites |
+| [2019-08-13](https://github.com/rfordatascience/tidytuesday/tree/main/data/2019/2019-08-13) | Roman Emperors (history more than archaeology) |
+
+**Chosen:** Neolithic Founder Crops, TidyTuesday 2023-04-18 (`founder_crops.csv`), which sits between the two domains: archaeology, through plant remains. **Why:** participants suggested World Heritage Sites and Australian Frogs, and the room briefly settled on frogs. The domain expert then chose plant remains, a topic the domain expert was better informed to talk about.
+
+::: {.callout-tip collapse="true"}
+## Reproducing this page
+Everything runs from CSVs cached in this repository's `data/` folder. To refresh from source:
+
+```r
+# sh scripts/workshop r scripts/tt_fetch.R 2023-04-18
+download.file(
+  "https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-04-18/founder_crops.csv",
+  "data/tt-2023-04-18-founder_crops.csv")
+```
+
+Packages: `tidyverse`. Source: Joe Roe's research compendium, [*The "Neolithic Founder Crops" in Southwest Asia*](https://github.com/joeroe/SWAsiaNeolithicFounderCrops/), for the paper [*Revisiting the concept of the "Neolithic Founder Crops" in southwest Asia*](https://link.springer.com/article/10.1007/s00334-023-00917-1), via TidyTuesday [2023-04-18](https://github.com/rfordatascience/tidytuesday/tree/main/data/2023/2023-04-18). Licence: none stated in the TidyTuesday readme.
+
+The basemap (round 3) is Natural Earth's 1:50m country outlines, public domain:
+
+```r
+download.file(
+  "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
+  "data/ne-50m-admin0-countries.geojson")
+```
+
+Packages for the basemap and the interactive version: `sf`, `plotly`.
+:::
+
+```{r setup}
+library(tidyverse)
+theme_set(theme_minimal(base_size = 13))
+
+crops <- read_csv("../../data/tt-2023-04-18-founder_crops.csv", show_col_types = FALSE)
+
+n_site_phases <- n_distinct(crops$site_name, crops$phase_code)
+n_dup_keys <- sum(duplicated(crops[c("site_name", "phase_code", "taxon_source")]))
+phase_prop_sum <- crops |>
+  summarise(total = sum(prop), .by = c(site_name, phase_code)) |>
+  pull(total)
+```
+
+## 3. What the data holds
+
+**Grain: one row per plant taxon found in one phase of one site.** The table has `r nrow(crops)` rows and `r ncol(crops)` columns. It covers `r n_distinct(crops$site_name)` sites and `r n_site_phases` site phases (a phase is one period of occupation at a site). `r n_dup_keys` rows repeat a site, phase and taxon combination.
+
+| Variable | Type (grammar terms) | Notes |
+|---|---|---|
+| `latitude`, `longitude` | continuous | One point per site; Southwest Asia |
+| `age_start`, `age_end` | continuous, reversed | Years before 1950 (BP), so larger means older. Phases run from `r scales::comma(max(crops$age_start))` to `r scales::comma(min(crops$age_end))` BP |
+| `phase`, `phase_code` | discrete, `r n_distinct(crops$phase_code)` codes | Site-specific names (e.g. "PPNB", "Abu Hureyra 1"), not a shared timeline |
+| `category` | discrete, `r n_distinct(na.omit(crops$category))` levels | `r paste(sort(unique(na.omit(crops$category))), collapse = ", ")` |
+| `founder_crop` | discrete, `r n_distinct(na.omit(crops$founder_crop))` levels | The eight founder crops, plus "wheat" where the species wasn't identified |
+| `family`, `genus`, `taxon` | discrete, many levels | `r n_distinct(crops$family)` families, `r n_distinct(crops$taxon)` taxa |
+| `n` | continuous, count | Specimens in the sample. Long right tail, up to `r scales::comma(max(crops$n))` |
+| `prop` | continuous, 0–1 | This taxon's share of its site phase's sample |
+
+**Missing values:**
+
+- `founder_crop` is empty for `r scales::comma(sum(is.na(crops$founder_crop)))` rows (`r scales::percent(mean(is.na(crops$founder_crop)), 1)`). Here empty means "not a founder crop", which carries information; it isn't lost data.
+- `category` is not recorded for `r sum(is.na(crops$category))` rows. This wasn't discussed; on the maps, these rows aren't drawn.
+- Within a site phase, the `prop` values add up to a median of `r round(median(phase_prop_sum), 2)`, not 1. This wasn't discussed; none of the charts uses `prop`.
+
+## 4. Design decisions
+
+Each decision is recorded *as a decision*: what was considered, what was chosen, and why. The decision log grows as the session goes:
+
+| # | Decision | Options considered | Chosen | Why |
+|---|---|---|---|---|
+| 1 | Position | Points, or two-dimensional bins (the statistician's suggestion) | Longitude on x, latitude on y: a map of the sites | The statistician wanted to see how the four plant categories are spread around the region |
+| 2 | What distinguishes the points | Category on shape, colour, or both | Plant category on both colour and shape | To tell the four categories apart on the map |
+| 3 | What distinguishes the points, revised | Founder crop, genus or taxon | Founder crop on both colour and shape, in place of plant category | Round 1 showed no clear pattern by category. The domain expert expected differences at a finer level, because different fruits, nuts and grasses grow in different environments. "Species" isn't a column; the facilitator meant founder crop |
+| 4 | Context for the points | Basemap or none | A basemap of country outlines, plus an interactive version to consider | A participant asked for a coastline, to see where in the world the sites are. The facilitator added interactivity |
+| 5 | From place to time | None discussed | Start and end date (x) against founder crop (y) | The domain expert: the period covers the shift from hunting and gathering to farming |
+| 6 | Direction of time | Older on the right (default) or on the left | Older on the left | To read from when the founder crops first arrive |
+
+### Round 1: where the sites are, by plant category
+
+The group asked for the sites by longitude and latitude, with plant category mapped to both colour and shape.
+
+```yaml
+# specs/01-site-map-category.yml
+data: tt-2023-04-18-founder_crops   # grain: one row per taxon in one phase of one site
+mapping:
+  x: longitude
+  y: latitude
+  colour: category
+  shape: category
+layers:
+  - geom: point
+```
+
+```{r fig-01-site-map-category}
+ggplot(crops, aes(x = longitude, y = latitude, colour = category, shape = category)) +
+  geom_point()
+```
+
+**What the render showed:** the sites form a band across Southwest Asia, but the categories can't be told apart. Each row is one taxon in one phase, so every site has many rows at the same position: `r n_distinct(crops$longitude, crops$latitude)` locations carry `r nrow(crops)` points, and the symbols are drawn on top of each other. The `r sum(is.na(crops$category))` rows with no category have no shape, so they aren't drawn, and "NA" appears in the legend with no symbol. In response, the group kept the map and changed the variable on colour and shape to founder crop (round 2).
+
+### Round 2: the same map, by founder crop
+
+The group kept the map and put founder crop on colour and shape in place of plant category. The spec check warned before rendering: *"ggplot2's default shape palette has 6 shapes, so founder_crop's other 3 levels would be dropped."*
+
+```yaml
+# specs/02-site-map-founder-crop.yml
+data: tt-2023-04-18-founder_crops   # grain: one row per taxon in one phase of one site
+mapping:
+  x: longitude
+  y: latitude
+  colour: founder_crop
+  shape: founder_crop
+layers:
+  - geom: point
+```
+
+```{r fig-02-site-map-founder-crop}
+ggplot(crops, aes(x = longitude, y = latitude, colour = founder_crop, shape = founder_crop)) +
+  geom_point()
+```
+
+**What the render showed:** only the first six crops in alphabetical order are drawn (barley to flax). Lentil, pea and unidentified wheat get no shape, so they are missing from the map but still listed in the legend. The `r scales::comma(sum(is.na(crops$founder_crop)))` rows that aren't founder crops have no shape either. In all, `r scales::comma(sum(is.na(crops$founder_crop) | crops$founder_crop %in% c("lentil", "pea", "wheat")))` of `r scales::comma(nrow(crops))` rows are not drawn. The stacking from round 1 remains: at most sites the symbols overlap. In response, the facilitator asked for the same map drawn on a basemap, and for an interactive version to be considered (round 3).
+
+### Round 3: on a basemap
+
+The facilitator asked for the round 2 map to be redrawn on a basemap. No map package was installed, so the basemap is [Natural Earth](https://www.naturalearthdata.com/)'s 1:50m country outlines (public domain), downloaded at the facilitator's explicit request. The spec schema has no slot for a layer with its own data, so the basemap layer names its data inside the layer. Three choices in this spec were **made by the agent** and can be changed on request: light grey land, white borders, and a view cropped to the sites plus one degree on each side.
+
+```yaml
+# specs/03-site-map-founder-crop-basemap.yml
+data: tt-2023-04-18-founder_crops   # grain: one row per taxon in one phase of one site
+mapping:
+  x: longitude
+  y: latitude
+  colour: founder_crop
+  shape: founder_crop
+layers:
+  - geom: sf
+    data: ne-50m-admin0-countries.geojson
+    inherit.aes: false
+    fill: grey92
+    colour: white
+  - geom: point
+coords: "coord_sf(xlim = range(longitude) + c(-1, 1), ylim = range(latitude) + c(-1, 1))"
+```
+
+```{r fig-03-site-map-founder-crop-basemap}
+world <- sf::read_sf("../../data/ne-50m-admin0-countries.geojson")
+
+p03 <- ggplot(crops, aes(x = longitude, y = latitude, colour = founder_crop, shape = founder_crop)) +
+  geom_sf(data = world, inherit.aes = FALSE, fill = "grey92", colour = "white") +
+  geom_point() +
+  coord_sf(xlim = range(crops$longitude) + c(-1, 1), ylim = range(crops$latitude) + c(-1, 1))
+p03
+```
+
+**What the render showed:** the sites run in an arc from the southern Levant, through southeast Turkey, to the Zagros in western Iran and Iraq, with one outlier in western Turkey and a few in Cyprus and Sinai. The basemap doesn't change the problems from round 2: lentil, pea and unidentified wheat are still missing, and the symbols still stack.
+
+**Interactive version, proposed by the agent.** At the facilitator's request to consider interactivity, this is the same chart passed through `plotly::ggplotly()` with nothing added. Hover over a point to see its position and crop; drag to zoom; double-click to reset; click a legend entry to hide that crop.
+
+```{r fig-03-interactive}
+plotly::ggplotly(p03)
+```
+
+**What the interactive render showed:** it isn't the same chart. Plotly ignores ggplot2's six-shape limit, so lentil, pea and unidentified wheat appear. It also draws the `r scales::comma(sum(is.na(crops$founder_crop)))` rows that aren't founder crops as grey "NA" points, and these cover most of the crops. Clicking "NA" in the legend hides them. Converting a chart between libraries can change what it shows.
+
+The group then noticed a vertical line of sites around **longitude 35°E** and asked what made that cluster arise. The prompt typed to the agent said "a cluster at the bottom around long 45", so the agent answered about a different cluster. It listed Tell el-'Oueili on its own at the bottom, in southern Iraq, and Ali Kosh, Chogha Bonut, Tepe Farukhabad, Jaffarabad and Bendebal in lowland southwest Iran. It said the data can't say *why* sites cluster, and that this basemap has no rivers. It noted two explanations from its background knowledge, not from the data: rivers and floodplains, and research history (a region that was heavily excavated). The domain expert confirmed that a huge amount of archaeological research has been done around Ali Kosh. The domain expert added that this is where metadata matters most. An archaeological report for the area would say whether the samples come from a midden at a settlement, or from debris a river left on its shores. The question about the cluster at 35°E wasn't answered in the session.
+
+### Round 4: date ranges by founder crop
+
+The group turned from place to time: start and end date against founder crop. Founder crop is on y. Each row's date range runs along x, from `age_end` (most recent) to `age_start` (oldest), in years before 1950. The range geom was **chosen by the agent** and can be changed on request. Scales are the ggplot2 defaults, so older dates are on the right.
+
+```yaml
+# specs/04-date-range-by-founder-crop.yml
+data: tt-2023-04-18-founder_crops   # grain: one row per taxon in one phase of one site
+mapping:
+  y: founder_crop
+  xmin: age_end
+  xmax: age_start
+layers:
+  - geom: linerange
+```
+
+```{r fig-04-date-range-by-founder-crop}
+ggplot(crops, aes(y = founder_crop, xmin = age_end, xmax = age_start)) +
+  geom_linerange()
+```
+
+```{r crop-spans, include = FALSE}
+crop_span <- crops |>
+  filter(!is.na(founder_crop)) |>
+  summarise(oldest = max(age_start), .by = founder_crop)
+oldest_of <- \(crop) scales::comma(crop_span$oldest[crop_span$founder_crop == crop])
+```
+
+**What the render showed:** the `r scales::comma(nrow(crops))` ranges lie on top of each other, so each crop collapses into one line showing only its overall span. Every crop runs to the most recent date (`r scales::comma(min(crops$age_end))` BP). The crops differ only at the old end: barley and lentil reach back to `r oldest_of("barley")` BP, while chickpea (`r oldest_of("chickpea")`) and pea (`r oldest_of("pea")`) start later. Flax, pea and bitter vetch show small gaps. The x axis has no title, because xmin and xmax don't give one by default. Rows that aren't founder crops form the "NA" line at the top. In response, the group asked for older dates on the left, so the chart reads from when the crops first appear (round 5).
+
+### Round 5: older dates on the left
+
+The group reversed the date axis, so time runs left to right from the earliest records. The dates are in years before present (BP, where "present" is 1950), not years BCE: 10,000 BP is about 8050 BCE. The domain expert described the dates as BCE; the chart kept BP, and converting wasn't discussed.
+
+```yaml
+# specs/05-date-range-by-founder-crop-reversed.yml
+data: tt-2023-04-18-founder_crops   # grain: one row per taxon in one phase of one site
+mapping:
+  y: founder_crop
+  xmin: age_end
+  xmax: age_start
+layers:
+  - geom: linerange
+scales:
+  x: scale_x_reverse()
+```
+
+```{r fig-05-date-range-by-founder-crop-reversed}
+ggplot(crops, aes(y = founder_crop, xmin = age_end, xmax = age_start)) +
+  geom_linerange() +
+  scale_x_reverse()
+```
+
+**What the render showed:** the earliest appearances now read from the left. Barley and lentil start first, then unidentified wheat and flax, then einkorn and emmer wheat; chickpea and pea start last. Pea, flax and bitter vetch each have an early fragment separated from the rest by a gap. Every line still runs to the right edge, so this chart shows when each crop first appears but not how common it was afterwards.
+
+The spec trail ends here. The rest of the session was questions from the room and a look at the repository in Positron.
+
+## 5. Reading the chart
+
+Interpretation, led by the analyst/statistician and checked against the domain expert's knowledge.
+
+**What the chart shows:** in this data, barley and lentil appear first, in phases starting `r oldest_of("barley")` BP. Einkorn and emmer wheat follow, from `r oldest_of("einkorn wheat")` BP, and chickpea and pea come last, from `r oldest_of("chickpea")` and `r oldest_of("pea")` BP. Every crop is still present in the latest phases. On the maps, the sites form an arc from the southern Levant, through southeast Turkey, to the Zagros.
+
+**How sure can we be:** not very, about first appearances. A phase's start date is its oldest possible date, and phases often span thousands of years. So a crop's "first appearance" is set by the oldest phase that happened to be excavated and published. Some crops rest on few records: `r sum(crops$founder_crop == "chickpea", na.rm = TRUE)` rows for chickpea, against `r sum(crops$founder_crop == "barley", na.rm = TRUE)` for barley. On the maps, stacked points hide how many records sit at each site. The statistician's opening suggestion, two-dimensional bins, would show those counts.
+
+**What the domain expert would add:** the context of each sample (a midden at a settlement, or debris left by a river), which archaeological reports hold and this dataset doesn't. The domain knowledge also caught the direction of time: "you also have to know what you're looking at to change the dates around".
+
+## Questions from the room
+
+These are recorded without names, under the Chatham House Rule.
+
+- **Does the agent check its own work?** The facilitator said that at higher effort levels the agent loops more: it runs code, renders the figure and checks it before replying. The cost is slower replies.
+- **When the output is wrong, is that the agent's mistake or the user's?** The facilitator described a trade-off. Loose prompts are faster but need two or three rounds of correction. A precise grammar-of-graphics spec, such as the YAML files quoted above, is unambiguous but takes more effort up front. The facilitator's line is that the agent implements, while people make the design decisions and sign off the interpretation.
+- **A look behind the scenes.** The repository was opened in Positron to show the Quarto pages, `CLAUDE.md` pointing to `AGENTS.md` so that any agent reads the same instructions, and the three skills: tt-fetch, gg-spec and dataset-scout.
+- **What did the hour cost?** The facilitator uses a flat-rate subscription rather than paying per token, so the cost wasn't measured. A participant asked for a token count, so that others can estimate the cost on their own model. **This is a known unknown.** The token count for the hour wasn't recorded during the session and can't be recovered afterwards, so this page can't say what the session cost. A future session could record it.
+
+## Pain points
+
+What fought back during the session, including anything that looking at a render caught but the code didn't.
+
+- **The grain of the data fought the map.** One row is one plant taxon in one phase of one site, so each site carries many rows at the same position. In rounds 1 to 3 the symbols stacked on top of each other, and colour and shape couldn't separate them.
+- **Shape ran out.** ggplot2 has six default shapes, and founder crop has nine levels. The spec check warned about this before rendering, but only the render showed what it meant: lentil, pea and unidentified wheat vanished from the map while staying in the legend.
+- **The interactive version wasn't the same chart.** Converting the round 3 map to plotly drew rows that the static chart had dropped, including the non-founder-crop rows, which covered most of the crops. Only looking at both renders caught this. In the room, the facilitator saw that the conversion hadn't carried the symbols over cleanly, a problem the agent's own check had missed (see "Two issues raised in the room" below).
+- **Missing doesn't always mean missing.** An empty `founder_crop` means "not a founder crop", not lost data. The chart showed these rows as "NA", which reads like an error.
+- **Units.** The dates are years before present (1950), not years BCE, and the default axis put older dates on the right. Reversing the axis was a decision the room had to ask for.
+- **The prompt named the wrong cluster.** The room asked about a line of sites at longitude 35°E; the typed prompt said 45. The agent answered the question it was given, and nobody noticed during the session.
+- **No basemap package was installed.** The basemap had to be downloaded during the session, at the facilitator's explicit request.
+
+## 6. Summary and next steps
+
+### What we did
+
+- The domain was archaeology or biodiversity. A search of the TidyTuesday indexes found four archaeology weeks and 13 biodiversity weeks; the room chose **Neolithic Founder Crops** (TidyTuesday 2023-04-18): plant remains from `r n_distinct(crops$site_name)` archaeological sites in Southwest Asia.
+- The group mapped the sites by longitude and latitude, first by plant category and then by founder crop, and then redrew the map on a basemap, with an interactive version.
+- The group then turned from place to time: each record's date range against founder crop, with older dates on the left so the chart reads from when each crop first appears.
+- Five specs and five figures record the design decisions, in `specs/` and `figures/`.
+
+### Lessons learned
+
+- **Speed changes which questions get asked.** The domain expert estimated that the four or five charts would have taken hours to code by hand. With that cost gone, tangential questions become worth trying, and a dead end costs minutes rather than weeks.
+- **Domain knowledge still catches what the agent misses.** It took the domain expert to see that time ran the wrong way.
+- **Complex packages need specific feedback.** From the statistician's own experience of making maps with an AI assistant: as the packages get more complex, the agent needs detailed information about where it fails, down to specific lines of code. Otherwise the iterations don't converge.
+- **Look at every render yourself.** The agent checks a figure by reading an image, and it missed things the room saw.
+- **Say exactly what you mean.** "Species" isn't a column, and "longitude 45" isn't 35. Naming the column, or writing the spec, removes the guesswork.
+
+### How to take this further
+
+- **Domain:** the context of each sample (midden, settlement, river deposit), from the archaeological reports in the `reference` column; and rivers on the basemap.
+- **Analysis:** count each location once, with two-dimensional bins as the statistician suggested or with one point per site phase. Then, *proposed by the agent*, show the share of site phases that have each crop, period by period, rather than only its first and last appearance.
+- **Visualisation:** answer the question about the cluster at longitude 35°E; decide what to do with the non-founder-crop ("NA") rows; and convert BP to BCE if that is how the field reads dates.
+- **Try it yourself:** clone the [repository](https://github.com/JonMinton/agentic-datavis-workshops), open it in an editor with a coding agent, and follow `README.md`. The same skills and instructions work with any agent that can read files, run commands and look at images.
+
+## What the data can't say
+
+- **Presence, not use.** A plant's remains at a site say that it was there, not how much it was eaten or whether it was cultivated or gathered wild. The domestic and wild forms of a crop can be hard to tell apart.
+- **Where people dug, not where people lived.** The `r n_distinct(crops$site_name)` sites are the ones that were excavated and whose plant remains were published. Clusters on the map can reflect research history as much as the Neolithic.
+- **Phases, not dates.** Each row carries a phase's date range, often thousands of years wide. A crop's "first appearance" is the start of the oldest phase it was found in, not the date it arrived.
+- **Shares that don't add up.** Within a site phase, the `prop` values add up to a median of `r round(median(phase_prop_sum), 2)`, not 1, so they can't be read as complete compositions without knowing what is left out.
+- **Context.** Without each sample's context, such as a midden at a settlement or debris left by a river, the data can't say how the remains got there.
+
+## Added after the session · 2026-11-14
+
+::: {.callout-note icon="false"}
+## Post-session work, not a session decision
+Everything below was added on 2026-11-14, at the facilitator's request, by the agent (Claude Opus 5.5). It draws on the session's artefacts above and on [the recording](https://www.youtube.com/watch?v=jxexRtPMczE). Design choices in this part are **the agent's**, not the room's. Timestamps link to the recording.
+:::
+
+### Two issues raised in the room
+
+**1. The interactive map wasn't a clean translation of the ggplot2 map.** At [21:49](https://www.youtube.com/watch?v=jxexRtPMczE&t=1309s) the facilitator said the interactive version had "failed in this case". From [22:02](https://www.youtube.com/watch?v=jxexRtPMczE&t=1322s) to [22:38](https://www.youtube.com/watch?v=jxexRtPMczE&t=1358s), the facilitator explained it as a mapping problem: in ggplot2 a symbol's fill and edge both follow colour, but in the package the agent converted to, fill and edge are separate, and only the edges had changed. The facilitator added that agents are weaker at *seeing* than at coding. They inspect a figure much as a screen-reader user would, through a description of it. The agent had assumed `plotly::ggplotly()` would carry the chart over as it was.
+
+After the session, the facilitator's screenshot of the interactive map and an inspection of the converted chart showed what produced that appearance. Within each symbol, fill and edge carry the same colour; the split comes from two layers stacking:
+
+- **Outline-only symbols.** Plotly draws einkorn wheat, emmer wheat and flax with "open" symbols: emmer wheat, for example, is an empty square with an x in it.
+- **Grey circles on top.** ggplot2 had dropped the `r scales::comma(sum(is.na(crops$founder_crop)))` non-founder-crop rows, because they had no shape. Plotly drew them as default solid grey circles, as its last layer, at the same site positions. Each grey circle sits inside a crop's outline, which reads as a grey fill with a coloured edge.
+
+Lentil, pea and unidentified wheat, also dropped by ggplot2, came back the same way, as plotly's default circles. So the point made in the room stands: the agent assumed that `ggplotly()` would carry the chart over as it was, and it didn't. The agent's own check of the render described the grey points but not the coloured edges, and it didn't see that the two were connected.
+
+**2. The map was never joined to time.** After the failure, the facilitator weighed fixing the map against "a different way of thinking about the data" ([22:56](https://www.youtube.com/watch?v=jxexRtPMczE&t=1376s)), and turned to the date columns ([23:25](https://www.youtube.com/watch?v=jxexRtPMczE&t=1405s)). The domain expert then asked for start and end dates against founder crop ([25:23](https://www.youtube.com/watch?v=jxexRtPMczE&t=1523s)). From then on, place and time were drawn separately, so no chart showed *where* the founder crops were found *when*. The interactive map below is the agent's attempt at that join.
+
+### The cluster at longitude 35°E
+
+The question asked at [23:32](https://www.youtube.com/watch?v=jxexRtPMczE&t=1412s), about a vertical line of sites near 35°E, went to the agent as a question about 45°E. Here is the answer to the question the room actually asked.
+
+```{r lon35}
+band <- crops |> filter(between(longitude, 34.8, 36.2), between(latitude, 29.5, 33.6))
+n_band_sites <- n_distinct(band$site_name)
+oldest_site <- crops |> slice_max(age_start, n = 1, with_ties = FALSE)
+```
+
+The vertical line is `r n_band_sites` of the `r n_distinct(crops$site_name)` sites, about `r scales::percent(n_band_sites / n_distinct(crops$site_name))` of them, running north to south between `r round(min(band$latitude), 1)`°N and `r round(max(band$latitude), 1)`°N. It holds `r scales::comma(nrow(band))` of the `r scales::comma(nrow(crops))` rows. The oldest record in the whole dataset is there: `r oldest_site$site_name`, from `r scales::comma(oldest_site$age_start)` BP.
+
+The agent adds this from background knowledge, not from the data. The line follows the Jordan Rift Valley: the Jordan river, the Dead Sea and Wadi Araba. The southern Levant is also one of the most intensively excavated regions in the world. So both explanations the room raised, a river and research history, fit this cluster. The terrain layer of the map below shows the valley.
+
+### An interactive map in time
+
+This map joins place and time. Each circle is one phase of one site, coloured by when the phase began. Use the slider to keep only the phases that began within a range of dates, and the selector to show only the phases where a founder crop was found. Click a circle for the site, the phase, its dates and the founder crops recorded there. The layer button at the top right switches from the plain map to a terrain map, which shows rivers and relief.
+
+```{r interactive-map-data}
+library(leaflet)
+library(crosstalk)
+
+bce <- \(bp) if_else(bp > 1950, paste(scales::comma(bp - 1950), "BCE"), paste(scales::comma(1950 - bp + 1), "CE"))
+
+phases <- crops |>
+  summarise(
+    crops_found = paste(sort(unique(na.omit(founder_crop))), collapse = ", "),
+    n_taxa = n_distinct(taxon),
+    .by = c(site_name, phase, phase_code, latitude, longitude, age_start, age_end)
+  ) |>
+  mutate(
+    crops_found = if_else(crops_found == "", "none recorded", crops_found),
+    popup = paste0(
+      "<b>", site_name, "</b><br>",
+      "Phase: ", coalesce(phase, "not recorded"), "<br>",
+      scales::comma(age_start), " to ", scales::comma(age_end), " BP",
+      " (about ", bce(age_start), " to ", bce(age_end), ")<br>",
+      "Founder crops: ", crops_found, "<br>",
+      n_taxa, " plant taxa recorded"
+    )
+  )
+
+# One row per phase and founder crop, so the crop selector can filter. A phase with
+# several crops appears once per crop, at the same position.
+phase_crops <- crops |>
+  distinct(site_name, phase_code, founder_crop) |>
+  mutate(founder_crop = coalesce(founder_crop, "not a founder crop")) |>
+  left_join(phases, by = c("site_name", "phase_code"), relationship = "many-to-many") |>
+  arrange(age_start) |>   # older phases drawn last, so they sit on top
+  mutate(key = as.character(row_number()))
+
+shared <- SharedData$new(phase_crops, key = ~key, group = "phases")
+age_pal <- colorNumeric("viridis", domain = phases$age_start, reverse = TRUE)
+```
+
+```{r interactive-map}
+bscols(
+  widths = c(3, 9),
+  list(
+    filter_slider("start", "Phase began (years BP)", shared, ~age_start,
+                  step = 250, sep = ",", width = "100%"),
+    filter_select("crop", "Founder crop found", shared, ~founder_crop)
+  ),
+  leaflet(shared, height = 560) |>
+    addProviderTiles(providers$Esri.WorldGrayCanvas, group = "Plain") |>
+    addProviderTiles(providers$OpenTopoMap, group = "Terrain") |>
+    hideGroup("Terrain") |>
+    addCircleMarkers(
+      lng = ~longitude, lat = ~latitude, radius = 6,
+      color = "#333333", weight = 0.6, fillColor = ~age_pal(age_start), fillOpacity = 0.9,
+      popup = ~popup, label = ~site_name
+    ) |>
+    addLegend("topright", pal = age_pal, values = phases$age_start,
+              title = "Phase began<br>(years BP)", labFormat = labelFormat(big.mark = ",")) |>
+    addLayersControl(baseGroups = c("Plain", "Terrain"),
+                     options = layersControlOptions(collapsed = TRUE)) |>
+    addScaleBar(position = "bottomright")
+)
+```
+
+The agent's design choices: one circle per site phase rather than per plant record, which removes the stacking from rounds 1 to 3; colour for when the phase began, with the oldest phases dark and drawn on top; and a plain basemap, so the colours stay readable, with a terrain basemap on the layer button so that rivers and valleys can be seen. Phases at the same site share a position, so the circles of a long-lived site overlap. Clicking shows the top one, and the slider separates them. The map tiles load from Esri and OpenTopoMap when the page is opened, so the map needs an internet connection.
+
+### A reflection by the agent
+
+*Written by Claude Opus 5.5, the agent that ran during the session. It draws on the session's specs, figures and live page, the recording, and the facilitator's notes on the recording. It summarises how the process went; it doesn't record the room's decisions.*
+
+**What worked.** The room went from the first spec ([15:54](https://www.youtube.com/watch?v=jxexRtPMczE&t=954s)) to the fifth chart ([29:27](https://www.youtube.com/watch?v=jxexRtPMczE&t=1767s)) in under 14 minutes. The questions came from the people who owned them: the statistician's opening map, and the domain expert's question about the shift to farming. The spec trail did its job. Every chart on this page traces back to a decision, and the spec check warned that founder crop had more levels than there are shapes before anything was drawn.
+
+**Most errors happened at the hand-offs, not in the code.** Each step from the room to the chart is a translation, and three went wrong:
+
+- *Speech to text.* The statistician tried dictating the first spec into the microphone ([15:05](https://www.youtube.com/watch?v=jxexRtPMczE&t=905s)). It wasn't captured well, and the facilitator typed a shorter version.
+- *Words to columns.* "Species" isn't a column. I listed three candidates and waited, which cost a round trip but was the right call.
+- *Room to prompt.* The room asked about longitude 35°E, and the prompt said 45°E. I answered the question I was given, and named the sites, but I didn't say plainly which cluster on the chart I took to be meant, so nobody could catch the mismatch. Before answering a question about a feature of a chart, I should first say which feature I think it is.
+
+**I'm weaker at seeing than at coding, and the session showed it.** Looking at each render once caught the missing crops in round 2. But my first description of the interactive map called it "the same chart … with nothing added", and I corrected that only after looking at a screenshot. In the room, the facilitator saw a further problem I hadn't reported ([21:49](https://www.youtube.com/watch?v=jxexRtPMczE&t=1309s)). Only the facilitator's screenshot, after the session, showed how the grey points and the coloured edges were connected. I had assumed that converting a chart between libraries preserves it. That should have been checked, not assumed.
+
+**My design choices shaped what the room saw.** The page labels them, but a label doesn't undo the effect. For the date ranges in round 4 I chose one line per record, and the 4,490 lines collapsed into one bar per crop. That hid what the domain expert was asking about. One point per crop at its earliest phase, or a count of site phases per period, would have answered the question more directly. I also left the non-founder-crop rows labelled "NA". They weren't missing: they were "not a founder crop", and the chart should have said so. The facilitator made the same point in the room ([27:34](https://www.youtube.com/watch?v=jxexRtPMczE&t=1654s)): once a correction recurs, it belongs in a skill.
+
+**Units are domain knowledge.** The domain expert spoke of BCE, but the data is in years before 1950. I corrected the units on the page but kept BP on the chart, and nobody decided which the room wanted. It's a small thing, but it's the kind of mismatch the supergroup format is meant to catch.
+
+**Live mode wasn't fully on.** It was switched on in a session that had already started, so its settings, including medium effort, never loaded. The room heard "thinking with high effort" ([21:37](https://www.youtube.com/watch?v=jxexRtPMczE&t=1297s)) and waited longer for each chart, and the live-mode rules held by instruction alone. Starting a fresh session after switching live mode on would have loaded them.
+
+**Place and time were never joined.** When the interactive map failed, the session turned to the date columns and didn't come back. The map above is my attempt at that join, made afterwards with my own design choices, for the domain expert and the statistician to revise.
+
+Changes to the repo's skills that would prevent these next time. These are suggestions; none has been made yet:
+
+- **gg-spec:** when a variable has more levels than the shape palette, name the levels that will vanish, and offer colour alone. Label an empty category by what it means in this dataset, such as "not a founder crop", not as "NA". After converting a chart to another library, render both and compare them.
+- **tt-fetch:** flag the units of date columns (years BP, BCE or CE) in the data description.
+- **Live use:** before answering a question about a feature of a chart, repeat back which feature is meant; and start a fresh agent session after switching live mode on.

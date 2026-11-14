@@ -1,0 +1,12 @@
+# Spec 05. Room decision: as spec 04, with older dates on the left, so time runs left to
+# right from when the founder crops first appear. Dates stay in years BP (before 1950);
+# the axis is reversed.
+data: tt-2023-04-18-founder_crops   # grain: one row per taxon in one phase of one site
+mapping:
+  y: founder_crop
+  xmin: age_end
+  xmax: age_start
+layers:
+  - geom: linerange
+scales:
+  x: scale_x_reverse()

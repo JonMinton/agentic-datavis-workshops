@@ -71,6 +71,13 @@ never published.
   [The session workbook](sessions/2026-10-16/rolling-stone.qmd) runs from the shortlist
   through the data description to two figures: release year against rank, and a
   Sankey-style chart of how the genre of the top five changed.
+- **2026-11-10, a scientific supergroup at The Data Lab.** A larger room, so the session
+  runs as a masterclass: a domain expert names the domain and the question, an analyst
+  advises on showing and reading the data, and the facilitator drives the agent.
+  The domain expert chose archaeology, and the room chose TidyTuesday's Neolithic founder
+  crops: plant remains from 135 sites in Southwest Asia, mapped and then set against time.
+  [The session page](sessions/2026-11-10/datalab-masterclass.qmd) was filled in live, and a
+  post-session section adds an interactive map in time and the agent's reflection.
 
 ## Candidate datasets
 

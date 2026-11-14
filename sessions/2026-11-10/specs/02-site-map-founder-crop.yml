@@ -1,0 +1,10 @@
+# Spec 02. Room decision: as spec 01, but founder crop instead of plant category on
+# colour and shape. Every other slot is left at the ggplot2 default.
+data: tt-2023-04-18-founder_crops   # grain: one row per taxon in one phase of one site
+mapping:
+  x: longitude
+  y: latitude
+  colour: founder_crop
+  shape: founder_crop
+layers:
+  - geom: point

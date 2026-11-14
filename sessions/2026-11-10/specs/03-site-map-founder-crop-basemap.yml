@@ -1,0 +1,19 @@
+# Spec 03. Room decision: spec 02 replotted on a basemap. The basemap is Natural Earth
+# 1:50m country outlines (public domain), downloaded at the facilitator's explicit request.
+# The basemap layer carries its own data, which the gg-spec schema doesn't yet cover.
+# Chosen by the agent, change on request: light grey land, white borders, the view
+# cropped to the sites plus one degree.
+data: tt-2023-04-18-founder_crops   # grain: one row per taxon in one phase of one site
+mapping:
+  x: longitude
+  y: latitude
+  colour: founder_crop
+  shape: founder_crop
+layers:
+  - geom: sf
+    data: ne-50m-admin0-countries.geojson
+    inherit.aes: false
+    fill: grey92
+    colour: white
+  - geom: point
+coords: "coord_sf(xlim = range(longitude) + c(-1, 1), ylim = range(latitude) + c(-1, 1))"
